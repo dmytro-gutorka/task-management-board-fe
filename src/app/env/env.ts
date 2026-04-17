@@ -7,6 +7,6 @@ import {parseNumber} from "@/app/env/env-parsers/parseNumber.ts";
 export const env = {
     serverUrl: getEnv('VITE_SERVER_URL', parseString, 'http://localhost:3000'),
     appName: getEnv('VITE_APP_NAME', parseString, 'Taskify'),
-    apiTimeout: getEnv('VITE_SERVER_TIMEOUT', parseNumber, 10000),
+    serverTimeout: getEnv('VITE_SERVER_TIMEOUT', parseNumber, 10000),
     enableConsoleLogs: getEnv('VITE_ENABLE_CONSOLE_LOGS', parseBoolean, true),
 } as const;
