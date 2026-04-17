@@ -1,0 +1,1 @@
+export type EnvParser<T> = (value: string) => T
