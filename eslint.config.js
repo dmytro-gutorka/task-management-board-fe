@@ -36,10 +36,7 @@ export default defineConfig([
     {
         files: ["**/*.{ts,tsx}"],
         plugins: { "typescript-eslint": tseslint },
-        extends: [
-            "typescript-eslint/recommendedTypeChecked",
-            tseslint.configs.recommended,
-        ],
+        extends: ["typescript-eslint/recommendedTypeChecked", tseslint.configs.recommended],
         languageOptions: {
             parserOptions: {
                 projectService: true,
