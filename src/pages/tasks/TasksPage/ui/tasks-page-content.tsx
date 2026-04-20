@@ -1,4 +1,4 @@
-import { type TaskViewMode } from '@/pages/tasks/TasksPage/tasks.types';
+import { type TaskViewMode } from '@/pages/tasks/TasksPage/model/tasks.types';
 
 interface TasksPageContentProps {
     viewMode: TaskViewMode;

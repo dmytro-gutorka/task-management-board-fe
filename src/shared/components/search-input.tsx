@@ -1,28 +1,29 @@
-import { type ChangeEvent, useRef, useState } from 'react';
+import { type ChangeEvent, type KeyboardEvent, useRef, useState } from 'react';
 import { Search, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
-export const SearchInput = () => {
+export function SearchInput() {
     const [isOpen, setIsOpen] = useState(false);
     const [value, setValue] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const open = () => {
+    function onOpen() {
         setIsOpen(true);
         requestAnimationFrame(() => inputRef.current?.focus());
-    };
+    }
 
-    const close = () => {
+    function onClose() {
         if (!value) setIsOpen(false);
-    };
+    }
 
-    const clear = () => {
+    function onClear() {
         setValue('');
         inputRef.current?.focus();
-    };
+    }
 
-    function onEscapeDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    function onEscapeDown(e: KeyboardEvent<HTMLInputElement>) {
         if (e.key === 'Escape') {
             setValue('');
             setIsOpen(false);
@@ -32,19 +33,15 @@ export const SearchInput = () => {
     return (
         <div className="relative flex items-center">
             {!isOpen && (
-                <button
-                    type="button"
-                    onClick={open}
-                    className="flex h-9 w-9 items-center justify-center rounded-md border hover:bg-muted"
-                >
+                <Button onClick={onOpen} variant="outline" size="icon" className="mr-2">
                     <Search className="h-4 w-4" />
-                </button>
+                </Button>
             )}
 
             <div
                 className={cn(
                     'relative overflow-hidden',
-                    isOpen ? 'w-[240px] transition-all duration-500' : 'w-0',
+                    isOpen ? 'w-[14rem] transition-all duration-500' : 'w-0',
                 )}
             >
                 <Input
@@ -52,7 +49,7 @@ export const SearchInput = () => {
                     value={value}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
                     onKeyDown={(e) => onEscapeDown(e)}
-                    onBlur={close}
+                    onBlur={onClose}
                     placeholder="Search..."
                     className={cn(
                         'pr-8 transition-all duration-900',
@@ -60,11 +57,16 @@ export const SearchInput = () => {
                     )}
                 />
                 {value && (
-                    <button onClick={clear} className="absolute right-2 top-1/2 -translate-y-1/2">
+                    <Button
+                        onClick={onClear}
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 hover:none"
+                    >
                         <X className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                 )}
             </div>
         </div>
     );
-};
+}

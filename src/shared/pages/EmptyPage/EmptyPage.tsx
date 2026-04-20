@@ -11,7 +11,7 @@ type EmptyPageProps = {
 
 export const EmptyPage = ({ icon, title, description, actionLabel, onAction }: EmptyPageProps) => {
     return (
-        <div className="flex min-h-[320px] flex-col items-center justify-center rounded-xl border border-dashed px-6 text-center">
+        <div className="flex min-h-[20rem] flex-col items-center justify-center rounded-xl border border-dashed px-6 text-center">
             {icon ? <div className="mb-4 rounded-full bg-muted p-3">{icon}</div> : null}
 
             <h2 className="text-lg font-semibold">{title}</h2>
