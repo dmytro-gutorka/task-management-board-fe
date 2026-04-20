@@ -8,3 +8,12 @@ export const axiosWithAuth = axios.create({
         "Content-Type": "application/json",
     },
 });
+
+apiClient.interceptors.response.use(
+    (response: AxiosResponse) => response,
+    async (error: AxiosError) => {
+        const appError = normalizeError(error);
+
+        return Promise.reject(error);
+    },
+);

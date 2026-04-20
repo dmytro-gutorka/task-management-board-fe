@@ -1,4 +1,4 @@
-import {env} from "@/app/env/env.ts";
+import { env } from "@/app/env/env.ts";
 
 const isEnabled = env.enableConsoleLogs;
 

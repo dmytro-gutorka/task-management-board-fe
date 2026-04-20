@@ -1,4 +1,3 @@
 export function parseString(envValue: string) {
-
-    return envValue
+    return envValue;
 }

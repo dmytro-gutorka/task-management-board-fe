@@ -1,1 +1,1 @@
-export type EnvParser<T> = (value: string) => T
+export type EnvParser<T> = (value: string) => T;

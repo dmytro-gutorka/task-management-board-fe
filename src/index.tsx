@@ -11,7 +11,9 @@ createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
-                <RouterProvider router={router} />
+                <SnackbarProvider>
+                    <RouterProvider router={router} />
+                </SnackbarProvider>
             </ThemeProvider>
         </QueryClientProvider>
     </StrictMode>,

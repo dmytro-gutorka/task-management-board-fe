@@ -1,4 +1,6 @@
-const ApiErrorInterface = {
+import type { AppErrorCodesT, AppErrorMessagesT } from "@/shared/lib/errors/error.types.ts";
+
+const AppErrorInterface = {
     validationError: "validationError",
     unauthorized: "unauthorized",
     forbidden: "forbidden",
@@ -6,27 +8,56 @@ const ApiErrorInterface = {
     serverError: "serverError",
     networkError: "networkError",
     unknownError: "unknownError",
-} as const
+} as const;
 
+export const AppErrorCodes = {
+    [AppErrorInterface.validationError]: "VALIDATION_ERROR",
+    [AppErrorInterface.unauthorized]: "UNAUTHORIZED",
+    [AppErrorInterface.forbidden]: "FORBIDDEN",
+    [AppErrorInterface.notFound]: "NOT_FOUND",
+    [AppErrorInterface.serverError]: "SERVER_ERROR",
+    [AppErrorInterface.networkError]: "NETWORK_ERROR",
+    [AppErrorInterface.unknownError]: "UNKNOWN_ERROR",
+} as const;
 
-export const ApiErrors = {
-    [ApiErrorInterface.validationError] : "VALIDATION_ERROR",
-    [ApiErrorInterface.unauthorized]: "UNAUTHORIZED",
-    [ApiErrorInterface.forbidden]: "FORBIDDEN",
-    [ApiErrorInterface.notFound]: "NOT_FOUND",
-    [ApiErrorInterface.serverError]: "SERVER_ERROR",
-    [ApiErrorInterface.networkError]: "NETWORK_ERROR",
-    [ApiErrorInterface.unknownError]: "UNKNOWN_ERROR",
-} as const
+export const AppErrorMessages = {
+    [AppErrorInterface.validationError]: "Validation failed",
+    [AppErrorInterface.unauthorized]: "Session expired. Please sign in again.",
+    [AppErrorInterface.forbidden]: "You do not have access to this action",
+    [AppErrorInterface.notFound]: "Requested resource was not found.",
+    [AppErrorInterface.serverError]: "Server error. Please try again later.",
+    [AppErrorInterface.networkError]: "Network error. Please check your internet connection.",
+    [AppErrorInterface.unknownError]: "Something went wrong.",
+};
 
-
-export const ApiErrorMessages = {
-    [ApiErrorInterface.validationError]: "Validation failed",
-    [ApiErrorInterface.unauthorized]: "Session expired. Please sign in again.",
-    [ApiErrorInterface.forbidden]: "You do not have access to this action",
-    [ApiErrorInterface.notFound]: "Requested resource was not found.",
-    [ApiErrorInterface.serverError]: "Server error. Please try again later.",
-    [ApiErrorInterface.networkError]: "Network error. Please check your internet connection.",
-    [ApiErrorInterface.unknownError]: "Something went wrong.",
+interface IAppErrorMap {
+    message: AppErrorMessagesT;
+    code: AppErrorCodesT;
 }
 
+export const httpErrorMap: Record<number, IAppErrorMap> = {
+    400: {
+        code: AppErrorCodes.validationError,
+        message: AppErrorMessages.validationError,
+    },
+    401: {
+        code: AppErrorCodes.unauthorized,
+        message: AppErrorMessages.unauthorized,
+    },
+    403: {
+        code: AppErrorCodes.forbidden,
+        message: AppErrorMessages.forbidden,
+    },
+    404: {
+        code: AppErrorCodes.notFound,
+        message: AppErrorMessages.notFound,
+    },
+    422: {
+        code: AppErrorCodes.validationError,
+        message: AppErrorMessages.validationError,
+    },
+    500: {
+        code: AppErrorCodes.serverError,
+        message: AppErrorMessages.serverError,
+    },
+};
