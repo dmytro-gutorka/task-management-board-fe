@@ -21,6 +21,7 @@ export default defineConfig([
             globals: globals.browser,
         },
         rules: {
+            'react-refresh/only-export-components': 'off',
             'no-var': 'error',
             'no-console': 'warn',
             'max-params': ['error', { max: 4 }],

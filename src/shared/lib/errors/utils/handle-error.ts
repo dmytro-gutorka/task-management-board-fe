@@ -4,7 +4,7 @@ import { logger } from '@/shared/lib/logger';
 
 // will be used later
 export const handleError = (error: unknown, options: HandleErrorOptions = {}): AppError => {
-    const { showToast = true, log = true, logoutOnUnauthorized = true, fallbackMessage } = options;
+    const { showToast = true, log = true, logoutOnUnauthorized = true } = options;
 
     const appError = normalizeError(error);
 
