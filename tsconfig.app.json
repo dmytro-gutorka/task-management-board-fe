@@ -36,7 +36,7 @@
         "isolatedModules": true,
         "strictPropertyInitialization": false,
         "noEmitOnError": true,
-        "baseUrl": ".",
+        //        "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]
         }

@@ -1,4 +1,4 @@
-export type SnackbarVariant = "success" | "error" | "info" | "warning";
+export type SnackbarVariant = 'success' | 'error' | 'info' | 'warning';
 
 export type ShowSnackbarParams = {
     message: string;

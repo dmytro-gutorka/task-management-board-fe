@@ -1,8 +1,8 @@
 import type {
     ShowSnackbarParams,
     SnackbarHandler,
-} from "@/shared/components/snakbar/snackbar.types.ts";
-import type { Nullable } from "@/shared/types/common.ts";
+} from '@/shared/components/snakbar/snackbar.types.ts';
+import type { Nullable } from '@/shared/types/common.ts';
 
 let snackbarHandler: Nullable<SnackbarHandler> = null;
 
@@ -20,10 +20,10 @@ export const snackbarService = {
     },
 
     error(message: string) {
-        snackbarHandler?.({ message, variant: "error" });
+        snackbarHandler?.({ message, variant: 'error' });
     },
 
     success(message: string) {
-        snackbarHandler?.({ message, variant: "success" });
+        snackbarHandler?.({ message, variant: 'success' });
     },
 };
