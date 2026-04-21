@@ -3,7 +3,7 @@ import { LayoutGrid, List } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { taskViewMode } from '@/pages/tasks/TasksPage/model/tasks.constants';
+import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/tasks.constants';
 
 interface TasksViewSwitcherProps {
     view: TaskViewMode;
@@ -15,7 +15,7 @@ const inactiveViewStyles = 'text-muted-foreground hover:text-foreground';
 
 export function TasksViewSwitcher({ view, onViewChange }: TasksViewSwitcherProps) {
     function onValueChange(value: TaskViewMode) {
-        if (value === taskViewMode.list || value === taskViewMode.grid) {
+        if (value === TASK_VIEW_MODE.LIST || value === TASK_VIEW_MODE.GRID) {
             onViewChange(value);
         }
     }
@@ -31,7 +31,7 @@ export function TasksViewSwitcher({ view, onViewChange }: TasksViewSwitcherProps
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <ToggleGroupItem
-                            value={taskViewMode.list}
+                            value={TASK_VIEW_MODE.LIST}
                             aria-label="List view"
                             className={cn(
                                 'h-8 w-8 rounded-md border border-transparent transition-colors',
@@ -46,7 +46,7 @@ export function TasksViewSwitcher({ view, onViewChange }: TasksViewSwitcherProps
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <ToggleGroupItem
-                            value={taskViewMode.grid}
+                            value={TASK_VIEW_MODE.GRID}
                             aria-label="Grid view"
                             className={cn(
                                 'h-8 w-8 rounded-md border border-transparent transition-colors',

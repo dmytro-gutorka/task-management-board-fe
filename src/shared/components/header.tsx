@@ -2,12 +2,23 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { SearchInput } from '@/shared/components/search-input';
 import { TasksViewSwitcher } from '@/pages/tasks/TasksPage/ui/tasks-view-switcher';
-import { type TaskViewMode } from '@/pages/tasks/TasksPage/model/tasks.types';
+import {
+    type TasksFiltersValue,
+    type TaskViewMode,
+} from '@/pages/tasks/TasksPage/model/tasks.types';
 import { useState } from 'react';
-import { taskViewMode } from '@/pages/tasks/TasksPage/model/tasks.constants';
+import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/tasks.constants';
+import { TasksFiltersMenu } from '@/pages/tasks/TasksPage/ui/tasks-filters-menu';
+
+const initialFilters: TasksFiltersValue = {
+    status: 'all',
+    priority: 'all',
+    sortBy: 'createdAt',
+};
 
 export function Header() {
-    const [viewMode, setViewMode] = useState<TaskViewMode>(taskViewMode.list);
+    const [viewMode, setViewMode] = useState<TaskViewMode>(TASK_VIEW_MODE.LIST);
+    const [filters, setFilters] = useState<TasksFiltersValue>(initialFilters);
 
     return (
         <div className="">
@@ -19,6 +30,7 @@ export function Header() {
             </Button>
             <TasksViewSwitcher view={viewMode} onViewChange={setViewMode} />
             <SearchInput />
+            <TasksFiltersMenu filters={filters} onFilterChange={setFilters} />
         </div>
     );
 }
