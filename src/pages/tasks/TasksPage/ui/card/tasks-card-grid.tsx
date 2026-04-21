@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Calendar, Check, Lock, Pencil, Trash2, Info, Circle, Flag } from 'lucide-react';
-
 import {
     Card,
     CardContent,
@@ -13,30 +12,30 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { logger } from '@/shared/lib/logger';
-import { type GridTask } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
+import { type Task } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
 import {
-    gridTaskPriorityConfig,
-    gridTaskStatusConfig,
+    taskPriorityConfig,
+    taskStatusConfig,
 } from '@/pages/tasks/TasksPage/model/task-card/task-card.configs';
 import { formatDeadline } from '@/pages/tasks/TasksPage/helpers/formatDeadline';
 import { getAvatarFallback } from '@/pages/tasks/TasksPage/helpers/getAvatarFallback';
 import { BadgeList } from '@/shared/components/badge-list';
 
-type TaskGridCardProps = {
-    task: GridTask;
+interface TaskGridCardProps {
+    task: Task;
     onComplete?: (taskId: string) => void;
     onDelete?: (taskId: string) => void;
-};
+}
 
 export function TaskGridCard({ task, onComplete, onDelete }: TaskGridCardProps) {
-    const statusBadgeStyles = gridTaskStatusConfig[task.status].badgeClassName;
-    const statusBadgeTitle = gridTaskStatusConfig[task.status].badgeTitle;
+    const statusBadgeStyles = taskStatusConfig[task.status].badgeClassName;
+    const statusBadgeTitle = taskStatusConfig[task.status].badgeTitle;
 
-    const priorityBadgeStyles = gridTaskPriorityConfig[task.priority].badgeClassName;
-    const priorityBadgeTitle = gridTaskPriorityConfig[task.priority].badgeTitle;
+    const priorityBadgeStyles = taskPriorityConfig[task.priority].badgeClassName;
+    const priorityBadgeTitle = taskPriorityConfig[task.priority].badgeTitle;
 
     return (
-        <Card className="flex h-full flex-col rounded-2xl max-w-md">
+        <Card className="flex h-full flex-col rounded-2xl">
             <CardHeader className="space-y-3">
                 <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 space-y-2">

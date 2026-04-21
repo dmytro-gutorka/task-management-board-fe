@@ -28,13 +28,13 @@ export function Header() {
                     <h2 className="text-1xl font-semibold">Tasks 10</h2>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <TasksViewSwitcher view={viewMode} onViewChange={setViewMode} />
                     <SearchInput />
                     <TasksFiltersMenu filters={filters} onFilterChange={setFilters} />
 
                     <Button variant="outline" size="icon" className="mr-2" aria-label="Create task">
                         <Plus className="h-4 w-4" />
                     </Button>
+                    <TasksViewSwitcher view={viewMode} onViewChange={setViewMode} />
                 </div>
             </div>
             <Separator />

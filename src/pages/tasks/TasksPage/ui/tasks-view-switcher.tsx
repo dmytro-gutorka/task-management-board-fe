@@ -26,7 +26,7 @@ export function TasksViewSwitcher({ view, onViewChange }: TasksViewSwitcherProps
                 type="single"
                 value={view}
                 onValueChange={(value: TaskViewMode) => onValueChange(value)}
-                className="rounded-lg border bg-muted/40 p-1"
+                className="rounded-lg border bg-muted/40 p-1 ml-4"
             >
                 <Tooltip>
                     <TooltipTrigger asChild>

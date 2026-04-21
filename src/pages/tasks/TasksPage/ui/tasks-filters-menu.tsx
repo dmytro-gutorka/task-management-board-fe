@@ -19,10 +19,10 @@ import {
     taskFilterStatusOptions,
 } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.configs';
 
-type TasksFiltersMenuProps = {
+interface TasksFiltersMenuProps {
     filters: TasksFiltersValue;
     onFilterChange: (value: TasksFiltersValue) => void;
-};
+}
 
 export function TasksFiltersMenu({ filters, onFilterChange }: TasksFiltersMenuProps) {
     const handleStatusChange = (status: string) => {

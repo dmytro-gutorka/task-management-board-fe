@@ -33,7 +33,7 @@ export function SearchInput() {
     return (
         <div className="relative flex items-center">
             {!isOpen && (
-                <Button onClick={onOpen} variant="outline" size="icon" className="mr-2">
+                <Button onClick={onOpen} variant="outline" size="icon" className="">
                     <Search className="h-4 w-4" />
                 </Button>
             )}

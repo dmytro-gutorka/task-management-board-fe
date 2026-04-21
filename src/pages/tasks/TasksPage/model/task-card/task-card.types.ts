@@ -7,7 +7,7 @@ import {
 export type TaskStatus = ValueOf<typeof TASK_STATUS>;
 export type TaskPriority = ValueOf<typeof TASK_PRIORITY>;
 
-export type GridTask = {
+export type Task = {
     id: string;
     title: string;
     description: string;

@@ -1,10 +1,10 @@
-import type { GridTask } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
+import type { Task } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
 import {
     TASK_PRIORITY,
     TASK_STATUS,
 } from '@/pages/tasks/TasksPage/model/task-card/task-card.constants';
 
-export const mockTasks: GridTask[] = [
+export const mockTasks: Task[] = [
     {
         id: '1',
         title: 'Review pull requests',
