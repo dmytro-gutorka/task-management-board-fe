@@ -1,4 +1,6 @@
-import { env } from "@/app/env/env.ts";
+import { env } from '@/app/env/env.ts';
+
+/* eslint-disable no-console */
 
 const isEnabled = env.enableConsoleLogs;
 

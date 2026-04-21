@@ -1,11 +1,14 @@
-import { getEnv } from "@/app/env/env-utils/getEnv.ts";
-import { parseString } from "@/app/env/env-parsers/parseString.ts";
-import { parseBoolean } from "@/app/env/env-parsers/parseBoolean.ts";
-import { parseNumber } from "@/app/env/env-parsers/parseNumber.ts";
+import { envSchema } from '@/app/env/env.schema.ts';
+import { formatEnvError } from '@/app/env/env-utils/formatEnvError.ts';
+
+const parsedEnv = envSchema.safeParse(import.meta.env);
+
+if (!parsedEnv.success)
+    throw new Error(`Invalid environment variables: \n${formatEnvError(parsedEnv.error)}`);
 
 export const env = {
-    serverUrl: getEnv("VITE_SERVER_URL", parseString, "http://localhost:3000"),
-    appName: getEnv("VITE_APP_NAME", parseString, "Taskify"),
-    serverTimeout: getEnv("VITE_SERVER_TIMEOUT", parseNumber, 10000),
-    enableConsoleLogs: getEnv("VITE_ENABLE_CONSOLE_LOGS", parseBoolean, true),
+    serverUrl: parsedEnv.data.VITE_SERVER_URL,
+    appName: parsedEnv.data.VITE_APP_NAME,
+    serverTimeout: parsedEnv.data.VITE_SERVER_TIMEOUT,
+    enableConsoleLogs: parsedEnv.data.VITE_ENABLE_CONSOLE_LOGS,
 } as const;
