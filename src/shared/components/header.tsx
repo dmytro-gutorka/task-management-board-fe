@@ -9,6 +9,7 @@ import {
 import { useState } from 'react';
 import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/tasks.constants';
 import { TasksFiltersMenu } from '@/pages/tasks/TasksPage/ui/tasks-filters-menu';
+import { Separator } from '@/components/ui/separator';
 
 const initialFilters: TasksFiltersValue = {
     status: 'all',
@@ -21,16 +22,22 @@ export function Header() {
     const [filters, setFilters] = useState<TasksFiltersValue>(initialFilters);
 
     return (
-        <div className="">
-            <div className="space-y-1">
-                <h2 className="text-5xl font-semibold">Tasks #NUMBER OF TASKS</h2>
+        <>
+            <div className="flex items-center justify-between p-4">
+                <div className="space-y-1">
+                    <h2 className="text-1xl font-semibold">Tasks 10</h2>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <TasksViewSwitcher view={viewMode} onViewChange={setViewMode} />
+                    <SearchInput />
+                    <TasksFiltersMenu filters={filters} onFilterChange={setFilters} />
+
+                    <Button variant="outline" size="icon" className="mr-2" aria-label="Create task">
+                        <Plus className="h-4 w-4" />
+                    </Button>
+                </div>
             </div>
-            <Button size="icon" aria-label="Create task">
-                <Plus className="h-4 w-4" />
-            </Button>
-            <TasksViewSwitcher view={viewMode} onViewChange={setViewMode} />
-            <SearchInput />
-            <TasksFiltersMenu filters={filters} onFilterChange={setFilters} />
-        </div>
+            <Separator />
+        </>
     );
 }
