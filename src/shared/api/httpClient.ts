@@ -1,19 +1,18 @@
-import axios from "axios";
+import axios, { AxiosError, type AxiosResponse } from 'axios';
+import { env } from '@/app/env/env';
 
-export const axiosWithAuth = axios.create({
-    baseURL: import.meta.env.VIPE_SERVER_URL,
+export const httpClient = axios.create({
+    baseURL: env.serverUrl,
     withCredentials: true,
     headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
     },
 });
 
-apiClient.interceptors.response.use(
+httpClient.interceptors.response.use(
     (response: AxiosResponse) => response,
     async (error: AxiosError) => {
-        const appError = normalizeError(error);
-
         return Promise.reject(error);
     },
 );
