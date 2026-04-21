@@ -5,9 +5,9 @@ import { TasksViewSwitcher } from '@/pages/tasks/TasksPage/ui/tasks-view-switche
 import {
     type TasksFiltersValue,
     type TaskViewMode,
-} from '@/pages/tasks/TasksPage/model/tasks.types';
+} from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.types';
 import { useState } from 'react';
-import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/tasks.constants';
+import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.constants';
 import { TasksFiltersMenu } from '@/pages/tasks/TasksPage/ui/tasks-filters-menu';
 import { Separator } from '@/components/ui/separator';
 

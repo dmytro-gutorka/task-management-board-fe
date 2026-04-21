@@ -1,9 +1,9 @@
-import { type TaskViewMode } from '@/pages/tasks/TasksPage/model/tasks.types';
+import { type TaskViewMode } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.types';
 import { LayoutGrid, List } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/tasks.constants';
+import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.constants';
 
 interface TasksViewSwitcherProps {
     view: TaskViewMode;
