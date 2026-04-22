@@ -1,6 +1,6 @@
 import { mockTasks } from '@/pages/tasks/TasksPage/model/task-card/task-card.data';
 import { logger } from '@/shared/lib/logger';
-import { TaskListCard } from '@/pages/tasks/TasksPage/ui/card/tasks-card-list';
+import { TaskListCard } from '@/pages/tasks/TasksPage/ui/task-card/tasks-card-list';
 import { type Task } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
 
 export function TasksListView() {
