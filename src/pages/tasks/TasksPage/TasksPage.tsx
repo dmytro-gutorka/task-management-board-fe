@@ -1,9 +1,13 @@
-import { TasksPageContent } from '@/pages/tasks/TasksPage/ui/tasks-page-content';
+import { TasksGridView } from '@/pages/tasks/TasksPage/ui/card/tasks-grid-view';
+import { TasksListView } from '@/pages/tasks/TasksPage/ui/card/tasks-list-view';
+import { Separator } from '@/components/ui/separator';
 
 export function TasksPage() {
     return (
         <div>
-            <TasksPageContent viewMode="grid" />
+            <TasksGridView />
+            <Separator />
+            <TasksListView />
         </div>
     );
 }
