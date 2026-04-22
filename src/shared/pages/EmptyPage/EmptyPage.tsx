@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 
-type EmptyPageProps = {
+interface EmptyPageProps {
     icon?: ReactNode;
     title: string;
     description?: string;
     actionLabel?: string;
     onAction?: () => void;
-};
+}
 
 export const EmptyPage = ({ icon, title, description, actionLabel, onAction }: EmptyPageProps) => {
     return (

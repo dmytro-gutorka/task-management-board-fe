@@ -7,42 +7,42 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type {
-    TaskPriorityFilter,
-    TaskSortBy,
-    TaskStatusFilter,
+    TaskFilterPriority,
+    TaskFilterSortBy,
+    TaskFilterStatus,
     TasksFiltersValue,
-} from '../model/tasks.types';
+} from '../model/task-filters/tasks-filter.types';
 import { DropDownMenuBlock } from '@/shared/components/drop-down-menu-block';
 import {
-    taskPriorityOptions,
-    taskSortOptions,
-    taskStatusOptions,
-} from '@/pages/tasks/TasksPage/model/tasks.configs';
+    taskFilterPriorityOptions,
+    taskFilterSortOptions,
+    taskFilterStatusOptions,
+} from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.configs';
 
-type TasksFiltersMenuProps = {
+interface TasksFiltersMenuProps {
     filters: TasksFiltersValue;
     onFilterChange: (value: TasksFiltersValue) => void;
-};
+}
 
 export function TasksFiltersMenu({ filters, onFilterChange }: TasksFiltersMenuProps) {
     const handleStatusChange = (status: string) => {
         onFilterChange({
             ...filters,
-            status: status as TaskStatusFilter,
+            status: status as TaskFilterStatus,
         });
     };
 
     const handlePriorityChange = (priority: string) => {
         onFilterChange({
             ...filters,
-            priority: priority as TaskPriorityFilter,
+            priority: priority as TaskFilterPriority,
         });
     };
 
     const handleSortByChange = (sortBy: string) => {
         onFilterChange({
             ...filters,
-            sortBy: sortBy as TaskSortBy,
+            sortBy: sortBy as TaskFilterSortBy,
         });
     };
 
@@ -59,7 +59,7 @@ export function TasksFiltersMenu({ filters, onFilterChange }: TasksFiltersMenuPr
                     title="Status"
                     value={filters.status}
                     onChange={(status) => handleStatusChange(status)}
-                    options={taskStatusOptions}
+                    options={taskFilterStatusOptions}
                 />
 
                 <DropdownMenuSeparator />
@@ -68,7 +68,7 @@ export function TasksFiltersMenu({ filters, onFilterChange }: TasksFiltersMenuPr
                     title="Priority"
                     value={filters.priority}
                     onChange={(priority) => handlePriorityChange(priority)}
-                    options={taskPriorityOptions}
+                    options={taskFilterPriorityOptions}
                 />
 
                 <DropdownMenuSeparator />
@@ -77,7 +77,7 @@ export function TasksFiltersMenu({ filters, onFilterChange }: TasksFiltersMenuPr
                     title="Sort by"
                     value={filters.sortBy}
                     onChange={(sortBy) => handleSortByChange(sortBy)}
-                    options={taskSortOptions}
+                    options={taskFilterSortOptions}
                 />
             </DropdownMenuContent>
         </DropdownMenu>

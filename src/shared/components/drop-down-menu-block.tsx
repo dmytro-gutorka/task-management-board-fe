@@ -3,13 +3,13 @@ import {
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
 } from '@/components/ui/dropdown-menu';
-import { type TaskDropdownOption } from '@/pages/tasks/TasksPage/model/tasks.types';
+import { type TaskFilterDropdownOption } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.types';
 
 interface DropDownMenuBlockProps<T extends string> {
     title: string;
     value: T;
     onChange: (value: T) => void;
-    options: readonly TaskDropdownOption<T>[];
+    options: readonly TaskFilterDropdownOption<T>[];
 }
 
 export function DropDownMenuBlock<T extends string>({
