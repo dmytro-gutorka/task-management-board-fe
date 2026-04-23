@@ -38,7 +38,7 @@ export function TagsSelector({ form }: TagsSelectorProps) {
         setValue('tags', filteredTags, { shouldValidate: true, shouldDirty: true });
     }
 
-    function handleKeyDown(e: KeyboardEvent) {
+    function handleKeyUp(e: KeyboardEvent) {
         if (e.key === 'Enter') {
             e.preventDefault();
             handleAddTag();
@@ -54,7 +54,7 @@ export function TagsSelector({ form }: TagsSelectorProps) {
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
                     placeholder="Add tag"
-                    onKeyDown={(e: KeyboardEvent) => handleKeyDown(e)}
+                    onKeyUp={(e: KeyboardEvent) => handleKeyUp(e)}
                 />
                 <Button type="button" variant="outline" onClick={handleAddTag}>
                     Add
