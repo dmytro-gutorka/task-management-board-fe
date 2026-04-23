@@ -1,12 +1,15 @@
-import { mockTasks } from '@/pages/tasks/TasksPage/model/task-card/task-card.data';
 import { logger } from '@/shared/lib/logger';
 import { TaskListCard } from '@/pages/tasks/TasksPage/ui/task-card/tasks-card-list';
 import { type Task } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
 
-export function TasksListView() {
+interface TasksGridViewProps {
+    tasks: Task[];
+}
+
+export function TasksListView({ tasks }: TasksGridViewProps) {
     return (
         <div className="space-y-3">
-            {mockTasks.map((task: Task) => (
+            {tasks.map((task: Task) => (
                 <TaskListCard
                     key={task.id}
                     task={task}

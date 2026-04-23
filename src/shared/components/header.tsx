@@ -4,26 +4,28 @@ import {
     type TasksFiltersValue,
     type TaskViewMode,
 } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.types';
-import { useState } from 'react';
 import { TasksFiltersMenu } from '@/pages/tasks/TasksPage/ui/tasks-filters-menu';
 import { Separator } from '@/components/ui/separator';
 import { CreateTaskModal } from '@/pages/tasks/TasksPage/ui/task-modals/create-task-modal';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-const initialFilters: TasksFiltersValue = {
-    status: 'all',
-    priority: 'all',
-    sortBy: 'createdAt',
-};
-
 interface HeaderProps {
     taskViewMode: TaskViewMode;
     onTaskViewModeChange: (viewMode: TaskViewMode) => void;
+    filters: TasksFiltersValue;
+    setFilters: (filters: TasksFiltersValue) => void;
+    searchValue: string;
+    setSearchValue: (value: string) => void;
 }
 
-export function Header({ taskViewMode, onTaskViewModeChange }: HeaderProps) {
-    const [filters, setFilters] = useState<TasksFiltersValue>(initialFilters);
-
+export function Header({
+    taskViewMode,
+    onTaskViewModeChange,
+    filters,
+    setFilters,
+    setSearchValue,
+    searchValue,
+}: HeaderProps) {
     return (
         <>
             <TooltipProvider delayDuration={150}>
@@ -32,7 +34,7 @@ export function Header({ taskViewMode, onTaskViewModeChange }: HeaderProps) {
                         <h2 className="text-1xl font-semibold">Tasks 10</h2>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <SearchInput />
+                        <SearchInput searchValue={searchValue} setSearchValue={setSearchValue} />
                         <TasksFiltersMenu filters={filters} onFilterChange={setFilters} />
                         <CreateTaskModal />
                         <TasksViewSwitcher

@@ -49,13 +49,13 @@ export function TasksFiltersMenu({ filters, onFilterChange }: TasksFiltersMenuPr
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <IconTooltip content="Filters">
+            <IconTooltip content="Filters">
+                <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon">
                         <Filter className="h-4 w-4" />
                     </Button>
-                </IconTooltip>
-            </DropdownMenuTrigger>
+                </DropdownMenuTrigger>
+            </IconTooltip>
 
             <DropdownMenuContent align="end" className="w-64">
                 <DropDownMenuBlock

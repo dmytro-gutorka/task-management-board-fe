@@ -5,9 +5,13 @@ import { Button } from '@/components/ui/button';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
 
-export function SearchInput() {
+interface SearchInputProps {
+    searchValue: string;
+    setSearchValue: (value: string) => void;
+}
+
+export function SearchInput({ searchValue, setSearchValue }: SearchInputProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [value, setValue] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
 
     function onOpen() {
@@ -16,12 +20,12 @@ export function SearchInput() {
     }
 
     function onClose() {
-        if (!value) setIsOpen(false);
+        if (!searchValue) setIsOpen(false);
     }
 
     function onEscapeDown(e: KeyboardEvent<HTMLInputElement>) {
         if (e.key === 'Escape') {
-            setValue('');
+            setSearchValue('');
             setIsOpen(false);
         }
     }
@@ -38,13 +42,13 @@ export function SearchInput() {
             <InputGroup
                 className={cn(
                     'max-w-xs relative overflow-hidden',
-                    isOpen || value ? 'w-[14rem] transition-all duration-500' : 'w-0',
+                    isOpen || searchValue ? 'w-[14rem] transition-all duration-500' : 'w-0',
                 )}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
                 onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => onEscapeDown(e)}
                 onBlur={onClose}
             >
-                <InputGroupInput placeholder="Search..." value={value} ref={inputRef} />
+                <InputGroupInput placeholder="Search..." value={searchValue} ref={inputRef} />
                 <InputGroupAddon>
                     <Search />
                 </InputGroupAddon>

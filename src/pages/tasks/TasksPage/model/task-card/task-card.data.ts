@@ -20,6 +20,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['code-review', 'collaboration'],
+        createdAt: '2025-01-10',
     },
     {
         id: '2',
@@ -36,6 +37,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['bug', 'backend', 'critical'],
+        createdAt: '2023-01-10',
     },
     {
         id: '3',
@@ -52,6 +54,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['docs', 'writing'],
+        createdAt: '2023-05-10',
     },
     {
         id: '4',
@@ -68,6 +71,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['ui', 'frontend', 'design-system'],
+        createdAt: '2023-01-12',
     },
     {
         id: '5',
@@ -84,6 +88,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: true,
         tags: ['performance', 'optimization'],
+        createdAt: '2021-04-12',
     },
     {
         id: '6',
@@ -100,6 +105,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['testing', 'quality'],
+        createdAt: '2010-04-05',
     },
     {
         id: '7',
@@ -116,6 +122,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: true,
         tags: ['database', 'devops', 'migration'],
+        createdAt: '2019-04-12',
     },
     {
         id: '8',
@@ -132,6 +139,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['product', 'analytics'],
+        createdAt: '2021-04-23',
     },
     {
         id: '9',
@@ -148,6 +156,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['css', 'mobile', 'responsive'],
+        createdAt: '2021-05-12',
     },
     {
         id: '10',
@@ -164,6 +173,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: true,
         tags: ['security', 'audit', 'compliance'],
+        createdAt: '2017-07-25',
     },
     {
         id: '11',
@@ -180,6 +190,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['onboarding', 'mentoring'],
+        createdAt: '2026-05-28',
     },
     {
         id: '12',
@@ -196,6 +207,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['maintenance', 'npm'],
+        createdAt: '2011-11-11',
     },
     {
         id: '13',
@@ -212,6 +224,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['analytics', 'frontend', 'charts'],
+        createdAt: '2023-05-10',
     },
     {
         id: '14',
@@ -228,6 +241,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['refactor', 'backend'],
+        createdAt: '2023-04-10',
     },
     {
         id: '15',
@@ -244,6 +258,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['documentation', 'release'],
+        createdAt: '2020-01-23',
     },
     {
         id: '16',
@@ -260,6 +275,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: true,
         tags: ['devops', 'ci-cd', 'automation'],
+        createdAt: '2023-04-10',
     },
     {
         id: '17',
@@ -276,6 +292,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['ux-research', 'planning'],
+        createdAt: '2024-04-10',
     },
     {
         id: '18',
@@ -292,6 +309,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['accessibility', 'a11y', 'frontend'],
+        createdAt: '2023-01-10',
     },
     {
         id: '19',
@@ -308,6 +326,7 @@ export const mockTasks: Task[] = [
         },
         isPrivate: true,
         tags: ['backup', 'disaster-recovery'],
+        createdAt: '2023-01-10',
     },
     {
         id: '20',
@@ -324,5 +343,6 @@ export const mockTasks: Task[] = [
         },
         isPrivate: false,
         tags: ['team', 'event', 'planning'],
+        createdAt: '2024-04-04',
     },
 ];

@@ -21,4 +21,5 @@ export type Task = {
     } | null;
     isPrivate?: boolean;
     tags?: string[];
+    createdAt: string;
 };
