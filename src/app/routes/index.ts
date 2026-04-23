@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { TasksPage } from '@/pages/tasks/TasksPage/TasksPage';
 import { HomePage } from '@/pages/tasks/HomePage/HomePage';
 import { Layout } from '@/shared/components/layout';
+import MockTestPage from '@/pages/tasks/TasksPage/MockTestPage';
 
 export const router = makeRouter();
 
@@ -18,6 +19,10 @@ function makeRouter() {
                 {
                     path: '/tasks',
                     Component: TasksPage,
+                },
+                {
+                    path: '/mock-page',
+                    Component: MockTestPage,
                 },
             ],
         },

@@ -1,6 +1,6 @@
 import { mockTasks } from '@/pages/tasks/TasksPage/model/task-card/task-card.data';
 import type { Task } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
-import { TaskGridCard } from '@/pages/tasks/TasksPage/ui/card/tasks-card-grid';
+import { TaskGridCard } from '@/pages/tasks/TasksPage/ui/task-card/tasks-card-grid';
 
 export function TasksGridView() {
     return (
