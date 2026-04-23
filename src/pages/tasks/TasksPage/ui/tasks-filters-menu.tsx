@@ -18,6 +18,7 @@ import {
     taskFilterSortOptions,
     taskFilterStatusOptions,
 } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.configs';
+import { IconTooltip } from '@/shared/components/icon-tooltip';
 
 interface TasksFiltersMenuProps {
     filters: TasksFiltersValue;
@@ -49,9 +50,11 @@ export function TasksFiltersMenu({ filters, onFilterChange }: TasksFiltersMenuPr
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                    <Filter className="h-4 w-4" />
-                </Button>
+                <IconTooltip content="Filters">
+                    <Button variant="outline" size="icon">
+                        <Filter className="h-4 w-4" />
+                    </Button>
+                </IconTooltip>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-64">

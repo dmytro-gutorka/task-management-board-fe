@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { TasksPage } from '@/pages/tasks/TasksPage/TasksPage';
-import { HomePage } from '@/pages/tasks/HomePage/HomePage';
 import { Layout } from '@/shared/components/layout';
+import { TaskDetailsPage } from '@/pages/tasks/TasksPage/TaskDetailsPage';
 
 export const router = makeRouter();
 
@@ -12,12 +12,12 @@ function makeRouter() {
             path: '/',
             children: [
                 {
-                    path: '/',
-                    Component: HomePage,
-                },
-                {
                     path: '/tasks',
                     Component: TasksPage,
+                },
+                {
+                    path: '/task/:taskId',
+                    Component: TaskDetailsPage,
                 },
             ],
         },
