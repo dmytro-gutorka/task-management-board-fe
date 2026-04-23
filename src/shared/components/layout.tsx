@@ -1,13 +1,12 @@
 import { type Dispatch, type SetStateAction, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header } from './header';
+import { type TaskViewMode } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.types';
 
-export type TaskViewMode = 'grid' | 'list';
-
-export type LayoutOutletContext = {
+export interface LayoutOutletContext {
     taskViewMode: TaskViewMode;
     setTaskViewMode: Dispatch<SetStateAction<TaskViewMode>>;
-};
+}
 
 export function Layout() {
     const [taskViewMode, setTaskViewMode] = useState<TaskViewMode>('grid');

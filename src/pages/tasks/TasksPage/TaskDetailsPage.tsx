@@ -49,12 +49,10 @@ export function TaskDetailsPage() {
                                         <StatusIcon />
                                         {status.badgeTitle}
                                     </Badge>
-
                                     <Badge className={`gap-1 ${priority.badgeClassName}`}>
                                         <Flag className="h-3.5 w-3.5" />
                                         {priority.badgeTitle}
                                     </Badge>
-
                                     {task.isPrivate ? (
                                         <Badge className="gap-1">
                                             <Lock />

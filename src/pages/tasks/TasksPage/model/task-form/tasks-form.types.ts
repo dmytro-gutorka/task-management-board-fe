@@ -2,8 +2,8 @@ import {
     type TaskPriority,
     type TaskStatus,
 } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
-import { z } from 'zod';
 import { taskFormSchema } from '@/pages/tasks/TasksPage/model/task-form/tasks-form.schema';
+import { type z } from 'zod';
 
 export type TaskFormInitialValues = {
     title: string;
