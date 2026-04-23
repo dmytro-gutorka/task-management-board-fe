@@ -5,6 +5,7 @@ import { Pencil } from 'lucide-react';
 import { ActionModal } from '@/shared/components/modal/ui/action-modal';
 import { EditTaskForm } from '@/pages/tasks/TasksPage/ui/task-forms/edit-task-form';
 import { taskFormDefaultValues } from '@/pages/tasks/TasksPage/model/task-form/tasks-form.data';
+import { Separator } from '@/components/ui/separator';
 
 export function EditTaskModal() {
     const [formOpen, setFormOpen] = useState(false);
@@ -28,6 +29,7 @@ export function EditTaskModal() {
                 submitLabel="Edit"
                 onSubmit={handleSubmit}
             >
+                <Separator />
                 <EditTaskForm initialValues={taskFormDefaultValues} onSubmit={handleSubmit} />
             </ActionModal>
         </>

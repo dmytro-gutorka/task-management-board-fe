@@ -5,6 +5,7 @@ import { CreateTaskForm } from '@/pages/tasks/TasksPage/ui/task-forms/create-tas
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
+import { Separator } from '@/components/ui/separator';
 
 export function CreateTaskModal() {
     const [formOpen, setFormOpen] = useState(false);
@@ -35,6 +36,7 @@ export function CreateTaskModal() {
                 submitLabel="Create"
                 onSubmit={handleSubmit}
             >
+                <Separator />
                 <CreateTaskForm onSubmit={handleSubmit} />
             </ActionModal>
         </>

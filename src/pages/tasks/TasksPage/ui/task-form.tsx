@@ -1,10 +1,9 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { Card, CardContent } from '@/components/ui/card';
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import {
     type TaskFormInitialValues,
     type TaskFormValues,
@@ -31,131 +30,132 @@ interface TaskFormProps {
     onCancel?: () => void;
 }
 
-export function TaskForm({
-    initialValues,
-    isSubmitting = false,
-    onSubmit,
-    onCancel,
-}: TaskFormProps) {
+export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
     const form = useForm<TaskFormValues>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: buildTaskFormDefaultValues(initialValues),
         mode: 'onSubmit',
     });
 
-    const { register, control, handleSubmit } = form;
-    const errors = form.formState.errors;
-
     function handleOnSubmit() {
-        handleSubmit(onSubmit);
+        form.handleSubmit(onSubmit);
     }
 
     return (
-        <Card className="rounded-2xl">
-            <CardContent>
-                <form onSubmit={handleOnSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                        <label htmlFor="title" className="text-sm font-medium">
-                            Title
-                        </label>
-                        <Input id="title" placeholder="Enter task title" {...register('title')} />
-                        {errors.title ? (
-                            <p className="text-sm text-destructive">{errors.title.message}</p>
-                        ) : null}
-                    </div>
-
-                    <div className="space-y-2">
-                        <label htmlFor="description" className="text-sm font-medium">
-                            Description
-                        </label>
-                        <Textarea
-                            id="description"
-                            placeholder="Describe the task"
-                            rows={5}
-                            {...register('description')}
-                        />
-                        {errors.description ? (
-                            <p className="text-sm text-destructive">{errors.description.message}</p>
-                        ) : null}
-                    </div>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <SelectInput
-                            form={form}
-                            selectConfig={taskStatusSelectConfig}
-                            selectOptions={taskStatusOptions}
-                        />
-
-                        <SelectInput
-                            form={form}
-                            selectConfig={taskPrioritySelectConfig}
-                            selectOptions={taskPriorityOptions}
-                        />
-                    </div>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <div className="space-y-2">
-                            <label htmlFor="deadline" className="text-sm font-medium">
-                                Deadline
-                            </label>
-                            <Input id="deadline" type="date" {...register('deadline')} />
-                            {errors.deadline ? (
-                                <p className="text-sm text-destructive">
-                                    {errors.deadline.message}
-                                </p>
-                            ) : null}
-                        </div>
-
-                        <div className="space-y-2">
-                            <label htmlFor="assigneeName" className="text-sm font-medium">
-                                Assignee
-                            </label>
+        <form id="task-form" onSubmit={handleOnSubmit}>
+            <FieldGroup>
+                <Controller
+                    name="title"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="task-form-title">Title</FieldLabel>
                             <Input
-                                id="assigneeName"
-                                placeholder="Assignee name"
-                                {...register('assigneeName')}
+                                {...field}
+                                id="task-form-title"
+                                placeholder="Enter task title"
+                                aria-invalid={fieldState.invalid}
                             />
-                            {errors.assigneeName ? (
-                                <p className="text-sm text-destructive">
-                                    {errors.assigneeName.message}
-                                </p>
-                            ) : null}
-                        </div>
-                    </div>
+                            <FieldDescription>Short and clear task title.</FieldDescription>
+                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                        </Field>
+                    )}
+                />
+                <Controller
+                    name="description"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="task-form-description">Description</FieldLabel>
+                            <Textarea
+                                {...field}
+                                id="task-form-description"
+                                placeholder="Describe the task"
+                                rows={5}
+                                aria-invalid={fieldState.invalid}
+                            />
+                            <FieldDescription>
+                                Add useful context for the assignee.
+                            </FieldDescription>
+                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                        </Field>
+                    )}
+                />
 
-                    <TagsSelector form={form} />
+                <div className="grid gap-4 md:grid-cols-2">
+                    <SelectInput
+                        form={form}
+                        selectConfig={taskStatusSelectConfig}
+                        selectOptions={taskStatusOptions}
+                    />
 
-                    <div className="flex items-center justify-between rounded-xl border p-4">
-                        <div className="space-y-1">
-                            <p className="text-sm font-medium">Private task</p>
-                            <p className="text-sm text-muted-foreground">
-                                Restrict visibility of this task.
-                            </p>
-                        </div>
+                    <SelectInput
+                        form={form}
+                        selectConfig={taskPrioritySelectConfig}
+                        selectOptions={taskPriorityOptions}
+                    />
+                </div>
 
-                        <Controller
-                            control={control}
-                            name="isPrivate"
-                            render={({ field }) => (
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
-                            )}
-                        />
-                    </div>
+                <div className="grid gap-4 md:grid-cols-2">
+                    <Controller
+                        name="deadline"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="task-form-deadline">Deadline</FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="task-form-deadline"
+                                    type="date"
+                                    aria-invalid={fieldState.invalid}
+                                />
+                                <FieldDescription>
+                                    Leave empty if there is no deadline.
+                                </FieldDescription>
+                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                            </Field>
+                        )}
+                    />
 
-                    <div className="flex justify-end gap-2">
-                        {onCancel ? (
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={onCancel}
-                                disabled={isSubmitting}
-                            >
-                                Cancel
-                            </Button>
-                        ) : null}
-                    </div>
-                </form>
-            </CardContent>
-        </Card>
+                    <Controller
+                        name="assigneeName"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="task-form-assignee">Assignee</FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="task-form-assignee"
+                                    placeholder="Assignee name"
+                                    aria-invalid={fieldState.invalid}
+                                />
+                                <FieldDescription>Optional task owner.</FieldDescription>
+                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                            </Field>
+                        )}
+                    />
+                </div>
+                <TagsSelector form={form} />
+                <Controller
+                    control={form.control}
+                    name="isPrivate"
+                    render={({ field }) => (
+                        <Field
+                            orientation="horizontal"
+                            className="items-center justify-between rounded-xl border p-4"
+                        >
+                            <div className="space-y-1">
+                                <FieldLabel>Private task</FieldLabel>
+                                <FieldDescription>
+                                    Restrict visibility of this task.
+                                </FieldDescription>
+                            </div>
+
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        </Field>
+                    )}
+                />
+            </FieldGroup>
+        </form>
     );
 }

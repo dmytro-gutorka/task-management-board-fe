@@ -4,6 +4,7 @@ export interface SelectConfig {
     placeholder: string;
     fieldName: SelectFieldName;
     label: string;
+    description?: string;
 }
 
 export interface SelectOption {

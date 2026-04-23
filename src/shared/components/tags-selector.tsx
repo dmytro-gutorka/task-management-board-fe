@@ -1,11 +1,13 @@
+import { useState, type KeyboardEvent } from 'react';
+import type { UseFormReturn } from 'react-hook-form';
+import { X } from 'lucide-react';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
-import { useState } from 'react';
-import { type UseFormReturn } from 'react-hook-form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
+
 import type { TaskFormValues } from '@/pages/tasks/TasksPage/model/task-form/tasks-form.types';
-import { type KeyboardEvent } from 'react';
 
 interface TagsSelectorProps {
     form: UseFormReturn<TaskFormValues>;
@@ -15,8 +17,10 @@ export function TagsSelector({ form }: TagsSelectorProps) {
     const [tagInput, setTagInput] = useState('');
 
     const { setValue, watch } = form;
-    const errors = form.formState.errors.tags;
+    const errors = form.formState.errors;
+
     const tags = watch('tags');
+    const tagsError = errors.tags;
 
     function handleAddTag() {
         const normalized = tagInput.trim();
@@ -28,38 +32,50 @@ export function TagsSelector({ form }: TagsSelectorProps) {
             return;
         }
 
-        setValue('tags', [...tags, normalized], { shouldValidate: true, shouldDirty: true });
+        setValue('tags', [...tags, normalized], {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
+
         setTagInput('');
     }
 
     function handleRemoveTag(tagToRemove: string) {
         const filteredTags = tags.filter((tag) => tag !== tagToRemove);
 
-        setValue('tags', filteredTags, { shouldValidate: true, shouldDirty: true });
+        setValue('tags', filteredTags, {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
     }
 
-    function handleKeyUp(e: KeyboardEvent) {
-        if (e.key === 'Enter') {
+    function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+        if (e.key === 'Enter' && !e.repeat) {
             e.preventDefault();
             handleAddTag();
         }
     }
 
     return (
-        <div className="space-y-3">
-            <label className="text-sm font-medium">Tags</label>
+        <Field data-invalid={!!tagsError}>
+            <FieldLabel htmlFor="task-form-tag-input">Tags</FieldLabel>
 
             <div className="flex gap-2">
                 <Input
+                    id="task-form-tag-input"
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
                     placeholder="Add tag"
-                    onKeyUp={(e: KeyboardEvent) => handleKeyUp(e)}
+                    onKeyDown={handleKeyDown}
+                    aria-invalid={!!tagsError}
                 />
+
                 <Button type="button" variant="outline" onClick={handleAddTag}>
                     Add
                 </Button>
             </div>
+
+            <FieldDescription>Add up to 10 tags to better organize the task.</FieldDescription>
 
             {tags.length ? (
                 <div className="flex flex-wrap gap-2">
@@ -79,7 +95,7 @@ export function TagsSelector({ form }: TagsSelectorProps) {
                 </div>
             ) : null}
 
-            {errors ? <p className="text-sm text-destructive">{errors.message}</p> : null}
-        </div>
+            {tagsError ? <FieldError errors={[tagsError]} /> : null}
+        </Field>
     );
 }
