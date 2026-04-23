@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import {
     type TaskFormInitialValues,
     type TaskFormValues,
@@ -32,10 +32,8 @@ interface TaskFormProps {
 }
 
 export function TaskForm({
-    mode,
     initialValues,
     isSubmitting = false,
-    submitLabel,
     onSubmit,
     onCancel,
 }: TaskFormProps) {
@@ -54,10 +52,6 @@ export function TaskForm({
 
     return (
         <Card className="rounded-2xl">
-            <CardHeader>
-                <CardTitle>{mode === 'create' ? 'Create task' : 'Edit task'}</CardTitle>
-            </CardHeader>
-
             <CardContent>
                 <form onSubmit={handleOnSubmit} className="space-y-6">
                     <div className="space-y-2">
@@ -159,10 +153,6 @@ export function TaskForm({
                                 Cancel
                             </Button>
                         ) : null}
-
-                        <Button type="submit" disabled={isSubmitting}>
-                            {submitLabel ?? (mode === 'create' ? 'Create task' : 'Save changes')}
-                        </Button>
                     </div>
                 </form>
             </CardContent>

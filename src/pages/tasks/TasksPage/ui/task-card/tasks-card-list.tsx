@@ -1,23 +1,19 @@
 import { cn } from '@/lib/utils';
 import { type Task } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
-import { logger } from '@/shared/lib/logger';
 import { taskStatusConfig } from '@/pages/tasks/TasksPage/model/task-card/task-card.configs';
+import { Link } from 'react-router-dom';
 
 interface TaskListItemProps {
     task: Task;
     onClick?: (task: Task) => void;
 }
 
-export function TaskListCard({ task, onClick }: TaskListItemProps) {
-    const TaskStatusIcon = taskStatusConfig[task.status].listViewIcon;
+export function TaskListCard({ task }: TaskListItemProps) {
+    const TaskStatusIcon = taskStatusConfig[task.status].icon;
 
     return (
-        <button
-            type="button"
-            onClick={() => {
-                onClick?.(task);
-                logger.log('TODO: open task details modal', task.id);
-            }}
+        <Link
+            to={`/task/${task.id}`}
             className={cn(
                 'flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left transition-colors',
                 'hover:bg-muted/50',
@@ -32,6 +28,6 @@ export function TaskListCard({ task, onClick }: TaskListItemProps) {
                 <div className="truncate text-sm font-semibold text-foreground">{task.title}</div>
                 <div className="truncate text-sm text-muted-foreground">{task.description}</div>
             </div>
-        </button>
+        </Link>
     );
 }

@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
 import { SearchInput } from '@/shared/components/search-input';
 import { TasksViewSwitcher } from '@/pages/tasks/TasksPage/ui/tasks-view-switcher';
 import {
@@ -7,9 +5,10 @@ import {
     type TaskViewMode,
 } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.types';
 import { useState } from 'react';
-import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.constants';
 import { TasksFiltersMenu } from '@/pages/tasks/TasksPage/ui/tasks-filters-menu';
 import { Separator } from '@/components/ui/separator';
+import { CreateTaskModal } from '@/pages/tasks/TasksPage/ui/task-modals/create-task-modal';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const initialFilters: TasksFiltersValue = {
     status: 'all',
@@ -17,27 +16,33 @@ const initialFilters: TasksFiltersValue = {
     sortBy: 'createdAt',
 };
 
-export function Header() {
-    const [viewMode, setViewMode] = useState<TaskViewMode>(TASK_VIEW_MODE.LIST);
+interface HeaderProps {
+    taskViewMode: TaskViewMode;
+    onTaskViewModeChange: (viewMode: TaskViewMode) => void;
+}
+
+export function Header({ taskViewMode, onTaskViewModeChange }: HeaderProps) {
     const [filters, setFilters] = useState<TasksFiltersValue>(initialFilters);
 
     return (
         <>
-            <div className="flex items-center justify-between p-4">
-                <div className="space-y-1">
-                    <h2 className="text-1xl font-semibold">Tasks 10</h2>
+            <TooltipProvider delayDuration={150}>
+                <div className="flex items-center justify-between p-4">
+                    <div className="space-y-1">
+                        <h2 className="text-1xl font-semibold">Tasks 10</h2>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <SearchInput />
+                        <TasksFiltersMenu filters={filters} onFilterChange={setFilters} />
+                        <CreateTaskModal />
+                        <TasksViewSwitcher
+                            view={taskViewMode}
+                            onViewChange={onTaskViewModeChange}
+                        />
+                    </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                    <SearchInput />
-                    <TasksFiltersMenu filters={filters} onFilterChange={setFilters} />
-
-                    <Button variant="outline" size="icon" className="mr-2" aria-label="Create task">
-                        <Plus className="h-4 w-4" />
-                    </Button>
-                    <TasksViewSwitcher view={viewMode} onViewChange={setViewMode} />
-                </div>
-            </div>
-            <Separator />
+                <Separator />
+            </TooltipProvider>
         </>
     );
 }

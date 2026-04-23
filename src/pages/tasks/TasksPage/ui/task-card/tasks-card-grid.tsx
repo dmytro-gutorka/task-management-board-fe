@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Calendar, Check, Lock, Pencil, Trash2, Info, Circle, Flag } from 'lucide-react';
+import { Calendar, Check, Lock, Info, Circle, Flag } from 'lucide-react';
 import {
     Card,
     CardContent,
@@ -20,6 +20,8 @@ import {
 import { formatDeadline } from '@/pages/tasks/TasksPage/helpers/formatDeadline';
 import { getAvatarFallback } from '@/pages/tasks/TasksPage/helpers/getAvatarFallback';
 import { BadgeList } from '@/shared/components/badge-list';
+import { DeleteTaskModal } from '@/pages/tasks/TasksPage/ui/task-modals/delete-task-modal';
+import { EditTaskModal } from '@/pages/tasks/TasksPage/ui/task-modals/edit-task-modal';
 
 interface TaskGridCardProps {
     task: Task;
@@ -27,7 +29,7 @@ interface TaskGridCardProps {
     onDelete?: (taskId: string) => void;
 }
 
-export function TaskGridCard({ task, onComplete, onDelete }: TaskGridCardProps) {
+export function TaskGridCard({ task, onComplete }: TaskGridCardProps) {
     const statusBadgeStyles = taskStatusConfig[task.status].badgeClassName;
     const statusBadgeTitle = taskStatusConfig[task.status].badgeTitle;
 
@@ -35,106 +37,91 @@ export function TaskGridCard({ task, onComplete, onDelete }: TaskGridCardProps) 
     const priorityBadgeTitle = taskPriorityConfig[task.priority].badgeTitle;
 
     return (
-        <Card className="flex h-full flex-col rounded-2xl">
-            <CardHeader className="space-y-3">
-                <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0 space-y-2">
-                        <CardTitle className="line-clamp-2 text-lg leading-snug">
-                            {task.title}
-                        </CardTitle>
+        <>
+            <Card className="flex h-full flex-col rounded-2xl">
+                <CardHeader className="space-y-3">
+                    <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 space-y-2">
+                            <CardTitle className="line-clamp-2 text-lg leading-snug">
+                                {task.title}
+                            </CardTitle>
 
-                        <CardDescription className="line-clamp-3 text-sm leading-6">
-                            {task.description}
-                        </CardDescription>
+                            <CardDescription className="line-clamp-3 text-sm leading-6">
+                                {task.description}
+                            </CardDescription>
+                        </div>
+
+                        {task.isPrivate ? (
+                            <Badge variant="outline" className="shrink-0 gap-1">
+                                <Lock className="h-3.5 w-3.5" />
+                                Private
+                            </Badge>
+                        ) : null}
                     </div>
+                </CardHeader>
 
-                    {task.isPrivate ? (
-                        <Badge variant="outline" className="shrink-0 gap-1">
-                            <Lock className="h-3.5 w-3.5" />
-                            Private
+                <CardContent className="flex flex-1 flex-col gap-4">
+                    <div className="flex flex-wrap gap-2">
+                        <Badge className={`gap-1 ${statusBadgeStyles}`}>
+                            <Circle className="h-3 w-3 fill-current" />
+                            {statusBadgeTitle}
                         </Badge>
-                    ) : null}
-                </div>
-            </CardHeader>
 
-            <CardContent className="flex flex-1 flex-col gap-4">
-                <div className="flex flex-wrap gap-2">
-                    <Badge className={`gap-1 ${statusBadgeStyles}`}>
-                        <Circle className="h-3 w-3 fill-current" />
-                        {statusBadgeTitle}
-                    </Badge>
-
-                    <Badge className={`gap-1 ${priorityBadgeStyles}`}>
-                        <Flag className="h-3.5 w-3.5" />
-                        {priorityBadgeTitle}
-                    </Badge>
-                </div>
-
-                <div className="space-y-3 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 shrink-0" />
-                        <span>{formatDeadline(task.deadline)}</span>
+                        <Badge className={`gap-1 ${priorityBadgeStyles}`}>
+                            <Flag className="h-3.5 w-3.5" />
+                            {priorityBadgeTitle}
+                        </Badge>
                     </div>
-                    <BadgeList badges={task.tags} />
-                </div>
 
-                <div className="mt-auto flex items-center gap-3 rounded-xl border p-3">
-                    <Avatar className="h-9 w-9">
-                        <AvatarImage src={task.assignee?.avatarUrl ?? undefined} />
-                        <AvatarFallback>{getAvatarFallback(task.assignee?.name)}</AvatarFallback>
-                    </Avatar>
-
-                    <div className="min-w-0">
-                        <p className="truncate text-sm font-medium">
-                            {task.assignee?.name ?? 'Unassigned'}
-                        </p>
-                        <p className="text-xs text-muted-foreground">Assignee</p>
+                    <div className="space-y-3 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4 shrink-0" />
+                            <span>{formatDeadline(task.deadline)}</span>
+                        </div>
+                        <BadgeList badges={task.tags} variant="secondary" />
                     </div>
-                </div>
-            </CardContent>
 
-            <CardFooter className="grid grid-cols-2 gap-2 border-t pt-4">
-                <Button asChild variant="outline" size="sm" className="gap-2">
-                    <Link to={`/edit-task/${task.id}`}>
-                        <Pencil className="h-4 w-4" />
-                        Edit
-                    </Link>
-                </Button>
+                    <div className="mt-auto flex items-center gap-3 rounded-xl border p-3">
+                        <Avatar className="h-9 w-9">
+                            <AvatarImage src={task.assignee?.avatarUrl ?? undefined} />
+                            <AvatarFallback>
+                                {getAvatarFallback(task.assignee?.name)}
+                            </AvatarFallback>
+                        </Avatar>
 
-                <Button asChild variant="outline" size="sm" className="gap-2">
-                    <Link to={`/task/${task.id}`}>
-                        <Info className="h-4 w-4" />
-                        Details
-                    </Link>
-                </Button>
+                        <div className="min-w-0">
+                            <p className="truncate text-sm font-medium">
+                                {task.assignee?.name ?? 'Unassigned'}
+                            </p>
+                            <p className="text-xs text-muted-foreground">Assignee</p>
+                        </div>
+                    </div>
+                </CardContent>
 
-                <Button
-                    variant="secondary"
-                    size="sm"
-                    className="gap-2"
-                    onClick={() => {
-                        onComplete?.(task.id);
-                        logger.log('TODO: confirm complete task', task.id);
-                    }}
-                    disabled={task.status === 'done'}
-                >
-                    <Check className="h-4 w-4" />
-                    Complete
-                </Button>
-
-                <Button
-                    variant="destructive"
-                    size="sm"
-                    className="gap-2"
-                    onClick={() => {
-                        onDelete?.(task.id);
-                        logger.log('TODO: confirm delete task', task.id);
-                    }}
-                >
-                    <Trash2 className="h-4 w-4" />
-                    Delete
-                </Button>
-            </CardFooter>
-        </Card>
+                <CardFooter className="grid grid-cols-2 gap-2 border-t pt-4">
+                    <EditTaskModal />
+                    <Button asChild variant="outline" size="sm" className="gap-2">
+                        <Link to={`/task/${task.id}`}>
+                            <Info className="h-4 w-4" />
+                            Details
+                        </Link>
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => {
+                            onComplete?.(task.id);
+                            logger.log('TODO: confirm complete task', task.id);
+                        }}
+                        disabled={task.status === 'done'}
+                    >
+                        <Check className="h-4 w-4" />
+                        Complete
+                    </Button>
+                    <DeleteTaskModal />
+                </CardFooter>
+            </Card>
+        </>
     );
 }
