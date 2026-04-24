@@ -1,9 +1,9 @@
 import { type TaskViewMode } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.types';
 import { LayoutGrid, List } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { TASK_VIEW_MODE } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.constants';
+import { IconTooltip } from '@/shared/components/icon-tooltip';
 
 interface TasksViewSwitcherProps {
     view: TaskViewMode;
@@ -19,46 +19,37 @@ export function TasksViewSwitcher({ view, onViewChange }: TasksViewSwitcherProps
             onViewChange(value);
         }
     }
-
     return (
-        <TooltipProvider delayDuration={150}>
-            <ToggleGroup
-                type="single"
-                value={view}
-                onValueChange={(value: TaskViewMode) => onValueChange(value)}
-                className="rounded-lg border bg-muted/40 p-1 ml-4"
-            >
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <ToggleGroupItem
-                            value={TASK_VIEW_MODE.LIST}
-                            aria-label="List view"
-                            className={cn(
-                                'h-8 w-8 rounded-md border border-transparent transition-colors',
-                                view === 'list' ? activeViewStyles : inactiveViewStyles,
-                            )}
-                        >
-                            <List className="h-4 w-4" />
-                        </ToggleGroupItem>
-                    </TooltipTrigger>
-                    <TooltipContent>List view</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <ToggleGroupItem
-                            value={TASK_VIEW_MODE.GRID}
-                            aria-label="Grid view"
-                            className={cn(
-                                'h-8 w-8 rounded-md border border-transparent transition-colors',
-                                view === 'grid' ? activeViewStyles : inactiveViewStyles,
-                            )}
-                        >
-                            <LayoutGrid className="h-4 w-4" />
-                        </ToggleGroupItem>
-                    </TooltipTrigger>
-                    <TooltipContent>Grid view</TooltipContent>
-                </Tooltip>
-            </ToggleGroup>
-        </TooltipProvider>
+        <ToggleGroup
+            type="single"
+            value={view}
+            onValueChange={(value: TaskViewMode) => onValueChange(value)}
+            className="rounded-lg border bg-muted/40 p-1 ml-4"
+        >
+            <IconTooltip content="List view">
+                <ToggleGroupItem
+                    value={TASK_VIEW_MODE.LIST}
+                    aria-label="List view"
+                    className={cn(
+                        'h-8 w-8 rounded-md border border-transparent transition-colors',
+                        view === 'list' ? activeViewStyles : inactiveViewStyles,
+                    )}
+                >
+                    <List className="h-4 w-4" />
+                </ToggleGroupItem>
+            </IconTooltip>
+            <IconTooltip content="Grid view">
+                <ToggleGroupItem
+                    value={TASK_VIEW_MODE.GRID}
+                    aria-label="Grid view"
+                    className={cn(
+                        'h-8 w-8 rounded-md border border-transparent transition-colors',
+                        view === 'grid' ? activeViewStyles : inactiveViewStyles,
+                    )}
+                >
+                    <LayoutGrid className="h-4 w-4" />
+                </ToggleGroupItem>
+            </IconTooltip>
+        </ToggleGroup>
     );
 }

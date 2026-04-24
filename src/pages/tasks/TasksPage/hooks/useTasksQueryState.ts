@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { tasksQueryParam } from '@/pages/tasks/TasksPage/model/tasks-query-state/tasks-query-state.constants';
 import {
@@ -21,26 +21,35 @@ export function useTasksQueryState() {
         return parseTasksQueryState(searchParams);
     }, [searchParams]);
 
-    const updateParams = (updates: Partial<TasksQueryState>) => {
-        setSearchParams((prev) => {
-            const nextSearchParams = new URLSearchParams(prev);
-            const nextQueryState: TasksQueryState = { ...state, ...updates };
+    const updateParams = useCallback(
+        (updates: Partial<TasksQueryState>) => {
+            setSearchParams((prev) => {
+                const nextSearchParams = new URLSearchParams(prev);
+                const nextQueryState: TasksQueryState = { ...state, ...updates };
 
-            const queryStateKeys = Object.values(tasksQueryParam);
+                const queryStateKeys = Object.values(tasksQueryParam);
 
-            queryStateKeys.forEach((key: TasksQueryParam) => {
-                setTasksQueryParam(nextSearchParams, nextQueryState, key);
+                queryStateKeys.forEach((key: TasksQueryParam) => {
+                    setTasksQueryParam(nextSearchParams, nextQueryState, key);
+                });
+
+                return nextSearchParams;
             });
+        },
+        [setSearchParams, state],
+    );
 
-            return nextSearchParams;
-        });
-    };
-
-    const setView = (view: TaskViewMode) => updateParams({ view });
-    const setStatus = (status: TaskStatusFilter) => updateParams({ status });
-    const setPriority = (priority: TaskPriorityFilter) => updateParams({ priority });
-    const setSortBy = (sortBy: TaskSortBy) => updateParams({ sortBy });
-    const setSearch = (search: string) => updateParams({ search });
+    const setView = useCallback((view: TaskViewMode) => updateParams({ view }), [updateParams]);
+    const setStatus = useCallback(
+        (status: TaskStatusFilter) => updateParams({ status }),
+        [updateParams],
+    );
+    const setPriority = useCallback(
+        (priority: TaskPriorityFilter) => updateParams({ priority }),
+        [updateParams],
+    );
+    const setSortBy = useCallback((sortBy: TaskSortBy) => updateParams({ sortBy }), [updateParams]);
+    const setSearch = useCallback((search: string) => updateParams({ search }), [updateParams]);
 
     return {
         state,
