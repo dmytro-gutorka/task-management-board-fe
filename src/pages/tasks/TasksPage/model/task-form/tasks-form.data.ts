@@ -1,8 +1,5 @@
 import type { TaskFormValues } from '@/pages/tasks/TasksPage/model/task-form/tasks-form.types';
-import {
-    TASK_PRIORITY,
-    TASK_STATUS,
-} from '@/pages/tasks/TasksPage/model/task-card/task-card.constants';
+import { TASK_PRIORITY, TASK_STATUS } from '@/pages/tasks/TasksPage/model/task.constants';
 
 export const taskFormDefaultValues: TaskFormValues = {
     title: '',

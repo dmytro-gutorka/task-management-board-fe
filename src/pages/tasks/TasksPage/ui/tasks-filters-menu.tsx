@@ -7,9 +7,9 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type {
-    TaskFilterPriority,
-    TaskFilterSortBy,
-    TaskFilterStatus,
+    TaskPriorityFilter,
+    TaskSortBy,
+    TaskStatusFilter,
     TasksFiltersValue,
 } from '../model/task-filters/tasks-filter.types';
 import { DropDownMenuBlock } from '@/shared/components/drop-down-menu-block';
@@ -29,21 +29,21 @@ export function TasksFiltersMenu({ filters, onFilterChange }: TasksFiltersMenuPr
     const handleStatusChange = (status: string) => {
         onFilterChange({
             ...filters,
-            status: status as TaskFilterStatus,
+            status: status as TaskStatusFilter,
         });
     };
 
     const handlePriorityChange = (priority: string) => {
         onFilterChange({
             ...filters,
-            priority: priority as TaskFilterPriority,
+            priority: priority as TaskPriorityFilter,
         });
     };
 
     const handleSortByChange = (sortBy: string) => {
         onFilterChange({
             ...filters,
-            sortBy: sortBy as TaskFilterSortBy,
+            sortBy: sortBy as TaskSortBy,
         });
     };
 

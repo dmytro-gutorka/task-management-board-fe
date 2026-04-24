@@ -13,7 +13,7 @@ interface HeaderProps {
     taskViewMode: TaskViewMode;
     onTaskViewModeChange: (viewMode: TaskViewMode) => void;
     filters: TasksFiltersValue;
-    setFilters: (filters: TasksFiltersValue) => void;
+    onFiltersChange: (filters: Partial<TasksFiltersValue>) => void;
     searchValue: string;
     setSearchValue: (value: string) => void;
 }
@@ -22,7 +22,7 @@ export function Header({
     taskViewMode,
     onTaskViewModeChange,
     filters,
-    setFilters,
+    onFiltersChange,
     setSearchValue,
     searchValue,
 }: HeaderProps) {
@@ -34,8 +34,8 @@ export function Header({
                         <h2 className="text-1xl font-semibold">Tasks 10</h2>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <SearchInput searchValue={searchValue} setSearchValue={setSearchValue} />
-                        <TasksFiltersMenu filters={filters} onFilterChange={setFilters} />
+                        <SearchInput searchValue={searchValue} setSearchChange={setSearchValue} />
+                        <TasksFiltersMenu filters={filters} onFilterChange={onFiltersChange} />
                         <CreateTaskModal />
                         <TasksViewSwitcher
                             view={taskViewMode}

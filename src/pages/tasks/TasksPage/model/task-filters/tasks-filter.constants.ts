@@ -1,18 +1,16 @@
-export const TASK_FILTER_STATUS = {
+import { TASK_PRIORITY, TASK_STATUS } from '@/pages/tasks/TasksPage/model/task.constants';
+
+export const TASK_STATUS_FILTER = {
+    ...TASK_STATUS,
     ALL: 'all',
-    TODO: 'toDo',
-    IN_PROGRESS: 'in-Progress',
-    DONE: 'done',
 } as const;
 
-export const TASK_FILTER_PRIORITY = {
+export const TASK_PRIORITY_FILTER = {
+    ...TASK_PRIORITY,
     ALL: 'all',
-    LOW: 'low',
-    MEDIUM: 'medium',
-    HIGH: 'high',
 } as const;
 
-export const TASK_FILTER_SORT_BY = {
+export const TASK_SORT_BY_FILTER = {
     CREATED_AT: 'createdAt',
     DEADLINE: 'deadline',
     PRIORITY: 'priority',

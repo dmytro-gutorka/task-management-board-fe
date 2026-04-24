@@ -1,8 +1,5 @@
 import type { Task } from '@/pages/tasks/TasksPage/model/task-card/task-card.types';
-import {
-    TASK_PRIORITY,
-    TASK_STATUS,
-} from '@/pages/tasks/TasksPage/model/task-card/task-card.constants';
+import { TASK_PRIORITY, TASK_STATUS } from '@/pages/tasks/TasksPage/model/task.constants';
 
 export const mockTasks: Task[] = [
     {
