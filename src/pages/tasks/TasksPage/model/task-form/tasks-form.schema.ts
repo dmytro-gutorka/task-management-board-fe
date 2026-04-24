@@ -1,8 +1,5 @@
 import { z } from 'zod';
-import {
-    TASK_PRIORITY,
-    TASK_STATUS,
-} from '@/pages/tasks/TasksPage/model/task-card/task-card.constants';
+import { TASK_PRIORITY, TASK_STATUS } from '@/pages/tasks/TasksPage/model/task.constants';
 
 // TODO 2: Maybe split some rules to separate files for better readability later ?
 // TODO 3: Build reusable factory for error-message ZOD rules ?

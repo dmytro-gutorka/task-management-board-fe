@@ -19,7 +19,7 @@ import {
     taskPrioritySelectConfig,
     taskStatusSelectConfig,
 } from '@/pages/tasks/TasksPage/model/task-form/tasks-form.configs';
-import { buildTaskFormDefaultValues } from '@/pages/tasks/TasksPage/model/task-form/utils/buildTaskFormDefaultValues';
+import { buildTaskFormDefaultValues } from '@/pages/tasks/TasksPage/helpers/buildTaskFormDefaultValues';
 
 interface TaskFormProps {
     mode: 'create' | 'edit';

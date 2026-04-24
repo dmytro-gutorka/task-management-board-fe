@@ -1,7 +1,4 @@
-import {
-    TASK_PRIORITY,
-    TASK_STATUS,
-} from '@/pages/tasks/TasksPage/model/task-card/task-card.constants';
+import { TASK_PRIORITY, TASK_STATUS } from '@/pages/tasks/TasksPage/model/task.constants';
 import { CheckCircle2, Circle, Clock3 } from 'lucide-react';
 
 export const taskStatusConfig = {

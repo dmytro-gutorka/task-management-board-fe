@@ -7,9 +7,15 @@ export function filterTasks(
     searchValue: string,
 ): Task[] {
     return tasks.filter((task) => {
+        const normalizedSearch = searchValue.trim().toLowerCase();
+
         const matchesStatus = filters.status === 'all' || task.status === filters.status;
         const matchesPriority = filters.priority === 'all' || task.priority === filters.priority;
-        const matchesSearch = task.title.toLowerCase().includes(searchValue.toLowerCase());
+
+        const matchesSearch =
+            !normalizedSearch ||
+            task.title.toLowerCase().includes(normalizedSearch) ||
+            task.description.toLowerCase().includes(normalizedSearch);
 
         return matchesStatus && matchesPriority && matchesSearch;
     });

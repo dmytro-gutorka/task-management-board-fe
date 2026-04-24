@@ -1,4 +1,4 @@
-import { TASK_PRIORITY, TASK_STATUS } from '../task-card/task-card.constants';
+import { TASK_PRIORITY, TASK_STATUS } from '../task.constants';
 
 export const taskStatusOptions = [
     { value: TASK_STATUS.TODO, label: 'To Do' },

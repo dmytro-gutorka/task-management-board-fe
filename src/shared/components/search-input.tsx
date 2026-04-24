@@ -1,18 +1,26 @@
-import { type ChangeEvent, type KeyboardEvent, useRef, useState } from 'react';
+import { type ChangeEvent, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface SearchInputProps {
     searchValue: string;
-    setSearchValue: (value: string) => void;
+    setSearchChange: (value: string) => void;
 }
 
-export function SearchInput({ searchValue, setSearchValue }: SearchInputProps) {
+export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const [inputValue, setInputValue] = useState(searchValue);
+
     const inputRef = useRef<HTMLInputElement>(null);
+    const debouncedValue = useDebounce(inputValue, 300);
+
+    useEffect(() => {
+        setSearchChange(debouncedValue);
+    }, [debouncedValue, setSearchChange]);
 
     function onOpen() {
         setIsOpen(true);
@@ -20,12 +28,13 @@ export function SearchInput({ searchValue, setSearchValue }: SearchInputProps) {
     }
 
     function onClose() {
-        if (!searchValue) setIsOpen(false);
+        if (!inputValue) setIsOpen(false);
     }
 
     function onEscapeDown(e: KeyboardEvent<HTMLInputElement>) {
         if (e.key === 'Escape') {
-            setSearchValue('');
+            setInputValue('');
+            setSearchChange('');
             setIsOpen(false);
         }
     }
@@ -34,24 +43,31 @@ export function SearchInput({ searchValue, setSearchValue }: SearchInputProps) {
         <div className="relative flex items-center">
             {!isOpen && (
                 <IconTooltip content="Search">
-                    <Button onClick={onOpen} variant="outline" size="icon" className="">
+                    <Button onClick={onOpen} variant="outline" size="icon">
                         <Search className="h-4 w-4" />
                     </Button>
                 </IconTooltip>
             )}
+
             <InputGroup
                 className={cn(
                     'max-w-xs relative overflow-hidden',
-                    isOpen || searchValue ? 'w-[14rem] transition-all duration-500' : 'w-0',
+                    isOpen || inputValue ? 'w-[14rem] transition-all duration-500' : 'w-0',
                 )}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
-                onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => onEscapeDown(e)}
+                onKeyDown={onEscapeDown}
                 onBlur={onClose}
             >
-                <InputGroupInput placeholder="Search..." value={searchValue} ref={inputRef} />
+                <InputGroupInput
+                    placeholder="Search..."
+                    value={inputValue}
+                    ref={inputRef}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+                />
+
                 <InputGroupAddon>
                     <Search />
                 </InputGroupAddon>
+
                 <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
             </InputGroup>
         </div>

@@ -1,20 +1,26 @@
+import {
+    TASK_PRIORITY_FILTER,
+    TASK_SORT_BY_FILTER,
+    TASK_STATUS_FILTER,
+} from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.constants';
+
 export const taskFilterStatusOptions = [
-    { value: 'all', title: 'All statuses' },
-    { value: 'todo', title: 'To Do' },
-    { value: 'in-progress', title: 'In Progress' },
-    { value: 'done', title: 'Done' },
+    { value: TASK_STATUS_FILTER.ALL, title: 'All statuses' },
+    { value: TASK_STATUS_FILTER.TODO, title: 'To Do' },
+    { value: TASK_STATUS_FILTER.IN_PROGRESS, title: 'In Progress' },
+    { value: TASK_STATUS_FILTER.DONE, title: 'Done' },
 ] as const;
 
 export const taskFilterPriorityOptions = [
-    { value: 'all', title: 'All priorities' },
-    { value: 'high', title: 'High' },
-    { value: 'medium', title: 'Medium' },
-    { value: 'low', title: 'Low' },
+    { value: TASK_PRIORITY_FILTER.ALL, title: 'All priorities' },
+    { value: TASK_PRIORITY_FILTER.HIGH, title: 'High' },
+    { value: TASK_PRIORITY_FILTER.MEDIUM, title: 'Medium' },
+    { value: TASK_PRIORITY_FILTER.LOW, title: 'Low' },
 ] as const;
 
 export const taskFilterSortOptions = [
-    { value: 'createdAt', title: 'Date created' },
-    { value: 'deadline', title: 'Deadline' },
-    { value: 'priority', title: 'Priority' },
-    { value: 'title', title: 'Title' },
+    { value: TASK_SORT_BY_FILTER.CREATED_AT, title: 'Date created' },
+    { value: TASK_SORT_BY_FILTER.DEADLINE, title: 'Deadline' },
+    { value: TASK_SORT_BY_FILTER.PRIORITY, title: 'Priority' },
+    { value: TASK_SORT_BY_FILTER.TITLE, title: 'Title' },
 ] as const;

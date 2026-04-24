@@ -7,7 +7,7 @@ import { getFilteredAndSortedTasks } from '@/pages/tasks/TasksPage/helpers/getFi
 import { mockTasks } from '@/pages/tasks/TasksPage/model/task-card/task-card.data';
 
 export function TasksPage() {
-    const { taskViewMode, filters, searchValue } = useOutletContext<LayoutOutletContext>();
+    const { viewMode, filters, searchValue } = useOutletContext<LayoutOutletContext>();
 
     const filteredTasks = useMemo(() => {
         return getFilteredAndSortedTasks(mockTasks, filters, searchValue);
@@ -15,7 +15,7 @@ export function TasksPage() {
 
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
-            {taskViewMode === 'grid' ? (
+            {viewMode === 'grid' ? (
                 <TasksGridView tasks={filteredTasks} />
             ) : (
                 <TasksListView tasks={filteredTasks} />
