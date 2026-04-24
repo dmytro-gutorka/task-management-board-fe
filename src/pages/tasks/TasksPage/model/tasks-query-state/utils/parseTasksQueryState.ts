@@ -16,8 +16,8 @@ export function parseTasksQueryState(searchParams: URLSearchParams): TasksQueryS
     // TODO: 4 Come up with a better/reusable way to handle this
 
     return {
-        search: searchParam ?? defaultTasksQueryState.search,
         view: viewParam && isTaskViewMode(viewParam) ? viewParam : defaultTasksQueryState.view,
+        search: searchParam ?? defaultTasksQueryState.search,
         status:
             statusParam && isTaskStatusFilter(statusParam)
                 ? statusParam
