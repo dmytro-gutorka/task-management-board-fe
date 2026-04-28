@@ -5,10 +5,15 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
-import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
+} from '@/shared/components/shadcn/ui/select';
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldLabel,
+} from '@/shared/components/shadcn/ui/field';
 
-import type { TaskFormValues } from '@/pages/tasks/TasksPage/model/task-form/tasks-form.types';
+import type { TaskFormValues } from '@/pages/tasks-page/model/task-form/tasks-form.types';
 import type {
     SelectConfig,
     SelectOption,

@@ -1,26 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { TasksPage } from '@/pages/tasks/TasksPage/TasksPage';
+import { TasksPage } from '@/pages/tasks-page/tasks-page';
 import { Layout } from '@/shared/components/layout';
-import { TaskDetailsPage } from '@/pages/tasks/TasksPage/TaskDetailsPage';
+import { TasksDetailsPage } from '@/pages/tasks-details-page/tasks-details-page';
 import { ROUTES } from '@/app/routes/routes.constants';
 
-export const router = makeRouter();
-
-function makeRouter() {
-    return createBrowserRouter([
-        {
-            Component: Layout,
-            path: ROUTES.HOME,
-            children: [
-                {
-                    path: ROUTES.TASKS_PAGE,
-                    Component: TasksPage,
-                },
-                {
-                    path: ROUTES.TASKS_DETAILS_PAGE,
-                    Component: TaskDetailsPage,
-                },
-            ],
-        },
-    ]);
-}
+export const router = createBrowserRouter([
+    {
+        Component: Layout,
+        path: ROUTES.HOME,
+        children: [
+            {
+                path: ROUTES.TASKS_PAGE,
+                Component: TasksPage,
+            },
+            {
+                path: ROUTES.TASKS_DETAILS_PAGE,
+                Component: TasksDetailsPage,
+            },
+        ],
+    },
+]);

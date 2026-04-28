@@ -4,7 +4,7 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/shared/components/shadcn/ui/dialog';
 import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
 import type { ReactNode } from 'react';
 

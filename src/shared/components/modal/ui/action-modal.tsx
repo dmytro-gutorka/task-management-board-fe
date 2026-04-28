@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/components/shadcn/ui/button';
 import { BaseModal } from './base-modal';
 import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
 

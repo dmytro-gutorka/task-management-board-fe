@@ -1,7 +1,9 @@
+import { parseISO, isValid } from 'date-fns';
+
 export function parseTime(date?: string | null) {
     if (!date) return Infinity;
 
-    const time = new Date(date).getTime();
+    const parsed = parseISO(date);
 
-    return Number.isNaN(time) ? Infinity : time;
+    return isValid(parsed) ? parsed.getTime() : Infinity;
 }

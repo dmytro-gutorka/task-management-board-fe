@@ -2,8 +2,8 @@ import {
     DropdownMenuLabel,
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
-} from '@/components/ui/dropdown-menu';
-import { type TaskFilterDropdownOption } from '@/pages/tasks/TasksPage/model/task-filters/tasks-filter.types';
+} from '@/shared/components/shadcn/ui/dropdown-menu';
+import { type TaskFilterDropdownOption } from '@/pages/tasks-page/model/task-filters/tasks-filter.types';
 
 interface DropDownMenuBlockProps<T extends string> {
     title: string;

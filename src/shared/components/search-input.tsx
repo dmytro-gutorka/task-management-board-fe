@@ -1,10 +1,14 @@
 import { type ChangeEvent, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import { cn } from '@/shared/lib/utils';
+import { Button } from '@/shared/components/shadcn/ui/button';
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+} from '@/shared/components/shadcn/ui/input-group';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
-import { useDebounce } from '@/hooks/useDebounce';
+import { useDebounce } from '@/shared/hooks/useDebounce';
 
 interface SearchInputProps {
     searchValue: string;

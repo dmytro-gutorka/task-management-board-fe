@@ -2,12 +2,17 @@ import { useState, type KeyboardEvent } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { X } from 'lucide-react';
 
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/shared/components/shadcn/ui/input';
+import { Button } from '@/shared/components/shadcn/ui/button';
+import { Badge } from '@/shared/components/shadcn/ui/badge';
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldLabel,
+} from '@/shared/components/shadcn/ui/field';
 
-import type { TaskFormValues } from '@/pages/tasks/TasksPage/model/task-form/tasks-form.types';
+import type { TaskFormValues } from '@/pages/tasks-page/model/task-form/tasks-form.types';
 
 interface TagsSelectorProps {
     form: UseFormReturn<TaskFormValues>;

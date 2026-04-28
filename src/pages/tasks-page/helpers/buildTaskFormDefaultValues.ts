@@ -1,0 +1,14 @@
+import type {
+    TaskFormInitialValues,
+    TaskFormValues,
+} from '@/pages/tasks-page/model/task-form/tasks-form.types';
+import { taskFormDefaultValues } from '@/pages/tasks-page/model/task-form/tasks-form.data';
+
+export function buildTaskFormDefaultValues(
+    initialValues?: Partial<TaskFormInitialValues>,
+): TaskFormValues {
+    return {
+        ...taskFormDefaultValues,
+        ...initialValues,
+    };
+}

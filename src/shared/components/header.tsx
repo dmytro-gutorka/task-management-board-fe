@@ -1,5 +1,5 @@
-import { Separator } from '@/components/ui/separator';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { Separator } from '@/shared/components/shadcn/ui/separator';
+import { TooltipProvider } from '@/shared/components/shadcn/ui/tooltip';
 import { NotebookText } from 'lucide-react';
 import { ThemeToggle } from '@/shared/components/theme-toggle';
 

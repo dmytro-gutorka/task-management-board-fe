@@ -1,4 +1,4 @@
-import { normalizeError } from '@/shared/lib/errors/utils/normalizeError.ts';
+import { normalizeError } from '@/shared/lib/errors/utils/normalize-error.ts';
 import type { AppError, HandleErrorOptions } from '@/shared/lib/errors/error.types.ts';
 import { logger } from '@/shared/lib/logger';
 

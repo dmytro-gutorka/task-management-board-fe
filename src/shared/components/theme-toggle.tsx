@@ -1,11 +1,11 @@
 import { Moon, Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/components/shadcn/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/shared/components/shadcn/ui/dropdown-menu';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
 import { useTheme } from '@/shared/providers/theme-provider/hooks/useTheme';
 import { themeOptions } from '@/shared/providers/theme-provider/theme-provider.constants';
