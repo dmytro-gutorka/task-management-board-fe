@@ -12,16 +12,16 @@ import { Badge } from '@/shared/components/shadcn/ui/badge';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/shadcn/ui/avatar';
 import { logger } from '@/shared/lib/logger';
-import { type Task } from '@/pages/tasks-page/model/task-card/task-card.types';
+import { type Task } from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
 import {
     taskPriorityConfig,
     taskStatusConfig,
-} from '@/pages/tasks-page/model/task-card/task-card.configs';
-import { formatDeadline } from '@/pages/tasks-page/helpers/formatDeadline';
-import { getAvatarFallback } from '@/pages/tasks-page/helpers/getAvatarFallback';
+} from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
+import { formatDeadline } from '@/shared/modules/tasks/helpers/formatDeadline.ts';
+import { getAvatarFallback } from '@/shared/modules/tasks/helpers/getAvatarFallback.ts';
 import { BadgeList } from '@/shared/components/badge-list';
-import { DeleteTaskModal } from '@/pages/tasks-page/ui/task-modals/delete-task-modal';
-import { EditTaskModal } from '@/pages/tasks-page/ui/task-modals/edit-task-modal';
+import { DeleteTaskModal } from '@/shared/modules/tasks/ui/task-modals/delete-task-modal';
+import { EditTaskModal } from '@/shared/modules/tasks/ui/task-modals/edit-task-modal';
 import { ROUTES } from '@/app/routes/routes.constants';
 
 interface TaskGridCardProps {

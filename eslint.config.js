@@ -73,6 +73,23 @@ export default defineConfig([
             ],
         },
     },
+    {
+        files: ['src/**/*.{ts,tsx}'],
+        rules: {
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: [
+                        {
+                            group: ['@/pages/*/**'],
+                            message:
+                                'Inside the pages should be used relative imports, aliases are not allowed. Imports outside of the page are only allowed via public API (index.ts)',
+                        },
+                    ],
+                },
+            ],
+        },
+    },
     // ! Prettier rules
     eslintPluginPrettierRecommended,
     {

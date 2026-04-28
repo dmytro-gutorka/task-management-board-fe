@@ -1,10 +1,10 @@
-import { ActionModal } from '@/shared/components/modal/ui/action-modal';
-import { CreateTaskForm } from '@/pages/tasks-page/ui/task-forms/create-task-form';
-import { Button } from '@/shared/components/shadcn/ui/button';
-import { IconTooltip } from '@/shared/components/icon-tooltip';
-import { Separator } from '@/shared/components/shadcn/ui/separator';
-import { useModalState } from '@/shared/components/modal/model/hooks/useStateModal';
-import { logger } from '@/shared/lib/logger';
+import { ActionModal } from '@/shared/components/modal/ui/action-modal.tsx';
+import { CreateTaskForm } from '@/shared/modules/tasks/ui/task-forms/create-task-form.tsx';
+import { Button } from '@/shared/components/shadcn/ui/button.tsx';
+import { IconTooltip } from '@/shared/components/icon-tooltip.tsx';
+import { Separator } from '@/shared/components/shadcn/ui/separator.tsx';
+import { useModalState } from '@/shared/components/modal/model/hooks/useStateModal.ts';
+import { logger } from '@/shared/lib/logger.ts';
 import { Plus } from 'lucide-react';
 
 export function CreateTaskModal() {

@@ -13,7 +13,7 @@ export function useApplyTheme(theme: ThemeOptions) {
                 `(prefers-color-scheme: ${themeOptions.DARK})`,
             ).matches;
 
-            root.classList.add(isDark ? themeOptions.DARK : themeOptions.DARK);
+            root.classList.add(isDark ? themeOptions.DARK : themeOptions.LIGHT);
             return;
         }
 

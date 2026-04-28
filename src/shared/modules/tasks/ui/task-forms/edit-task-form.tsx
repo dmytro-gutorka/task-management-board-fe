@@ -1,8 +1,8 @@
-import { TaskForm } from '@/pages/tasks-page/ui/task-form';
+import { TaskForm } from '@/shared/modules/tasks/ui/task-forms/task-form.tsx';
 import {
     type TaskFormInitialValues,
     type TaskFormValues,
-} from '@/pages/tasks-page/model/task-form/tasks-form.types';
+} from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
 
 interface EditTaskFormProps {
     initialValues: Partial<TaskFormInitialValues>;

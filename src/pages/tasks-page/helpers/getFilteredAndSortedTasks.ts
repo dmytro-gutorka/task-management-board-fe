@@ -1,7 +1,7 @@
-import { filterTasks } from '@/pages/tasks-page/helpers/filterTasks';
-import { sortTasks } from '@/pages/tasks-page/helpers/sortTasks';
-import { type Task } from '@/pages/tasks-page/model/task-card/task-card.types';
-import { type TasksFiltersValue } from '@/pages/tasks-page/model/task-filters/tasks-filter.types';
+import { type Task } from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
+import type { TasksFiltersValue } from '../model/task-filters/tasks-filter.types.ts';
+import { filterTasks } from './filterTasks.ts';
+import { sortTasks } from './sortTasks';
 
 export function getFilteredAndSortedTasks(
     tasks: Task[],

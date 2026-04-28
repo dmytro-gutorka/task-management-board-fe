@@ -1,11 +1,11 @@
-import { logger } from '@/shared/lib/logger';
-import { Button } from '@/shared/components/shadcn/ui/button';
+import { logger } from '@/shared/lib/logger.ts';
+import { Button } from '@/shared/components/shadcn/ui/button.tsx';
 import { Pencil } from 'lucide-react';
-import { ActionModal } from '@/shared/components/modal/ui/action-modal';
-import { EditTaskForm } from '@/pages/tasks-page/ui/task-forms/edit-task-form';
-import { taskFormDefaultValues } from '@/pages/tasks-page/model/task-form/tasks-form.data';
-import { Separator } from '@/shared/components/shadcn/ui/separator';
-import { useModalState } from '@/shared/components/modal/model/hooks/useStateModal';
+import { ActionModal } from '@/shared/components/modal/ui/action-modal.tsx';
+import { EditTaskForm } from '@/shared/modules/tasks/ui/task-forms/edit-task-form.tsx';
+import { taskFormDefaultValues } from '@/shared/modules/tasks/model/task-form/tasks-form.data.ts';
+import { Separator } from '@/shared/components/shadcn/ui/separator.tsx';
+import { useModalState } from '@/shared/components/modal/model/hooks/useStateModal.ts';
 
 export function EditTaskModal() {
     const { openModal, setOpen, open } = useModalState();

@@ -1,4 +1,4 @@
-import { type SelectConfig } from '@/shared/components/select/model/select-input.types';
+import { type SelectConfig } from '@/shared/components/select/model/select-input.types.ts';
 
 export const taskStatusSelectConfig: SelectConfig = {
     label: 'Status',

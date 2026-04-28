@@ -1,11 +1,11 @@
+import type { ValueOf } from '@/shared/types/common';
 import type {
     TaskPriorityFilter,
-    TaskStatusFilter,
     TaskSortBy,
+    TaskStatusFilter,
     TaskViewMode,
-} from '@/pages/tasks-page/model/task-filters/tasks-filter.types';
-import type { ValueOf } from '@/shared/types/common';
-import { tasksQueryParam } from '@/pages/tasks-page/model/tasks-query-state/tasks-query-state.constants';
+} from '../task-filters/tasks-filter.types.ts';
+import type { tasksQueryParam } from './tasks-query-state.constants.ts';
 
 export type TasksQueryState = {
     view: TaskViewMode;

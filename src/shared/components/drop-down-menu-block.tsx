@@ -3,13 +3,17 @@ import {
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
 } from '@/shared/components/shadcn/ui/dropdown-menu';
-import { type TaskFilterDropdownOption } from '@/pages/tasks-page/model/task-filters/tasks-filter.types';
+
+type FilterDropdownOption<T extends string = string> = {
+    value: T;
+    title: string;
+};
 
 interface DropDownMenuBlockProps<T extends string> {
     title: string;
     value: T;
     onChange: (value: T) => void;
-    options: readonly TaskFilterDropdownOption<T>[];
+    options: readonly FilterDropdownOption<T>[];
 }
 
 export function DropDownMenuBlock<T extends string>({

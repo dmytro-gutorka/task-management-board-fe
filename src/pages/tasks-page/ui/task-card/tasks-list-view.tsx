@@ -1,6 +1,6 @@
 import { logger } from '@/shared/lib/logger';
-import { TaskListCard } from '@/pages/tasks-page/ui/task-card/tasks-card-list';
-import { type Task } from '@/pages/tasks-page/model/task-card/task-card.types';
+import { type Task } from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
+import { TaskListCard } from './tasks-card-list.tsx';
 
 interface TasksGridViewProps {
     tasks: Task[];

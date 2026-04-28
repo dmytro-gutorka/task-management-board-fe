@@ -2,7 +2,7 @@ import {
     TASK_PRIORITY_FILTER,
     TASK_SORT_BY_FILTER,
     TASK_STATUS_FILTER,
-} from '@/pages/tasks-page/model/task-filters/tasks-filter.constants';
+} from './tasks-filter.constants.ts';
 
 export const taskFilterStatusOptions = [
     { value: TASK_STATUS_FILTER.ALL, title: 'All statuses' },

@@ -1,5 +1,5 @@
-import type { Task } from '@/pages/tasks-page/model/task-card/task-card.types';
-import { TaskGridCard } from '@/pages/tasks-page/ui/task-card/tasks-card-grid';
+import type { Task } from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
+import { TaskGridCard } from './tasks-card-grid.tsx';
 
 interface TasksGridViewProps {
     tasks: Task[];

@@ -1,4 +1,4 @@
-import { TASK_PRIORITY, TASK_STATUS } from '@/pages/tasks-page/model/task.constants';
+import { TASK_PRIORITY, TASK_STATUS } from '@/shared/modules/tasks/model/task/task.constants.ts';
 import { CheckCircle2, Circle, Clock3 } from 'lucide-react';
 
 export const taskStatusConfig = {

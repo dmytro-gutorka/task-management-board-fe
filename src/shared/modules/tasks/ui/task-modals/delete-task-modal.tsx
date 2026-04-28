@@ -1,8 +1,8 @@
-import { logger } from '@/shared/lib/logger';
-import { ConfirmationModal } from '@/shared/components/modal/ui/confirmation-modal';
-import { Button } from '@/shared/components/shadcn/ui/button';
+import { logger } from '@/shared/lib/logger.ts';
+import { ConfirmationModal } from '@/shared/components/modal/ui/confirmation-modal.tsx';
+import { Button } from '@/shared/components/shadcn/ui/button.tsx';
 import { Trash2 } from 'lucide-react';
-import { useModalState } from '@/shared/components/modal/model/hooks/useStateModal';
+import { useModalState } from '@/shared/components/modal/model/hooks/useStateModal.ts';
 
 export function DeleteTaskModal() {
     const { openModal, closeModal, setOpen, open } = useModalState();

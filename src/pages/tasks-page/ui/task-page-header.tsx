@@ -1,12 +1,9 @@
 import { SearchInput } from '@/shared/components/search-input';
-import { TasksViewSwitcher } from '@/pages/tasks-page/ui/tasks-view-switcher';
-import {
-    type TasksFiltersValue,
-    type TaskViewMode,
-} from '@/pages/tasks-page/model/task-filters/tasks-filter.types';
-import { TasksFiltersMenu } from '@/pages/tasks-page/ui/tasks-filters-menu';
-import { CreateTaskModal } from '@/pages/tasks-page/ui/task-modals/create-task-modal';
+import { CreateTaskModal } from '@/shared/modules/tasks/ui/task-modals/create-task-modal';
 import { TooltipProvider } from '@/shared/components/shadcn/ui/tooltip';
+import { TasksFiltersMenu } from './tasks-filters-menu.tsx';
+import { TasksViewSwitcher } from './tasks-view-switcher.tsx';
+import type { TasksFiltersValue, TaskViewMode } from '../model/task-filters/tasks-filter.types.ts';
 
 interface HeaderProps {
     taskViewMode: TaskViewMode;

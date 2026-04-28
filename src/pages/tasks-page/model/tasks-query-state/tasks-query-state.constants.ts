@@ -1,4 +1,4 @@
-import { type TasksQueryParam } from '@/pages/tasks-page/model/tasks-query-state/tasks-query-state.types';
+import type { TasksQueryParam } from './tasks-query-state.types.ts';
 
 export const tasksQueryParam = {
     VIEW: 'view',

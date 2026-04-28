@@ -1,31 +1,31 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@/shared/components/shadcn/ui/input';
-import { Textarea } from '@/shared/components/shadcn/ui/textarea';
-import { Switch } from '@/shared/components/shadcn/ui/switch';
+import { Input } from '@/shared/components/shadcn/ui/input.tsx';
+import { Textarea } from '@/shared/components/shadcn/ui/textarea.tsx';
+import { Switch } from '@/shared/components/shadcn/ui/switch.tsx';
 import {
     Field,
     FieldDescription,
     FieldError,
     FieldGroup,
     FieldLabel,
-} from '@/shared/components/shadcn/ui/field';
+} from '@/shared/components/shadcn/ui/field.tsx';
 import {
     type TaskFormInitialValues,
     type TaskFormValues,
-} from '@/pages/tasks-page/model/task-form/tasks-form.types';
-import { taskFormSchema } from '@/pages/tasks-page/model/task-form/tasks-form.schema';
+} from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
+import { taskFormSchema } from '@/shared/modules/tasks/model/task-form/tasks-form.schema.ts';
 import {
     taskPriorityOptions,
     taskStatusOptions,
-} from '@/pages/tasks-page/model/task-form/tasks-form.constants';
-import { TagsSelector } from '@/shared/components/tags-selector';
-import { SelectInput } from '@/shared/components/select/select-input';
+} from '@/shared/modules/tasks/model/task-form/tasks-form.constants.ts';
+import { TagsSelector } from '@/shared/components/tags-selector.tsx';
+import { SelectInput } from '@/shared/components/select/select-input.tsx';
 import {
     taskPrioritySelectConfig,
     taskStatusSelectConfig,
-} from '@/pages/tasks-page/model/task-form/tasks-form.configs';
-import { buildTaskFormDefaultValues } from '@/pages/tasks-page/helpers/buildTaskFormDefaultValues';
+} from '@/shared/modules/tasks/model/task-form/tasks-form.configs.ts';
+import { buildTaskFormDefaultValues } from '@/shared/modules/tasks/helpers/buildTaskFormDefaultValues.ts';
 
 interface TaskFormProps {
     mode: 'create' | 'edit';

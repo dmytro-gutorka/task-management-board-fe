@@ -1,10 +1,10 @@
-import { TasksGridView } from '@/pages/tasks-page/ui/task-card/tasks-grid-view';
-import { TasksListView } from '@/pages/tasks-page/ui/task-card/tasks-list-view';
-import { getFilteredAndSortedTasks } from '@/pages/tasks-page/helpers/getFilteredAndSortedTasks';
-import { mockTasks } from '@/pages/tasks-page/model/task-card/task-card.data';
-import { useTasksQueryState } from '@/pages/tasks-page/hooks/useTasksQueryState';
-import { TaskPageHeader } from '@/pages/tasks-page/ui/task-page-header';
 import { useMemo } from 'react';
+import { mockTasks } from '../../../shared/modules/tasks/model/task-card/task-card.data.ts';
+import { getFilteredAndSortedTasks } from '../helpers/getFilteredAndSortedTasks.ts';
+import { useTasksQueryState } from '../hooks/useTasksQueryState.ts';
+import { TasksGridView } from './task-card/tasks-grid-view.tsx';
+import { TasksListView } from './task-card/tasks-list-view.tsx';
+import { TaskPageHeader } from './task-page-header.tsx';
 
 export function TasksPage() {
     const {

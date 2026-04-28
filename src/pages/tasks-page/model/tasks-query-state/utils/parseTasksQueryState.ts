@@ -1,11 +1,11 @@
-import type { TasksQueryState } from '@/pages/tasks-page/model/tasks-query-state/tasks-query-state.types';
-import { defaultTasksQueryState } from '@/pages/tasks-page/model/tasks-query-state/tasks-query-state.constants';
+import { defaultTasksQueryState } from '../tasks-query-state.constants.ts';
+import type { TasksQueryState } from '../tasks-query-state.types.ts';
 import {
     isTaskPriorityFilter,
     isTaskSortBy,
     isTaskStatusFilter,
     isTaskViewMode,
-} from '@/pages/tasks-page/model/tasks-query-state/utils/typeChekers';
+} from './typeChekers.ts';
 
 export function parseTasksQueryState(searchParams: URLSearchParams): TasksQueryState {
     const viewParam = searchParams.get('view');

@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { TasksPage } from '@/pages/tasks-page/tasks-page';
 import { Layout } from '@/shared/components/layout';
-import { TasksDetailsPage } from '@/pages/tasks-details-page/tasks-details-page';
 import { ROUTES } from '@/app/routes/routes.constants';
+import { TasksPage } from '@/pages/tasks-page';
+import { TasksDetailsPage } from '@/pages/tasks-details-page';
 
 export const router = createBrowserRouter([
     {

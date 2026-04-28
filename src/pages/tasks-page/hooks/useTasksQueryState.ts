@@ -1,18 +1,18 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { tasksQueryParam } from '@/pages/tasks-page/model/tasks-query-state/tasks-query-state.constants';
-import {
-    type TasksQueryParam,
-    type TasksQueryState,
-} from '@/pages/tasks-page/model/tasks-query-state/tasks-query-state.types';
 import type {
     TaskPriorityFilter,
     TaskSortBy,
     TaskStatusFilter,
     TaskViewMode,
-} from '@/pages/tasks-page/model/task-filters/tasks-filter.types';
-import { parseTasksQueryState } from '@/pages/tasks-page/model/tasks-query-state/utils/parseTasksQueryState';
-import { updateTasksQueryParam } from '@/pages/tasks-page/model/tasks-query-state/utils/updateTasksQueryParam';
+} from '../model/task-filters/tasks-filter.types.ts';
+import { tasksQueryParam } from '../model/tasks-query-state/tasks-query-state.constants.ts';
+import type {
+    TasksQueryParam,
+    TasksQueryState,
+} from '../model/tasks-query-state/tasks-query-state.types.ts';
+import { parseTasksQueryState } from '../model/tasks-query-state/utils/parseTasksQueryState.ts';
+import { updateTasksQueryParam } from '../model/tasks-query-state/utils/updateTasksQueryParam.ts';
 
 export function useTasksQueryState() {
     const [searchParams, setSearchParams] = useSearchParams();

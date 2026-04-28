@@ -1,5 +1,5 @@
-import type { Task } from './task-card.types';
-import { TASK_PRIORITY, TASK_STATUS } from '../task.constants';
+import type { Task } from './task-card.types.ts';
+import { TASK_STATUS, TASK_PRIORITY } from '@/shared/modules/tasks/model/task/task.constants.ts';
 
 export const mockTasks: Task[] = [
     {

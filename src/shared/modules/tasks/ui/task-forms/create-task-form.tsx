@@ -1,5 +1,5 @@
-import { TaskForm } from '@/pages/tasks-page/ui/task-form';
-import { type TaskFormValues } from '@/pages/tasks-page/model/task-form/tasks-form.types';
+import { TaskForm } from '@/shared/modules/tasks/ui/task-forms/task-form.tsx';
+import { type TaskFormValues } from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
 
 interface CreateTaskFormProps {
     isSubmitting?: boolean;

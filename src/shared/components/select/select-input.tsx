@@ -1,4 +1,4 @@
-import { Controller, type UseFormReturn } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import {
     Select,
     SelectContent,
@@ -12,12 +12,12 @@ import {
     FieldError,
     FieldLabel,
 } from '@/shared/components/shadcn/ui/field';
-
-import type { TaskFormValues } from '@/pages/tasks-page/model/task-form/tasks-form.types';
 import type {
-    SelectConfig,
     SelectOption,
+    SelectConfig,
 } from '@/shared/components/select/model/select-input.types';
+import type { UseFormReturn } from 'react-hook-form';
+import type { TaskFormValues } from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
 
 interface SelectInputProps {
     form: UseFormReturn<TaskFormValues>;
@@ -51,9 +51,9 @@ export function SelectInput({ form, selectOptions, selectConfig }: SelectInputPr
                         </SelectContent>
                     </Select>
 
-                    {selectConfig.description ? (
+                    {selectConfig.description && (
                         <FieldDescription>{selectConfig.description}</FieldDescription>
-                    ) : null}
+                    )}
 
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>

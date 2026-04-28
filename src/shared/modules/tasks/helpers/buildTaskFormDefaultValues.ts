@@ -1,8 +1,8 @@
 import type {
     TaskFormInitialValues,
     TaskFormValues,
-} from '@/pages/tasks-page/model/task-form/tasks-form.types';
-import { taskFormDefaultValues } from '@/pages/tasks-page/model/task-form/tasks-form.data';
+} from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
+import { taskFormDefaultValues } from '@/shared/modules/tasks/model/task-form/tasks-form.data.ts';
 
 export function buildTaskFormDefaultValues(
     initialValues?: Partial<TaskFormInitialValues>,

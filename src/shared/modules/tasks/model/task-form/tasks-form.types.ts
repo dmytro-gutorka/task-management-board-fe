@@ -1,8 +1,8 @@
 import {
     type TaskPriority,
     type TaskStatus,
-} from '@/pages/tasks-page/model/task-card/task-card.types';
-import { taskFormSchema } from '@/pages/tasks-page/model/task-form/tasks-form.schema';
+} from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
+import { taskFormSchema } from '@/shared/modules/tasks/model/task-form/tasks-form.schema.ts';
 import { type z } from 'zod';
 
 export type TaskFormInitialValues = {

@@ -6,6 +6,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/shared/components/shadcn/ui/dropdown-menu';
+import {
+    taskFilterPriorityOptions,
+    taskFilterSortOptions,
+    taskFilterStatusOptions,
+} from '../model/task-filters/tasks-filter.configs.ts';
 import type {
     TaskPriorityFilter,
     TaskSortBy,
@@ -13,11 +18,7 @@ import type {
     TasksFiltersValue,
 } from '../model/task-filters/tasks-filter.types';
 import { DropDownMenuBlock } from '@/shared/components/drop-down-menu-block';
-import {
-    taskFilterPriorityOptions,
-    taskFilterSortOptions,
-    taskFilterStatusOptions,
-} from '@/pages/tasks-page/model/task-filters/tasks-filter.configs';
+
 import { IconTooltip } from '@/shared/components/icon-tooltip';
 
 interface TasksFiltersMenuProps {
