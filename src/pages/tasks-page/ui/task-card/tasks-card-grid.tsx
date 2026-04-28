@@ -37,7 +37,9 @@ export function TaskGridCard({ task, onComplete }: TaskGridCardProps) {
     const priorityBadgeStyles = taskPriorityConfig[task.priority].badgeClassName;
     const priorityBadgeTitle = taskPriorityConfig[task.priority].badgeTitle;
 
-    const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, { taskId: task.id });
+    const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
+        taskId: task.id,
+    });
 
     return (
         <>

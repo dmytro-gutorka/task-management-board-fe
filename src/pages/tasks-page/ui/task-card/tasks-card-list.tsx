@@ -11,7 +11,9 @@ interface TaskListItemProps {
 
 export function TaskListCard({ task }: TaskListItemProps) {
     const TaskStatusIcon = taskStatusConfig[task.status].icon;
-    const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, { taskId: task.id });
+    const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
+        taskId: task.id,
+    });
 
     return (
         <Link
