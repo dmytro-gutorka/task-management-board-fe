@@ -1,16 +1,23 @@
-import { Controller, type UseFormReturn } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
-import { type TaskFormValues } from '@/pages/tasks/TasksPage/model/task-form/tasks-form.types';
+} from '@/shared/components/shadcn/ui/select';
 import {
-    type SelectConfig,
-    type SelectOption,
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldLabel,
+} from '@/shared/components/shadcn/ui/field';
+import type {
+    SelectOption,
+    SelectConfig,
 } from '@/shared/components/select/model/select-input.types';
+import type { UseFormReturn } from 'react-hook-form';
+import type { TaskFormValues } from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
 
 interface SelectInputProps {
     form: UseFormReturn<TaskFormValues>;
@@ -20,21 +27,21 @@ interface SelectInputProps {
 
 export function SelectInput({ form, selectOptions, selectConfig }: SelectInputProps) {
     const { control } = form;
-
     const name = selectConfig.fieldName;
-    const errors = form.formState.errors[name];
 
     return (
-        <div className="space-y-2">
-            <label className="text-sm font-medium">Status</label>
-            <Controller
-                control={control}
-                name={name}
-                render={({ field }) => (
+        <Controller
+            control={control}
+            name={name}
+            render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={`select-${name}`}>{selectConfig.label}</FieldLabel>
+
                     <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger>
+                        <SelectTrigger id={`select-${name}`} aria-invalid={fieldState.invalid}>
                             <SelectValue placeholder={selectConfig.placeholder} />
                         </SelectTrigger>
+
                         <SelectContent>
                             {selectOptions.map((option) => (
                                 <SelectItem key={option.value} value={option.value}>
@@ -43,9 +50,14 @@ export function SelectInput({ form, selectOptions, selectConfig }: SelectInputPr
                             ))}
                         </SelectContent>
                     </Select>
-                )}
-            />
-            {errors ? <p className="text-sm text-destructive">{errors.message}</p> : null}
-        </div>
+
+                    {selectConfig.description && (
+                        <FieldDescription>{selectConfig.description}</FieldDescription>
+                    )}
+
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+            )}
+        />
     );
 }

@@ -73,19 +73,40 @@ export default defineConfig([
             ],
         },
     },
-    // ! Prettier rules
     {
-        files: ['**/*.{ts,tsx}'],
+        files: ['src/**/*.{ts,tsx}'],
         rules: {
-            'prettier/prettier': [
+            'no-restricted-imports': [
                 'error',
                 {
-                    singleQuote: true,
-                    printWidth: 100,
-                    checkIgnorePragma: true,
+                    patterns: [
+                        {
+                            group: ['@/pages/*/**'],
+                            message:
+                                'Inside the pages should be used relative imports, aliases are not allowed. Imports outside of the page are only allowed via public API (index.ts)',
+                        },
+                    ],
                 },
             ],
         },
     },
+    // ! Prettier rules
     eslintPluginPrettierRecommended,
+    {
+        files: ['**/*.{ts,tsx,js,jsx}'],
+        rules: {
+            'prettier/prettier': [
+                'error',
+                {
+                    semi: true,
+                    tabWidth: 4,
+                    printWidth: 100,
+                    singleQuote: true,
+                    arrowParens: 'always',
+                    trailingComma: 'all',
+                    bracketSpacing: true,
+                },
+            ],
+        },
+    },
 ]);

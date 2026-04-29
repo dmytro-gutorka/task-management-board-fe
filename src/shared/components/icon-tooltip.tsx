@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/components/shadcn/ui/tooltip';
 
 interface IconTooltipProps {
     content: string;

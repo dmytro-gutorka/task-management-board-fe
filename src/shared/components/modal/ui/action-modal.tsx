@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/components/shadcn/ui/button';
 import { BaseModal } from './base-modal';
 import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
 
@@ -8,7 +8,7 @@ interface ActionModalProps extends IBaseModal {
     submitLabel?: string;
     cancelLabel?: string;
     isLoading?: boolean;
-    onSubmit: () => void;
+    submitFormId?: string;
 }
 
 export function ActionModal({
@@ -20,7 +20,7 @@ export function ActionModal({
     submitLabel = 'Submit',
     cancelLabel = 'Cancel',
     isLoading = false,
-    onSubmit,
+    submitFormId,
 }: ActionModalProps) {
     return (
         <BaseModal
@@ -37,7 +37,7 @@ export function ActionModal({
                     {cancelLabel}
                 </Button>
 
-                <Button variant="default" onClick={onSubmit} disabled={isLoading}>
+                <Button variant="default" form={submitFormId} disabled={isLoading}>
                     {submitLabel}
                 </Button>
             </div>
