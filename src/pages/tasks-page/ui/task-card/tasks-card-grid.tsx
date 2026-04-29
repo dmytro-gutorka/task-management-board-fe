@@ -23,8 +23,8 @@ import type { Task } from '../../../../shared/modules/tasks/model/task/task.type
 interface TaskGridCardProps {
     task: Task;
     onCompleteTask: (taskId: string) => void;
-    onOpenEditModal: (taskId: string) => void;
-    onOpenDeleteModal: (taskId: string) => void;
+    onOpenEditModal: (task: Task) => void;
+    onOpenDeleteModal: (task: Task) => void;
 }
 
 export function TaskGridCard({
@@ -110,7 +110,7 @@ export function TaskGridCard({
                         variant="outline"
                         size="sm"
                         className="gap-2"
-                        onClick={() => onOpenEditModal(task.id)}
+                        onClick={() => onOpenEditModal(task)}
                     >
                         <Pencil className="h-4 w-4" />
                         Edit
@@ -137,7 +137,7 @@ export function TaskGridCard({
                         variant="destructive"
                         size="sm"
                         className="gap-2"
-                        onClick={() => onOpenDeleteModal(task.id)}
+                        onClick={() => onOpenDeleteModal(task)}
                     >
                         <Trash2 className="h-4 w-4" />
                         Delete

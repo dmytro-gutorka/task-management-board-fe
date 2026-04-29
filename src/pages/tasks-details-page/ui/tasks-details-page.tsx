@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../app/routes/routes.constants.ts';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
-import { mapTaskTiInitialValues } from '../../../shared/modules/tasks/helpers/mapTaskTiInitialValues.ts';
 import type { TaskFormValues } from '../../../shared/modules/tasks/model/task-form/tasks-form.types.ts';
 import { getTaskById, updateTask } from '../../../shared/modules/tasks/model/task/task.api.ts';
 import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
@@ -19,8 +18,6 @@ export function TasksDetailsPage() {
     const [task, setTask] = useState<Nullable<Task>>(getTaskById(taskId));
 
     if (!task) return null; // will be handled later, when backend will be ready
-
-    const formInitialValues = mapTaskTiInitialValues(task);
 
     function handleBackToTasks() {
         void navigate(ROUTES.TASKS_PAGE);
@@ -40,7 +37,7 @@ export function TasksDetailsPage() {
                 <TasksDetailsCard task={task} />
             </div>
             <EditTaskModal
-                initialValues={formInitialValues}
+                initialValues={task}
                 onSubmit={handleSubmit}
                 isOpen={open}
                 setOpen={setOpen}

@@ -34,7 +34,6 @@ import { TaskPageHeader } from './common/task-page-header.tsx';
 
 export function TasksPage() {
     const [tasks, setTasks] = useState<Task[]>(getTasks());
-    const [taskId, setTaskId] = useState<Nullable<string>>(null);
     const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
 
     const deleteModal = useModalState();
@@ -58,18 +57,6 @@ export function TasksPage() {
 
         setTasks((prevTasks) => [...prevTasks, tasks]);
         createModal.closeModal();
-    }
-
-    function handleSubmitEditForm(values: TaskFormValues) {
-        if (!taskId) return;
-
-        const updatedTask = updateTask(taskId, values);
-
-        setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? updatedTask : task)));
-
-        setSelectedTask(null);
-        setTaskId(null);
-        editModal.closeModal();
     }
 
     function handleCompleteTask(taskId: string) {
@@ -97,30 +84,38 @@ export function TasksPage() {
         updateParams({ ...filter, sortBy: sortBy });
     }
 
-    function handleOpenEditModal(taskId: string) {
-        setTaskId(taskId);
-
-        const task = getTaskById(taskId);
-
+    function handleOpenEditModal(task: Task) {
         setSelectedTask(task);
+
         editModal.openModal();
     }
 
-    function handleOpenDeleteModal(taskId: string) {
-        setTaskId(taskId);
+    function handleSubmitEditForm(values: TaskFormValues) {
+        if (!selectedTask) return;
 
+        const updatedTask = updateTask(selectedTask.id, values);
+
+        setTasks((prevTasks) =>
+            prevTasks.map((task) => (task.id === selectedTask.id ? updatedTask : task)),
+        );
+
+        setSelectedTask(null);
+        editModal.closeModal();
+    }
+
+    function handleOpenDeleteModal(task: Task) {
+        setSelectedTask(task);
         deleteModal.openModal();
     }
 
     function handleDeleteTask() {
-        if (!taskId) return;
+        if (!selectedTask) return;
 
-        deleteTask(taskId);
+        deleteTask(selectedTask.id);
 
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
+
         setSelectedTask(null);
-        setTaskId(null);
-
         deleteModal.closeModal();
     }
 

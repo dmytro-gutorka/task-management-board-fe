@@ -10,10 +10,7 @@ import {
     FieldGroup,
     FieldLabel,
 } from '@/shared/components/shadcn/ui/field.tsx';
-import {
-    type TaskFormInitialValues,
-    type TaskFormValues,
-} from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
+import { type TaskFormValues } from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
 import { taskFormSchema } from '@/shared/modules/tasks/model/task-form/tasks-form.schema.ts';
 import {
     taskPriorityOptions,
@@ -28,7 +25,7 @@ import {
 import { buildTaskFormDefaultValues } from '@/shared/modules/tasks/helpers/buildTaskFormDefaultValues.ts';
 
 interface TaskFormProps {
-    initialValues?: Partial<TaskFormInitialValues>;
+    initialValues: TaskFormValues;
     onSubmit: (values: TaskFormValues) => void | Promise<void>;
     formId: string;
 }
