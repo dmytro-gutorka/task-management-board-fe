@@ -1,22 +1,17 @@
-import { useTranslation } from 'react-i18next';
 import { ActionModal } from '@/shared/components/modal/ui/action-modal.tsx';
 import { Separator } from '@/shared/components/shadcn/ui/separator.tsx';
-import { mapTaskTiInitialValues } from '../../helpers/mapTaskTiInitialValues.ts';
 import type { TaskFormValues } from '../../model/task-form/tasks-form.types.ts';
-import type { Task } from '../../model/task/task.types.ts';
 
 import { TaskForm } from '../task-forms/task-form.tsx';
 
 interface EditTaskModalProps {
-    initialValues: Task;
+    initialValues: TaskFormValues;
     isOpen: boolean;
     setOpen: (open: boolean) => void;
     onSubmit: (values: TaskFormValues) => void;
 }
 
 export function EditTaskModal({ initialValues, isOpen, setOpen, onSubmit }: EditTaskModalProps) {
-    const { t } = useTranslation(['common', 'tasks']);
-    const formInitialValues = mapTaskTiInitialValues(initialValues);
     const formId = 'edit-task-form';
 
     return (
@@ -24,14 +19,14 @@ export function EditTaskModal({ initialValues, isOpen, setOpen, onSubmit }: Edit
             <ActionModal
                 open={isOpen}
                 onOpenChange={setOpen}
-                title={t('editTask', { ns: 'tasks' })}
-                description={t('fillFields', { ns: 'tasks' })}
-                submitLabel={t('edit', { ns: 'tasks' })}
+                title="Edit task"
+                description="Fill in the fields below."
+                submitLabel="Edit"
                 submitFormId={formId}
             >
                 <Separator />
 
-                <TaskForm formId={formId} initialValues={formInitialValues} onSubmit={onSubmit} />
+                <TaskForm formId={formId} initialValues={initialValues} onSubmit={onSubmit} />
             </ActionModal>
         </>
     );

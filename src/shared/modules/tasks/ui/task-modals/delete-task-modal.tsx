@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { ConfirmationModal } from '@/shared/components/modal/ui/confirmation-modal.tsx';
 
 interface DeleteTaskModalProps {
@@ -8,18 +7,15 @@ interface DeleteTaskModalProps {
 }
 
 export function DeleteTaskModal({ isOpen, onDelete, setOpen }: DeleteTaskModalProps) {
-    const { t } = useTranslation(['common', 'tasks']);
-
     return (
         <>
             <ConfirmationModal
                 open={isOpen}
                 onOpenChange={setOpen}
-                title={t('deleteTask', { ns: 'tasks' })}
-                description={t('deleteConfirmation', { ns: 'tasks' })}
-                confirmLabel={t('delete', { ns: 'common' })}
+                title="Delete task"
+                description="Are you sure you want to delete this task? This action cannot be undone."
+                confirmLabel="Delete"
                 confirmVariant="destructive"
-                cancelLabel={t('cancel', { ns: 'common' })}
                 onConfirm={onDelete}
             />
         </>

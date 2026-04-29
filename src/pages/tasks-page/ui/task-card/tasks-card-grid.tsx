@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { generatePath, Link } from 'react-router-dom';
 import { Calendar, Check, Lock, Info, Circle, Flag, Pencil, Trash2 } from 'lucide-react';
 import {
@@ -13,8 +12,8 @@ import { Badge } from '@/shared/components/shadcn/ui/badge';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { Avatar } from '@/shared/components/shadcn/ui/avatar';
 import {
-    getTaskPriorityConfig,
-    getTaskStatusConfig,
+    taskPriorityConfig,
+    taskStatusConfig,
 } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
 import { formatDeadline } from '@/shared/modules/tasks/helpers/formatDeadline.ts';
 import { BadgeList } from '@/shared/components/badge-list';
@@ -24,8 +23,8 @@ import type { Task } from '../../../../shared/modules/tasks/model/task/task.type
 interface TaskGridCardProps {
     task: Task;
     onCompleteTask: (taskId: string) => void;
-    onOpenEditModal: (task: Task) => void;
-    onOpenDeleteModal: (task: Task) => void;
+    onOpenEditModal: (taskId: string) => void;
+    onOpenDeleteModal: (taskId: string) => void;
 }
 
 export function TaskGridCard({
@@ -34,20 +33,15 @@ export function TaskGridCard({
     onOpenEditModal,
     onOpenDeleteModal,
 }: TaskGridCardProps) {
-    const { t } = useTranslation(['common', 'tasks']);
+    const statusBadgeStyles = taskStatusConfig[task.status].badgeClassName;
+    const statusBadgeTitle = taskStatusConfig[task.status].badgeTitle;
 
-    const statusConfig = getTaskStatusConfig(t)[task.status];
-    const priorityConfig = getTaskPriorityConfig(t)[task.priority];
+    const priorityBadgeStyles = taskPriorityConfig[task.priority].badgeClassName;
+    const priorityBadgeTitle = taskPriorityConfig[task.priority].badgeTitle;
 
     const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
         taskId: task.id,
     });
-
-    const taskAssignee = task.assigneeName.length
-        ? task.assigneeName
-        : t('defaults.noAssignee', { ns: 'tasks' });
-
-    const taskDeadline = formatDeadline(task.deadline) ?? t('defaults.noDeadline', { ns: 'tasks' });
 
     return (
         <>
@@ -75,21 +69,21 @@ export function TaskGridCard({
 
                 <CardContent className="flex flex-1 flex-col gap-4">
                     <div className="flex flex-wrap gap-2">
-                        <Badge className={`gap-1 ${statusConfig.badgeClassName}`}>
+                        <Badge className={`gap-1 ${statusBadgeStyles}`}>
                             <Circle className="h-3 w-3 fill-current" />
-                            {statusConfig.badgeTitle}
+                            {statusBadgeTitle}
                         </Badge>
 
-                        <Badge className={`gap-1 ${priorityConfig.badgeClassName}`}>
+                        <Badge className={`gap-1 ${priorityBadgeStyles}`}>
                             <Flag className="h-3.5 w-3.5" />
-                            {priorityConfig.badgeTitle}
+                            {priorityBadgeTitle}
                         </Badge>
                     </div>
 
                     <div className="space-y-3 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 shrink-0" />
-                            <span>{taskDeadline}</span>
+                            <span>{formatDeadline(task.deadline)}</span>
                         </div>
                         <BadgeList badges={task.tags} variant="secondary" />
                     </div>
@@ -103,8 +97,10 @@ export function TaskGridCard({
                         </Avatar>
 
                         <div className="min-w-0">
-                            <p className="truncate text-sm font-medium">{taskAssignee}</p>
-                            <p className="text-xs text-muted-foreground"></p>
+                            <p className="truncate text-sm font-medium">
+                                {task.assigneeName ?? 'Unassigned'}
+                            </p>
+                            <p className="text-xs text-muted-foreground">Assignee</p>
                         </div>
                     </div>
                 </CardContent>
@@ -114,16 +110,16 @@ export function TaskGridCard({
                         variant="outline"
                         size="sm"
                         className="gap-2"
-                        onClick={() => onOpenEditModal(task)}
+                        onClick={() => onOpenEditModal(task.id)}
                     >
                         <Pencil className="h-4 w-4" />
-                        {t('edit')}
+                        Edit
                     </Button>
 
                     <Button asChild variant="outline" size="sm" className="gap-2">
                         <Link to={taskDetailsPagePath}>
                             <Info className="h-4 w-4" />
-                            {t('details')}
+                            Details
                         </Link>
                     </Button>
                     <Button
@@ -134,17 +130,17 @@ export function TaskGridCard({
                         disabled={task.status === 'done'}
                     >
                         <Check className="h-4 w-4" />
-                        {t('complete')}
+                        Complete
                     </Button>
 
                     <Button
                         variant="destructive"
                         size="sm"
                         className="gap-2"
-                        onClick={() => onOpenDeleteModal(task)}
+                        onClick={() => onOpenDeleteModal(task.id)}
                     >
                         <Trash2 className="h-4 w-4" />
-                        {t('delete')}
+                        Delete
                     </Button>
                 </CardFooter>
             </Card>
