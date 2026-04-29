@@ -1,4 +1,4 @@
-import { type Task } from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
+import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
 import type { TasksFiltersValue } from '../model/task-filters/tasks-filter.types.ts';
 
 export function filterTasks(

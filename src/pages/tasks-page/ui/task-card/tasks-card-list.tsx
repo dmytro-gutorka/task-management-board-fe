@@ -1,8 +1,8 @@
 import { cn } from '@/shared/lib/utils';
-import { type Task } from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
 import { taskStatusConfig } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
 import { generatePath, Link } from 'react-router-dom';
 import { ROUTES } from '@/app/routes/routes.constants';
+import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TaskListItemProps {
     task: Task;

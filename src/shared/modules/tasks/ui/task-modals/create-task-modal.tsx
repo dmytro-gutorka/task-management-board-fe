@@ -1,17 +1,25 @@
 import { ActionModal } from '@/shared/components/modal/ui/action-modal.tsx';
-import { CreateTaskForm } from '@/shared/modules/tasks/ui/task-forms/create-task-form.tsx';
 import { Button } from '@/shared/components/shadcn/ui/button.tsx';
 import { IconTooltip } from '@/shared/components/icon-tooltip.tsx';
 import { Separator } from '@/shared/components/shadcn/ui/separator.tsx';
 import { useModalState } from '@/shared/components/modal/model/hooks/useStateModal.ts';
-import { logger } from '@/shared/lib/logger.ts';
 import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../../../app/routes/routes.constants.ts';
+import type { TaskFormValues } from '../../model/task-form/tasks-form.types.ts';
+import { createTask } from '../../model/task/task.api.ts';
+import { TaskForm } from '../task-forms/task-form.tsx';
 
 export function CreateTaskModal() {
-    const { openModal, setOpen, open } = useModalState();
+    const { openModal, closeModal, setOpen, open } = useModalState();
 
-    function handleSubmit() {
-        logger.log('create task form');
+    const navigate = useNavigate();
+
+    function handleSubmit(values: TaskFormValues) {
+        createTask(values);
+        closeModal();
+
+        void navigate(ROUTES.TASKS_PAGE);
     }
 
     return (
@@ -34,10 +42,11 @@ export function CreateTaskModal() {
                 title="Create task"
                 description="Fill in the fields below."
                 submitLabel="Create"
-                onSubmit={handleSubmit}
+                submitFormId="task-form"
             >
                 <Separator />
-                <CreateTaskForm onSubmit={handleSubmit} />
+
+                <TaskForm mode="create" submitLabel="Create task" onSubmit={handleSubmit} />
             </ActionModal>
         </>
     );

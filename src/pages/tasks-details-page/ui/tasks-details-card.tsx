@@ -8,8 +8,8 @@ import {
     taskPriorityConfig,
     taskStatusConfig,
 } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
-import type { Task } from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
 import { BadgeList } from '@/shared/components/badge-list.tsx';
+import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TasksDetailsCardProps {
     task: Task;
@@ -75,13 +75,13 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                             <Avatar className="h-10 w-10">
                                 <AvatarImage src={undefined} />
                                 <AvatarFallback>
-                                    {getAvatarFallback(task.assignee?.name)}
+                                    {getAvatarFallback(task.assigneeName)}
                                 </AvatarFallback>
                             </Avatar>
 
                             <div>
                                 <p className="text-sm font-medium">
-                                    {task.assignee?.name || 'Unassigned'}
+                                    {task.assigneeName || 'Unassigned'}
                                 </p>
                                 <p className="text-xs text-muted-foreground">Task owner</p>
                             </div>
