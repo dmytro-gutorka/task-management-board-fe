@@ -1,5 +1,5 @@
-import { generatePath, Link, useNavigate } from 'react-router-dom';
-import { Calendar, Check, Lock, Info, Circle, Flag } from 'lucide-react';
+import { generatePath, Link } from 'react-router-dom';
+import { Calendar, Check, Lock, Info, Circle, Flag, Pencil, Trash2 } from 'lucide-react';
 import {
     Card,
     CardContent,
@@ -17,19 +17,22 @@ import {
 } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
 import { formatDeadline } from '@/shared/modules/tasks/helpers/formatDeadline.ts';
 import { BadgeList } from '@/shared/components/badge-list';
-import { DeleteTaskModal } from '@/shared/modules/tasks/ui/task-modals/delete-task-modal';
-import { EditTaskModal } from '@/shared/modules/tasks/ui/task-modals/edit-task-modal';
 import { ROUTES } from '@/app/routes/routes.constants';
-import { completeTask } from '../../../../shared/modules/tasks/model/task/task.api.ts';
 import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TaskGridCardProps {
     task: Task;
-    onComplete?: (taskId: string) => void;
-    onDelete?: (taskId: string) => void;
+    onCompleteTask: (taskId: string) => void;
+    onOpenEditModal: (taskId: string) => void;
+    onOpenDeleteModal: (taskId: string) => void;
 }
 
-export function TaskGridCard({ task }: TaskGridCardProps) {
+export function TaskGridCard({
+    task,
+    onCompleteTask,
+    onOpenEditModal,
+    onOpenDeleteModal,
+}: TaskGridCardProps) {
     const statusBadgeStyles = taskStatusConfig[task.status].badgeClassName;
     const statusBadgeTitle = taskStatusConfig[task.status].badgeTitle;
 
@@ -39,8 +42,6 @@ export function TaskGridCard({ task }: TaskGridCardProps) {
     const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
         taskId: task.id,
     });
-
-    const navigate = useNavigate();
 
     return (
         <>
@@ -105,7 +106,16 @@ export function TaskGridCard({ task }: TaskGridCardProps) {
                 </CardContent>
 
                 <CardFooter className="grid grid-cols-2 gap-2 border-t pt-4">
-                    <EditTaskModal currentTask={task} taskId={task.id} />
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => onOpenEditModal(task.id)}
+                    >
+                        <Pencil className="h-4 w-4" />
+                        Edit
+                    </Button>
+
                     <Button asChild variant="outline" size="sm" className="gap-2">
                         <Link to={taskDetailsPagePath}>
                             <Info className="h-4 w-4" />
@@ -116,16 +126,22 @@ export function TaskGridCard({ task }: TaskGridCardProps) {
                         variant="secondary"
                         size="sm"
                         className="gap-2"
-                        onClick={() => {
-                            completeTask(task.id);
-                            void navigate(ROUTES.TASKS_PAGE);
-                        }}
+                        onClick={() => onCompleteTask(task.id)}
                         disabled={task.status === 'done'}
                     >
                         <Check className="h-4 w-4" />
                         Complete
                     </Button>
-                    <DeleteTaskModal taskId={task.id} />
+
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => onOpenDeleteModal(task.id)}
+                    >
+                        <Trash2 className="h-4 w-4" />
+                        Delete
+                    </Button>
                 </CardFooter>
             </Card>
         </>

@@ -1,3 +1,4 @@
+import type { Nullable } from '../../../../types/common.ts';
 import { readFromLocalStorage } from '../../../local-storage/helpers/readFromLocalStorage.ts';
 import { writeToLocalStorage } from '../../../local-storage/helpers/writeToLocalStorage.ts';
 import { LOCAL_STORAGE_KEYS } from '../../../local-storage/model/local-storage.constants.ts';
@@ -7,10 +8,10 @@ export function getTasks(): Task[] {
     return readFromLocalStorage<Task[]>(LOCAL_STORAGE_KEYS.TASKS);
 }
 
-export function getTaskById(taskId: string): Task | undefined {
+export function getTaskById(taskId: string | null): Nullable<Task> {
     const tasks = getTasks();
 
-    return tasks.find((task) => task.id === taskId);
+    return tasks.find((task) => task.id === taskId) ?? null;
 }
 
 export function createTask(payload: CreateTaskPayload): Task {
@@ -56,7 +57,7 @@ export function completeTask(taskId: string): Task {
     });
 }
 
-export function deleteTask(taskId: string): void {
+export function deleteTask(taskId: Nullable<string>): void {
     const tasks = getTasks();
 
     const updatedTasks = tasks.filter((task) => task.id !== taskId);

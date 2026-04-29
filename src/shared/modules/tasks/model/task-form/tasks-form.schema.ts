@@ -26,5 +26,5 @@ export const taskFormSchema = z.object({
     deadline: dateStringSchema,
     assigneeName: z.string().trim().max(120, 'Assignee name must be at most 120 characters'),
     isPrivate: z.boolean(),
-    tags: z.array(z.string().trim().min(1).max(20)).max(5, 'Max 10 tags'),
+    tags: z.array(z.string().trim().min(1).max(20)).max(5, 'Max 5 tags'),
 });

@@ -1,12 +1,46 @@
-import { useMemo } from 'react';
-import { getTasks } from '../../../shared/modules/tasks/model/task/task.api.ts';
+import { useMemo, useState } from 'react';
+import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
+import type { TaskFormValues } from '../../../shared/modules/tasks/model/task-form/tasks-form.types.ts';
+import {
+    completeTask,
+    createTask,
+    deleteTask,
+    getTaskById,
+    getTasks,
+    updateTask,
+} from '../../../shared/modules/tasks/model/task/task.api.ts';
+import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
+import { CreateTaskModal } from '../../../shared/modules/tasks/ui/task-modals/create-task-modal.tsx';
+import { DeleteTaskModal } from '../../../shared/modules/tasks/ui/task-modals/delete-task-modal.tsx';
+import { EditTaskModal } from '../../../shared/modules/tasks/ui/task-modals/edit-task-modal.tsx';
+import type { Nullable } from '../../../shared/types/common.ts';
 import { getFilteredAndSortedTasks } from '../helpers/getFilteredAndSortedTasks.ts';
 import { useTasksQueryState } from '../hooks/useTasksQueryState.ts';
+import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
+import type {
+    TaskPriorityFilter,
+    TaskSortBy,
+    TaskStatusFilter,
+    TaskViewMode,
+} from '../model/task-filters/tasks-filter.types.ts';
 import { TasksGridView } from './task-card/tasks-grid-view.tsx';
 import { TasksListView } from './task-card/tasks-list-view.tsx';
-import { TaskPageHeader } from './task-page-header.tsx';
+import { TaskPageHeader } from './common/task-page-header.tsx';
+
+// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
+// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
+// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
+// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
 
 export function TasksPage() {
+    const [tasks, setTasks] = useState<Task[]>(getTasks());
+    const [taskId, setTaskId] = useState<Nullable<string>>(null);
+    const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
+
+    const deleteModal = useModalState();
+    const createModal = useModalState();
+    const editModal = useModalState();
+
     const {
         state: { view, status, search, sortBy, priority },
         setSearch,
@@ -14,28 +48,125 @@ export function TasksPage() {
         updateParams,
     } = useTasksQueryState();
 
-    const tasks = getTasks();
-
     const filter = { status, sortBy, priority };
     const filteredTasks = useMemo(() => {
         return getFilteredAndSortedTasks(tasks ?? [], { status, sortBy, priority }, search);
     }, [tasks, status, sortBy, priority, search]);
 
+    function handleSubmitCreateForm(values: TaskFormValues) {
+        const tasks = createTask(values);
+
+        setTasks((prevTasks) => [...prevTasks, tasks]);
+        createModal.closeModal();
+    }
+
+    function handleSubmitEditForm(values: TaskFormValues) {
+        if (!taskId) return;
+
+        const updatedTask = updateTask(taskId, values);
+
+        setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? updatedTask : task)));
+
+        setSelectedTask(null);
+        setTaskId(null);
+        editModal.closeModal();
+    }
+
+    function handleCompleteTask(taskId: string) {
+        completeTask(taskId);
+
+        const updatedTask = getTaskById(taskId);
+        if (!updatedTask) return;
+
+        setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? updatedTask : task)));
+    }
+
+    function handleTaskViewChange(value: TaskViewMode) {
+        if (value === TASK_VIEW_MODE.LIST || value === TASK_VIEW_MODE.GRID) setView(value);
+    }
+
+    function handleStatusChange(status: TaskStatusFilter) {
+        updateParams({ ...filter, status: status });
+    }
+
+    function handlePriorityChange(priority: TaskPriorityFilter) {
+        updateParams({ ...filter, priority: priority });
+    }
+
+    function handleSortByChange(sortBy: TaskSortBy) {
+        updateParams({ ...filter, sortBy: sortBy });
+    }
+
+    function handleOpenEditModal(taskId: string) {
+        setTaskId(taskId);
+
+        const task = getTaskById(taskId);
+
+        setSelectedTask(task);
+        editModal.openModal();
+    }
+
+    function handleOpenDeleteModal(taskId: string) {
+        setTaskId(taskId);
+
+        deleteModal.openModal();
+    }
+
+    function handleDeleteTask() {
+        if (!taskId) return;
+
+        deleteTask(taskId);
+
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+        setSelectedTask(null);
+        setTaskId(null);
+
+        deleteModal.closeModal();
+    }
+
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
             <TaskPageHeader
+                tasksCount={tasks.length}
+                onStatusChange={handleStatusChange}
+                onPriorityChange={handlePriorityChange}
+                onSortByChange={handleSortByChange}
+                onTaskViewChange={handleTaskViewChange}
+                openCreateModal={createModal.openModal}
+                openEditModal={editModal.openModal}
                 taskViewMode={view}
                 searchValue={search}
                 filters={filter}
-                onTaskViewModeChange={setView}
                 setSearchValue={setSearch}
-                onFiltersChange={updateParams}
             />
             {view === 'grid' ? (
-                <TasksGridView tasks={filteredTasks} />
+                <TasksGridView
+                    tasks={filteredTasks}
+                    onCompleteTask={handleCompleteTask}
+                    onOpenEditModal={handleOpenEditModal}
+                    onOpenDeleteModal={handleOpenDeleteModal}
+                />
             ) : (
                 <TasksListView tasks={filteredTasks} />
             )}
+            <CreateTaskModal
+                onSubmit={handleSubmitCreateForm}
+                setOpen={createModal.setOpen}
+                isOpen={createModal.open}
+            />
+            {selectedTask && (
+                <EditTaskModal
+                    onSubmit={handleSubmitEditForm}
+                    initialValues={selectedTask}
+                    isOpen={editModal.open}
+                    setOpen={editModal.setOpen}
+                />
+            )}
+            <DeleteTaskModal
+                onDelete={handleDeleteTask}
+                setOpen={deleteModal.setOpen}
+                isOpen={deleteModal.open}
+            />
         </div>
     );
 }

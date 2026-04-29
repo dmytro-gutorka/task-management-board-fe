@@ -28,15 +28,12 @@ import {
 import { buildTaskFormDefaultValues } from '@/shared/modules/tasks/helpers/buildTaskFormDefaultValues.ts';
 
 interface TaskFormProps {
-    mode: 'create' | 'edit';
     initialValues?: Partial<TaskFormInitialValues>;
-    isSubmitting?: boolean;
-    submitLabel?: string;
     onSubmit: (values: TaskFormValues) => void | Promise<void>;
-    onCancel?: () => void;
+    formId: string;
 }
 
-export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
+export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
     const form = useForm<TaskFormValues>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: buildTaskFormDefaultValues(initialValues),
@@ -45,7 +42,7 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
 
     return (
         <form
-            id="task-form"
+            id={formId}
             onSubmit={(event) => {
                 void form.handleSubmit(onSubmit)(event);
             }}
@@ -63,6 +60,7 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                                 id="task-form-title"
                                 placeholder="Enter task title"
                                 aria-invalid={fieldState.invalid}
+                                aria-label="type"
                             />
                             <FieldDescription>Short and clear task title.</FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -81,6 +79,7 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                                 placeholder="Describe the task"
                                 rows={5}
                                 aria-invalid={fieldState.invalid}
+                                aria-label="type"
                             />
                             <FieldDescription>
                                 Add useful context for the assignee.
@@ -116,6 +115,7 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                                     id="task-form-deadline"
                                     type="date"
                                     aria-invalid={fieldState.invalid}
+                                    aria-label="type"
                                 />
                                 <FieldDescription>
                                     Leave empty if there is no deadline.
@@ -136,6 +136,7 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                                     id="task-form-assignee"
                                     placeholder="Assignee name"
                                     aria-invalid={fieldState.invalid}
+                                    aria-label="type"
                                 />
                                 <FieldDescription>Optional task owner.</FieldDescription>
                                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

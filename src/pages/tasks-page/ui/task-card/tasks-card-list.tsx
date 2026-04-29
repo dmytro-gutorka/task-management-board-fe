@@ -6,7 +6,6 @@ import type { Task } from '../../../../shared/modules/tasks/model/task/task.type
 
 interface TaskListItemProps {
     task: Task;
-    onClick?: (task: Task) => void;
 }
 
 export function TaskListCard({ task }: TaskListItemProps) {

@@ -1,29 +1,27 @@
 import { LayoutGrid, List } from 'lucide-react';
-import { ToggleGroup, ToggleGroupItem } from '@/shared/components/shadcn/ui/toggle-group';
-import { cn } from '@/shared/lib/utils';
-import { IconTooltip } from '@/shared/components/icon-tooltip';
-import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
-import type { TaskViewMode } from '../model/task-filters/tasks-filter.types.ts';
+import {
+    ToggleGroup,
+    ToggleGroupItem,
+} from '../../../../shared/components/shadcn/ui/toggle-group.tsx';
+import { cn } from '../../../../shared/lib/utils.ts';
+import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
+import { TASK_VIEW_MODE } from '../../model/task-filters/tasks-filter.constants.ts';
+import type { TaskViewMode } from '../../model/task-filters/tasks-filter.types.ts';
 
 interface TasksViewSwitcherProps {
     view: TaskViewMode;
-    onViewChange: (view: TaskViewMode) => void;
+    onTaskViewChange: (view: TaskViewMode) => void;
 }
 
 const activeViewStyles = 'bg-background text-foreground shadow-sm border-border';
 const inactiveViewStyles = 'text-muted-foreground hover:text-foreground';
 
-export function TasksViewSwitcher({ view, onViewChange }: TasksViewSwitcherProps) {
-    function onValueChange(value: TaskViewMode) {
-        if (value === TASK_VIEW_MODE.LIST || value === TASK_VIEW_MODE.GRID) {
-            onViewChange(value);
-        }
-    }
+export function TasksViewSwitcher({ view, onTaskViewChange }: TasksViewSwitcherProps) {
     return (
         <ToggleGroup
             type="single"
             value={view}
-            onValueChange={(value: TaskViewMode) => onValueChange(value)}
+            onValueChange={(value: TaskViewMode) => onTaskViewChange(value)}
             className="rounded-lg border bg-muted/40 p-1 ml-4"
         >
             <IconTooltip content="List view">

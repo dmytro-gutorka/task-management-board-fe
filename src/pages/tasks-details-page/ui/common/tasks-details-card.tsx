@@ -1,15 +1,24 @@
 import { Calendar, User, Lock, Flag } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/shadcn/ui/card';
-import { formatDeadline } from '@/shared/modules/tasks/helpers/formatDeadline.ts';
-import { getAvatarFallback } from '@/shared/modules/tasks/helpers/getAvatarFallback.ts';
-import { AvatarFallback, AvatarImage, Avatar } from '@/shared/components/shadcn/ui/avatar';
-import { Badge } from '@/shared/components/shadcn/ui/badge';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '../../../../shared/components/shadcn/ui/card.tsx';
+import { formatDeadline } from '../../../../shared/modules/tasks/helpers/formatDeadline.ts';
+import { getAvatarFallback } from '../../../../shared/modules/tasks/helpers/getAvatarFallback.ts';
+import {
+    AvatarFallback,
+    AvatarImage,
+    Avatar,
+} from '../../../../shared/components/shadcn/ui/avatar.tsx';
+import { Badge } from '../../../../shared/components/shadcn/ui/badge.tsx';
 import {
     taskPriorityConfig,
     taskStatusConfig,
-} from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
-import { BadgeList } from '@/shared/components/badge-list.tsx';
-import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
+} from '../../../../shared/modules/tasks/model/task-card/task-card.configs.ts';
+import { BadgeList } from '../../../../shared/components/badge-list.tsx';
+import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TasksDetailsCardProps {
     task: Task;
