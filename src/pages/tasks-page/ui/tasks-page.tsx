@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { mockTasks } from '../../../shared/modules/tasks/model/task-card/task-card.data.ts';
+import { getTasks } from '../../../shared/modules/tasks/model/task/task.api.ts';
 import { getFilteredAndSortedTasks } from '../helpers/getFilteredAndSortedTasks.ts';
 import { useTasksQueryState } from '../hooks/useTasksQueryState.ts';
 import { TasksGridView } from './task-card/tasks-grid-view.tsx';
@@ -14,10 +14,12 @@ export function TasksPage() {
         updateParams,
     } = useTasksQueryState();
 
+    const tasks = getTasks();
+
     const filter = { status, sortBy, priority };
     const filteredTasks = useMemo(() => {
-        return getFilteredAndSortedTasks(mockTasks, { status, sortBy, priority }, search);
-    }, [status, sortBy, priority, search]);
+        return getFilteredAndSortedTasks(tasks ?? [], { status, sortBy, priority }, search);
+    }, [tasks, status, sortBy, priority, search]);
 
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">

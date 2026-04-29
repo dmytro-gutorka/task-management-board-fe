@@ -1,4 +1,4 @@
-import { generatePath, Link } from 'react-router-dom';
+import { generatePath, Link, useNavigate } from 'react-router-dom';
 import { Calendar, Check, Lock, Info, Circle, Flag } from 'lucide-react';
 import {
     Card,
@@ -10,19 +10,18 @@ import {
 } from '@/shared/components/shadcn/ui/card';
 import { Badge } from '@/shared/components/shadcn/ui/badge';
 import { Button } from '@/shared/components/shadcn/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/shadcn/ui/avatar';
-import { logger } from '@/shared/lib/logger';
-import { type Task } from '@/shared/modules/tasks/model/task-card/task-card.types.ts';
+import { Avatar } from '@/shared/components/shadcn/ui/avatar';
 import {
     taskPriorityConfig,
     taskStatusConfig,
 } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
 import { formatDeadline } from '@/shared/modules/tasks/helpers/formatDeadline.ts';
-import { getAvatarFallback } from '@/shared/modules/tasks/helpers/getAvatarFallback.ts';
 import { BadgeList } from '@/shared/components/badge-list';
 import { DeleteTaskModal } from '@/shared/modules/tasks/ui/task-modals/delete-task-modal';
 import { EditTaskModal } from '@/shared/modules/tasks/ui/task-modals/edit-task-modal';
 import { ROUTES } from '@/app/routes/routes.constants';
+import { completeTask } from '../../../../shared/modules/tasks/model/task/task.api.ts';
+import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TaskGridCardProps {
     task: Task;
@@ -30,7 +29,7 @@ interface TaskGridCardProps {
     onDelete?: (taskId: string) => void;
 }
 
-export function TaskGridCard({ task, onComplete }: TaskGridCardProps) {
+export function TaskGridCard({ task }: TaskGridCardProps) {
     const statusBadgeStyles = taskStatusConfig[task.status].badgeClassName;
     const statusBadgeTitle = taskStatusConfig[task.status].badgeTitle;
 
@@ -40,6 +39,8 @@ export function TaskGridCard({ task, onComplete }: TaskGridCardProps) {
     const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
         taskId: task.id,
     });
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -88,15 +89,15 @@ export function TaskGridCard({ task, onComplete }: TaskGridCardProps) {
 
                     <div className="mt-auto flex items-center gap-3 rounded-xl border p-3">
                         <Avatar className="h-9 w-9">
-                            <AvatarImage src={task.assignee?.avatarUrl ?? undefined} />
-                            <AvatarFallback>
-                                {getAvatarFallback(task.assignee?.name)}
-                            </AvatarFallback>
+                            {/*<AvatarImage src={task.assigneeAvatarUrl ?? undefined} />*/}
+                            {/*<AvatarFallback>*/}
+                            {/*    {getAvatarFallback(task.assigneeAvatarUrl)}*/}
+                            {/*</AvatarFallback>*/}
                         </Avatar>
 
                         <div className="min-w-0">
                             <p className="truncate text-sm font-medium">
-                                {task.assignee?.name ?? 'Unassigned'}
+                                {task.assigneeName ?? 'Unassigned'}
                             </p>
                             <p className="text-xs text-muted-foreground">Assignee</p>
                         </div>
@@ -104,7 +105,7 @@ export function TaskGridCard({ task, onComplete }: TaskGridCardProps) {
                 </CardContent>
 
                 <CardFooter className="grid grid-cols-2 gap-2 border-t pt-4">
-                    <EditTaskModal />
+                    <EditTaskModal currentTask={task} taskId={task.id} />
                     <Button asChild variant="outline" size="sm" className="gap-2">
                         <Link to={taskDetailsPagePath}>
                             <Info className="h-4 w-4" />
@@ -116,15 +117,15 @@ export function TaskGridCard({ task, onComplete }: TaskGridCardProps) {
                         size="sm"
                         className="gap-2"
                         onClick={() => {
-                            onComplete?.(task.id);
-                            logger.log('TODO: confirm complete task', task.id);
+                            completeTask(task.id);
+                            void navigate(ROUTES.TASKS_PAGE);
                         }}
                         disabled={task.status === 'done'}
                     >
                         <Check className="h-4 w-4" />
                         Complete
                     </Button>
-                    <DeleteTaskModal />
+                    <DeleteTaskModal taskId={task.id} />
                 </CardFooter>
             </Card>
         </>

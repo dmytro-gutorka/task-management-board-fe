@@ -1,11 +1,26 @@
-import { logger } from '@/shared/lib/logger.ts';
 import { ConfirmationModal } from '@/shared/components/modal/ui/confirmation-modal.tsx';
 import { Button } from '@/shared/components/shadcn/ui/button.tsx';
 import { Trash2 } from 'lucide-react';
 import { useModalState } from '@/shared/components/modal/model/hooks/useStateModal.ts';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../../../app/routes/routes.constants.ts';
+import { deleteTask } from '../../model/task/task.api.ts';
 
-export function DeleteTaskModal() {
+interface DeleteTaskModalProps {
+    taskId: string;
+}
+
+export function DeleteTaskModal({ taskId }: DeleteTaskModalProps) {
     const { openModal, closeModal, setOpen, open } = useModalState();
+
+    const navigate = useNavigate();
+
+    function handleDelete() {
+        deleteTask(taskId);
+        closeModal();
+
+        void navigate(ROUTES.TASKS_PAGE);
+    }
 
     return (
         <>
@@ -21,10 +36,7 @@ export function DeleteTaskModal() {
                 description="Are you sure you want to delete this task? This action cannot be undone."
                 confirmLabel="Delete"
                 confirmVariant="destructive"
-                onConfirm={() => {
-                    logger.log('TODO: delete task');
-                    closeModal();
-                }}
+                onConfirm={handleDelete}
             />
         </>
     );

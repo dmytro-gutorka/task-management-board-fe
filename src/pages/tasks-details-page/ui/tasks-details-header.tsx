@@ -3,8 +3,13 @@ import { ArrowLeft } from 'lucide-react';
 import { EditTaskModal } from '@/shared/modules/tasks/ui/task-modals/edit-task-modal.tsx';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/routes/routes.constants.ts';
+import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
 
-export function TasksDetailsHeader() {
+interface TasksDetailsHeaderProps {
+    task: Task;
+}
+
+export function TasksDetailsHeader({ task }: TasksDetailsHeaderProps) {
     const navigate = useNavigate();
 
     return (
@@ -13,7 +18,7 @@ export function TasksDetailsHeader() {
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to tasks
             </Button>
-            <EditTaskModal />
+            <EditTaskModal currentTask={task} taskId={task.id} />
         </div>
     );
 }

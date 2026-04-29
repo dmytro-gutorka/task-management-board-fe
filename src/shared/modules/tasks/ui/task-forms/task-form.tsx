@@ -43,12 +43,14 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
         mode: 'onSubmit',
     });
 
-    function handleOnSubmit() {
-        form.handleSubmit(onSubmit);
-    }
-
     return (
-        <form id="task-form" onSubmit={handleOnSubmit}>
+        <form
+            id="task-form"
+            onSubmit={(event) => {
+                void form.handleSubmit(onSubmit)(event);
+            }}
+            className="space-y-8"
+        >
             <FieldGroup>
                 <Controller
                     name="title"
