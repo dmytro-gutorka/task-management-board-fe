@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { Calendar, User, Lock, Flag } from 'lucide-react';
 import {
     Card,
@@ -14,8 +13,11 @@ import {
     Avatar,
 } from '../../../../shared/components/shadcn/ui/avatar.tsx';
 import { Badge } from '../../../../shared/components/shadcn/ui/badge.tsx';
+import {
+    taskPriorityConfig,
+    taskStatusConfig,
+} from '../../../../shared/modules/tasks/model/task-card/task-card.configs.ts';
 import { BadgeList } from '../../../../shared/components/badge-list.tsx';
-import { getTaskStatusConfig } from '../../../../shared/modules/tasks/model/task-card/task-card.configs.ts';
 import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TasksDetailsCardProps {
@@ -23,12 +25,10 @@ interface TasksDetailsCardProps {
 }
 
 export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
-    const { t } = useTranslation(['common', 'tasks']);
+    const status = taskStatusConfig[task.status];
+    const StatusIcon = status.icon;
 
-    const statusConfig = getTaskStatusConfig(t)[task.status];
-    const priorityConfig = getTaskStatusConfig(t)[task.status];
-
-    const StatusIcon = statusConfig.icon;
+    const priority = taskPriorityConfig[task.priority];
 
     return (
         <Card className="rounded-2xl">
@@ -37,18 +37,18 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                     <div className="space-y-3">
                         <CardTitle className="text-2xl leading-tight">{task.title}</CardTitle>
                         <div className="flex flex-wrap gap-2">
-                            <Badge className={`gap-1 ${statusConfig.badgeClassName}`}>
+                            <Badge className={`gap-1 ${status.badgeClassName}`}>
                                 <StatusIcon />
-                                {statusConfig.badgeTitle}
+                                {status.badgeTitle}
                             </Badge>
-                            <Badge className={`gap-1 ${priorityConfig.badgeClassName}`}>
+                            <Badge className={`gap-1 ${priority.badgeClassName}`}>
                                 <Flag className="h-3.5 w-3.5" />
-                                {priorityConfig.badgeTitle}
+                                {priority.badgeTitle}
                             </Badge>
                             {task.isPrivate ? (
                                 <Badge className="gap-1">
                                     <Lock />
-                                    {t('form.private', { ns: 'tasks' })}
+                                    Private
                                 </Badge>
                             ) : null}
                         </div>
@@ -57,9 +57,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
             </CardHeader>
             <CardContent className="space-y-6">
                 <section className="space-y-2">
-                    <h2 className="text-sm font-medium text-muted-foreground">
-                        {t('form.description', { ns: 'tasks' })}
-                    </h2>
+                    <h2 className="text-sm font-medium text-muted-foreground">Description</h2>
                     <p className="whitespace-pre-wrap text-sm leading-7 text-foreground">
                         {task.description}
                     </p>
@@ -69,7 +67,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                     <div className="rounded-xl border p-4">
                         <div className="mb-3 flex items-center gap-2 text-sm font-medium">
                             <Calendar className="h-4 w-4" />
-                            {t('form.deadline', { ns: 'tasks' })}
+                            Deadline
                         </div>
                         <p className="text-sm text-muted-foreground">
                             {formatDeadline(task.deadline)}
@@ -79,7 +77,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                     <div className="rounded-xl border p-4">
                         <div className="mb-3 flex items-center gap-2 text-sm font-medium">
                             <User className="h-4 w-4" />
-                            {t('form.assignee', { ns: 'tasks' })}
+                            Assignee
                         </div>
 
                         <div className="flex items-center gap-3">
@@ -92,11 +90,9 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
 
                             <div>
                                 <p className="text-sm font-medium">
-                                    {task.assigneeName || t('form.unassigned', { ns: 'tasks' })}
+                                    {task.assigneeName || 'Unassigned'}
                                 </p>
-                                <p className="text-xs text-muted-foreground">
-                                    {t('form.taskOwner', { ns: 'tasks' })}
-                                </p>
+                                <p className="text-xs text-muted-foreground">Task owner</p>
                             </div>
                         </div>
                     </div>
@@ -106,9 +102,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                     {task.tags?.length ? (
                         <BadgeList badges={task.tags} variant="default" />
                     ) : (
-                        <p className="text-sm text-muted-foreground">
-                            {t('form.noTags', { ns: 'tasks' })}
-                        </p>
+                        <p className="text-sm text-muted-foreground">No tags</p>
                     )}
                 </section>
             </CardContent>

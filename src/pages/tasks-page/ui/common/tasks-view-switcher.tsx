@@ -1,5 +1,4 @@
 import { LayoutGrid, List } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import {
     ToggleGroup,
     ToggleGroupItem,
@@ -18,8 +17,6 @@ const activeViewStyles = 'bg-background text-foreground shadow-sm border-border'
 const inactiveViewStyles = 'text-muted-foreground hover:text-foreground';
 
 export function TasksViewSwitcher({ view, onTaskViewChange }: TasksViewSwitcherProps) {
-    const { t } = useTranslation('common');
-
     return (
         <ToggleGroup
             type="single"
@@ -27,7 +24,7 @@ export function TasksViewSwitcher({ view, onTaskViewChange }: TasksViewSwitcherP
             onValueChange={(value: TaskViewMode) => onTaskViewChange(value)}
             className="rounded-lg border bg-muted/40 p-1 ml-4"
         >
-            <IconTooltip content={t('view.list')}>
+            <IconTooltip content="List view">
                 <ToggleGroupItem
                     value={TASK_VIEW_MODE.LIST}
                     aria-label="List view"
@@ -39,7 +36,7 @@ export function TasksViewSwitcher({ view, onTaskViewChange }: TasksViewSwitcherP
                     <List className="h-4 w-4" />
                 </ToggleGroupItem>
             </IconTooltip>
-            <IconTooltip content={t('view.grid')}>
+            <IconTooltip content="Grid view">
                 <ToggleGroupItem
                     value={TASK_VIEW_MODE.GRID}
                     aria-label="Grid view"

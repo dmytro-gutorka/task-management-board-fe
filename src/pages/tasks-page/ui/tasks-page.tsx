@@ -34,6 +34,7 @@ import { TaskPageHeader } from './common/task-page-header.tsx';
 
 export function TasksPage() {
     const [tasks, setTasks] = useState<Task[]>(getTasks());
+    const [taskId, setTaskId] = useState<Nullable<string>>(null);
     const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
 
     const deleteModal = useModalState();
@@ -57,6 +58,18 @@ export function TasksPage() {
 
         setTasks((prevTasks) => [...prevTasks, tasks]);
         createModal.closeModal();
+    }
+
+    function handleSubmitEditForm(values: TaskFormValues) {
+        if (!taskId) return;
+
+        const updatedTask = updateTask(taskId, values);
+
+        setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? updatedTask : task)));
+
+        setSelectedTask(null);
+        setTaskId(null);
+        editModal.closeModal();
     }
 
     function handleCompleteTask(taskId: string) {
@@ -84,38 +97,30 @@ export function TasksPage() {
         updateParams({ ...filter, sortBy: sortBy });
     }
 
-    function handleOpenEditModal(task: Task) {
-        setSelectedTask(task);
+    function handleOpenEditModal(taskId: string) {
+        setTaskId(taskId);
 
+        const task = getTaskById(taskId);
+
+        setSelectedTask(task);
         editModal.openModal();
     }
 
-    function handleSubmitEditForm(values: TaskFormValues) {
-        if (!selectedTask) return;
+    function handleOpenDeleteModal(taskId: string) {
+        setTaskId(taskId);
 
-        const updatedTask = updateTask(selectedTask.id, values);
-
-        setTasks((prevTasks) =>
-            prevTasks.map((task) => (task.id === selectedTask.id ? updatedTask : task)),
-        );
-
-        setSelectedTask(null);
-        editModal.closeModal();
-    }
-
-    function handleOpenDeleteModal(task: Task) {
-        setSelectedTask(task);
         deleteModal.openModal();
     }
 
     function handleDeleteTask() {
-        if (!selectedTask) return;
+        if (!taskId) return;
 
-        deleteTask(selectedTask.id);
+        deleteTask(taskId);
 
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
-
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
         setSelectedTask(null);
+        setTaskId(null);
+
         deleteModal.closeModal();
     }
 
@@ -153,8 +158,8 @@ export function TasksPage() {
                 <EditTaskModal
                     onSubmit={handleSubmitEditForm}
                     initialValues={selectedTask}
-                    setOpen={editModal.setOpen}
                     isOpen={editModal.open}
+                    setOpen={editModal.setOpen}
                 />
             )}
             <DeleteTaskModal

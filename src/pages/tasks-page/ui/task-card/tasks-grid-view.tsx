@@ -4,8 +4,8 @@ import { TaskGridCard } from './tasks-card-grid.tsx';
 interface TasksGridViewProps {
     tasks: Task[];
     onCompleteTask: (taskId: string) => void;
-    onOpenEditModal: (task: Task) => void;
-    onOpenDeleteModal: (task: Task) => void;
+    onOpenEditModal: (taskId: string) => void;
+    onOpenDeleteModal: (taskId: string) => void;
 }
 
 export function TasksGridView({
