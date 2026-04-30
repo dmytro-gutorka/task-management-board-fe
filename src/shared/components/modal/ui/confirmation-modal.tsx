@@ -1,5 +1,6 @@
 import { AlertTriangle } from 'lucide-react';
 import { Button } from '@/shared/components/shadcn/ui/button';
+import { useTranslation } from 'react-i18next';
 import { BaseModal } from './base-modal';
 import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
 
@@ -29,6 +30,8 @@ export function ConfirmationModal({
         onOpenChange(false);
     }
 
+    const { t } = useTranslation(['common', 'tasks']);
+
     return (
         <BaseModal
             open={open}
@@ -40,7 +43,7 @@ export function ConfirmationModal({
             <div className="flex items-start gap-3 rounded-lg border bg-muted/30 p-4">
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
                 <p className="text-sm text-muted-foreground">
-                    Please confirm this action before continuing.
+                    {t('form.confirmationAction', { ns: 'tasks' })}
                 </p>
             </div>
 

@@ -1,5 +1,6 @@
 import { useState, type KeyboardEvent } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
 
 import { Input } from '@/shared/components/shadcn/ui/input';
@@ -19,6 +20,7 @@ interface TagsSelectorProps {
 }
 
 export function TagsSelector({ form }: TagsSelectorProps) {
+    const { t } = useTranslation(['common', 'tasks']);
     const [tagInput, setTagInput] = useState('');
 
     const { setValue, watch } = form;
@@ -63,24 +65,24 @@ export function TagsSelector({ form }: TagsSelectorProps) {
 
     return (
         <Field data-invalid={!!tagsError}>
-            <FieldLabel htmlFor="task-form-tag-input">Tags</FieldLabel>
+            <FieldLabel htmlFor="task-form-tag-input">{t('form.tags', { ns: 'tasks' })}</FieldLabel>
 
             <div className="flex gap-2">
                 <Input
                     id="task-form-tag-input"
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
-                    placeholder="Add tag"
+                    placeholder={t('form.tagsPlaceholder', { ns: 'tasks' })}
                     onKeyDown={handleKeyDown}
                     aria-invalid={!!tagsError}
                 />
 
                 <Button type="button" variant="outline" onClick={handleAddTag}>
-                    Add
+                    {t('add')}
                 </Button>
             </div>
 
-            <FieldDescription>Add up to 10 tags to better organize the task.</FieldDescription>
+            <FieldDescription>{t('form.tagsDescription', { ns: 'tasks' })}</FieldDescription>
 
             {tags.length ? (
                 <div className="flex flex-wrap gap-2">

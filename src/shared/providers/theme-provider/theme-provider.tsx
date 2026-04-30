@@ -3,10 +3,7 @@ import type {
     ThemeOptions,
     ThemeProviderState,
 } from '@/shared/providers/theme-provider/theme-provider.types';
-import {
-    initialState,
-    themeOptions,
-} from '@/shared/providers/theme-provider/theme-provider.constants';
+import { initialState, THEMES } from '@/shared/providers/theme-provider/theme-provider.constants';
 import { useApplyTheme } from '@/shared/providers/theme-provider/hooks/useApplyTheme';
 
 export interface ThemeProviderProps {
@@ -19,7 +16,7 @@ export const ThemeProviderContext = createContext<ThemeProviderState>(initialSta
 
 export function ThemeProvider({
     children,
-    defaultTheme = themeOptions.SYSTEM,
+    defaultTheme = THEMES.SYSTEM,
     storageKey = 'task-board-theme',
 }: ThemeProviderProps) {
     const [theme, setThemeState] = useState<ThemeOptions>(getThemeFromStorage());

@@ -1,4 +1,5 @@
-import { type ChangeEvent, type KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { type ChangeEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Search } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/components/shadcn/ui/button';
@@ -8,7 +9,7 @@ import {
     InputGroupInput,
 } from '@/shared/components/shadcn/ui/input-group';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
-import { useDebounce } from '@/shared/hooks/useDebounce';
+import { useSearch } from '../hooks/useSearch.ts';
 
 interface SearchInputProps {
     searchValue: string;
@@ -16,38 +17,27 @@ interface SearchInputProps {
 }
 
 export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [inputValue, setInputValue] = useState(searchValue);
-
-    const inputRef = useRef<HTMLInputElement>(null);
-    const debouncedValue = useDebounce(inputValue, 300);
-
-    useEffect(() => {
-        setSearchChange(debouncedValue);
-    }, [debouncedValue, setSearchChange]);
-
-    function onOpen() {
-        setIsOpen(true);
-        requestAnimationFrame(() => inputRef.current?.focus());
-    }
-
-    function onClose() {
-        if (!inputValue) setIsOpen(false);
-    }
-
-    function onEscapeDown(e: KeyboardEvent<HTMLInputElement>) {
-        if (e.key === 'Escape') {
-            setInputValue('');
-            setSearchChange('');
-            setIsOpen(false);
-        }
-    }
+    const { t } = useTranslation(['common', 'tasks']);
+    const {
+        handleOpen,
+        handleClose,
+        handleEscapeDown,
+        setInputValue,
+        isOpen,
+        inputValue,
+        inputRef,
+    } = useSearch(searchValue, setSearchChange);
 
     return (
         <div className="relative flex items-center">
             {!isOpen && (
-                <IconTooltip content="Search">
-                    <Button onClick={onOpen} variant="outline" size="icon">
+                <IconTooltip content={t('search', { ns: 'common' })}>
+                    <Button
+                        onClick={handleOpen}
+                        variant="outline"
+                        size="icon"
+                        aria-label={t('search', { ns: 'common' })}
+                    >
                         <Search className="h-4 w-4" />
                     </Button>
                 </IconTooltip>
@@ -58,11 +48,11 @@ export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) 
                     'max-w-xs relative overflow-hidden',
                     isOpen || inputValue ? 'w-[14rem] transition-all duration-500' : 'w-0',
                 )}
-                onKeyDown={onEscapeDown}
-                onBlur={onClose}
+                onKeyDown={handleEscapeDown}
+                onBlur={handleClose}
             >
                 <InputGroupInput
-                    placeholder="Search..."
+                    placeholder={`${t('search', { ns: 'common' })}...`}
                     value={inputValue}
                     ref={inputRef}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
@@ -72,7 +62,9 @@ export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) 
                     <Search />
                 </InputGroupAddon>
 
-                <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+                <InputGroupAddon align="inline-end">
+                    12 {t('results', { ns: 'common' })}
+                </InputGroupAddon>
             </InputGroup>
         </div>
     );

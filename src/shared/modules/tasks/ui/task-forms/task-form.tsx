@@ -1,5 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@/shared/components/shadcn/ui/input.tsx';
 import { Textarea } from '@/shared/components/shadcn/ui/textarea.tsx';
 import { Switch } from '@/shared/components/shadcn/ui/switch.tsx';
@@ -10,33 +11,28 @@ import {
     FieldGroup,
     FieldLabel,
 } from '@/shared/components/shadcn/ui/field.tsx';
-import {
-    type TaskFormInitialValues,
-    type TaskFormValues,
-} from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
+import { type TaskFormValues } from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
 import { taskFormSchema } from '@/shared/modules/tasks/model/task-form/tasks-form.schema.ts';
 import {
-    taskPriorityOptions,
-    taskStatusOptions,
+    getTaskPriorityOptions,
+    getTaskStatusOptions,
 } from '@/shared/modules/tasks/model/task-form/tasks-form.constants.ts';
 import { TagsSelector } from '@/shared/components/tags-selector.tsx';
 import { SelectInput } from '@/shared/components/select/select-input.tsx';
 import {
-    taskPrioritySelectConfig,
-    taskStatusSelectConfig,
+    getTaskPrioritySelectConfig,
+    getTaskStatusSelectConfig,
 } from '@/shared/modules/tasks/model/task-form/tasks-form.configs.ts';
 import { buildTaskFormDefaultValues } from '@/shared/modules/tasks/helpers/buildTaskFormDefaultValues.ts';
 
 interface TaskFormProps {
-    mode: 'create' | 'edit';
-    initialValues?: Partial<TaskFormInitialValues>;
-    isSubmitting?: boolean;
-    submitLabel?: string;
+    initialValues?: TaskFormValues;
     onSubmit: (values: TaskFormValues) => void | Promise<void>;
-    onCancel?: () => void;
+    formId: string;
 }
 
-export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
+export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
+    const { t } = useTranslation(['common', 'form']);
     const form = useForm<TaskFormValues>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: buildTaskFormDefaultValues(initialValues),
@@ -45,7 +41,7 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
 
     return (
         <form
-            id="task-form"
+            id={formId}
             onSubmit={(event) => {
                 void form.handleSubmit(onSubmit)(event);
             }}
@@ -57,14 +53,19 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="task-form-title">Title</FieldLabel>
+                            <FieldLabel htmlFor="task-form-title">
+                                {t('form.title', { ns: 'tasks' })}
+                            </FieldLabel>
                             <Input
                                 {...field}
                                 id="task-form-title"
-                                placeholder="Enter task title"
+                                placeholder={t('form.titlePlaceholder', { ns: 'tasks' })}
                                 aria-invalid={fieldState.invalid}
+                                aria-label="type"
                             />
-                            <FieldDescription>Short and clear task title.</FieldDescription>
+                            <FieldDescription>
+                                {t('form.titleDescription', { ns: 'tasks' })}
+                            </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
                     )}
@@ -74,16 +75,19 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="task-form-description">Description</FieldLabel>
+                            <FieldLabel htmlFor="task-form-description">
+                                {t('form.description', { ns: 'tasks' })}
+                            </FieldLabel>
                             <Textarea
                                 {...field}
                                 id="task-form-description"
-                                placeholder="Describe the task"
+                                placeholder={t('form.descriptionPlaceholder', { ns: 'tasks' })}
                                 rows={5}
                                 aria-invalid={fieldState.invalid}
+                                aria-label="type"
                             />
                             <FieldDescription>
-                                Add useful context for the assignee.
+                                {t('form.descriptionDescription', { ns: 'tasks' })}
                             </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
@@ -93,14 +97,14 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                 <div className="grid gap-4 md:grid-cols-2">
                     <SelectInput
                         form={form}
-                        selectConfig={taskStatusSelectConfig}
-                        selectOptions={taskStatusOptions}
+                        selectConfig={getTaskStatusSelectConfig(t)}
+                        selectOptions={getTaskStatusOptions(t)}
                     />
 
                     <SelectInput
                         form={form}
-                        selectConfig={taskPrioritySelectConfig}
-                        selectOptions={taskPriorityOptions}
+                        selectConfig={getTaskPrioritySelectConfig(t)}
+                        selectOptions={getTaskPriorityOptions(t)}
                     />
                 </div>
 
@@ -110,15 +114,18 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="task-form-deadline">Deadline</FieldLabel>
+                                <FieldLabel htmlFor="task-form-deadline">
+                                    {t('form.deadline', { ns: 'tasks' })}
+                                </FieldLabel>
                                 <Input
                                     {...field}
                                     id="task-form-deadline"
                                     type="date"
                                     aria-invalid={fieldState.invalid}
+                                    aria-label="type"
                                 />
                                 <FieldDescription>
-                                    Leave empty if there is no deadline.
+                                    {t('form.deadlineDescription', { ns: 'tasks' })}
                                 </FieldDescription>
                                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                             </Field>
@@ -130,14 +137,19 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="task-form-assignee">Assignee</FieldLabel>
+                                <FieldLabel htmlFor="task-form-assignee">
+                                    {t('form.assignee', { ns: 'tasks' })}
+                                </FieldLabel>
                                 <Input
                                     {...field}
                                     id="task-form-assignee"
-                                    placeholder="Assignee name"
+                                    placeholder={t('form.assigneePlaceholder', { ns: 'tasks' })}
                                     aria-invalid={fieldState.invalid}
+                                    aria-label="type"
                                 />
-                                <FieldDescription>Optional task owner.</FieldDescription>
+                                <FieldDescription>
+                                    {t('form.assigneeDescription', { ns: 'tasks' })}
+                                </FieldDescription>
                                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                             </Field>
                         )}
@@ -153,9 +165,9 @@ export function TaskForm({ initialValues, onSubmit }: TaskFormProps) {
                             className="items-center justify-between rounded-xl border p-4"
                         >
                             <div className="space-y-1">
-                                <FieldLabel>Private task</FieldLabel>
+                                <FieldLabel>{t('form.isPrivate', { ns: 'tasks' })}</FieldLabel>
                                 <FieldDescription>
-                                    Restrict visibility of this task.
+                                    {t('form.isPrivateDescription', { ns: 'tasks' })}
                                 </FieldDescription>
                             </div>
 

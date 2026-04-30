@@ -1,0 +1,25 @@
+{
+  "filters": "Filters",
+  "search": "Search",
+  "cancel": "Cancel",
+  "save": "Save",
+  "create": "Create",
+  "delete": "Delete",
+  "edit": "Edit",
+  "details": "Details",
+  "complete": "Complete",
+  "add": "Add",
+  "backToTasks": "Back to tasks",
+  "toggleTheme": "Toggle theme",
+  "switchLanguage": "Switch language",
+  "results": "results",
+  "themes": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "view": {
+    "list": "list",
+    "grid": "grid"
+  }
+}

@@ -1,15 +1,19 @@
 import { type SelectConfig } from '@/shared/components/select/model/select-input.types.ts';
 
-export const taskStatusSelectConfig: SelectConfig = {
-    label: 'Status',
-    placeholder: 'Select status',
+export const getTaskStatusSelectConfig = (
+    t: (key: string, obj: { ns: string }) => string,
+): SelectConfig => ({
+    label: t('form.status', { ns: 'tasks' }),
+    placeholder: t('form.statusPlaceholder', { ns: 'tasks' }),
     fieldName: 'status',
-    description: 'Choose the current task status.',
-};
+    description: t('form.statusDescription', { ns: 'tasks' }),
+});
 
-export const taskPrioritySelectConfig: SelectConfig = {
-    label: 'Priority',
-    placeholder: 'Select priority',
+export const getTaskPrioritySelectConfig = (
+    t: (key: string, obj: { ns: string }) => string,
+): SelectConfig => ({
+    label: t('form.priority', { ns: 'tasks' }),
+    placeholder: t('form.priorityPlaceholder', { ns: 'tasks' }),
     fieldName: 'priority',
-    description: 'Set how important this task is.',
-};
+    description: t('form.priorityDescription', { ns: 'tasks' }),
+});

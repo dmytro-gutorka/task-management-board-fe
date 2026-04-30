@@ -1,16 +1,18 @@
 import { cn } from '@/shared/lib/utils';
-import { taskStatusConfig } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
+import { getTaskStatusConfig } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
+import { useTranslation } from 'react-i18next';
 import { generatePath, Link } from 'react-router-dom';
 import { ROUTES } from '@/app/routes/routes.constants';
 import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TaskListItemProps {
     task: Task;
-    onClick?: (task: Task) => void;
 }
 
 export function TaskListCard({ task }: TaskListItemProps) {
-    const TaskStatusIcon = taskStatusConfig[task.status].icon;
+    const { t } = useTranslation();
+
+    const TaskStatusIcon = getTaskStatusConfig(t)[task.status].icon;
     const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
         taskId: task.id,
     });
