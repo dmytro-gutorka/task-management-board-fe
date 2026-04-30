@@ -8,9 +8,9 @@ import {
     DropdownMenuTrigger,
 } from '../../../../shared/components/shadcn/ui/dropdown-menu.tsx';
 import {
-    taskFilterPriorityOptions,
-    taskFilterSortOptions,
-    taskFilterStatusOptions,
+    getTaskFilterPriorityOptions,
+    getTaskFilterSortOptions,
+    getTaskFilterStatusOptions,
 } from '../../model/task-filters/tasks-filter.configs.ts';
 import type { TasksFiltersValue } from '../../model/task-filters/tasks-filter.types.ts';
 import { DropDownMenuBlock } from '../../../../shared/components/drop-down-menu-block.tsx';
@@ -46,7 +46,7 @@ export function TasksFiltersMenu({
                     title={t('tasks.filters.status')}
                     value={filters.status}
                     onChange={(status) => onStatusChange(status)}
-                    options={taskFilterStatusOptions}
+                    options={getTaskFilterStatusOptions(t)}
                 />
 
                 <DropdownMenuSeparator />
@@ -55,7 +55,7 @@ export function TasksFiltersMenu({
                     title={t('tasks.filters.priority')}
                     value={filters.priority}
                     onChange={(priority) => onPriorityChange(priority)}
-                    options={taskFilterPriorityOptions}
+                    options={getTaskFilterPriorityOptions(t)}
                 />
 
                 <DropdownMenuSeparator />
@@ -64,7 +64,7 @@ export function TasksFiltersMenu({
                     title={t('tasks.filters.sortBy')}
                     value={filters.sortBy}
                     onChange={(sortBy) => onSortByChange(sortBy)}
-                    options={taskFilterSortOptions}
+                    options={getTaskFilterSortOptions(t)}
                 />
             </DropdownMenuContent>
         </DropdownMenu>

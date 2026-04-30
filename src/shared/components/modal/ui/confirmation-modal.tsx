@@ -30,7 +30,7 @@ export function ConfirmationModal({
         onOpenChange(false);
     }
 
-    const { t } = useTranslation(['common', 'tasks']);
+    const { t } = useTranslation();
 
     return (
         <BaseModal
@@ -43,7 +43,7 @@ export function ConfirmationModal({
             <div className="flex items-start gap-3 rounded-lg border bg-muted/30 p-4">
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
                 <p className="text-sm text-muted-foreground">
-                    {t('form.confirmationAction', { ns: 'tasks' })}
+                    {t('tasks.form.confirmationAction')}
                 </p>
             </div>
 

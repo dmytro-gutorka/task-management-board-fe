@@ -20,7 +20,7 @@ interface TagsSelectorProps {
 }
 
 export function TagsSelector({ form }: TagsSelectorProps) {
-    const { t } = useTranslation(['common', 'tasks']);
+    const { t } = useTranslation();
     const [tagInput, setTagInput] = useState('');
 
     const { setValue, watch } = form;
@@ -65,24 +65,24 @@ export function TagsSelector({ form }: TagsSelectorProps) {
 
     return (
         <Field data-invalid={!!tagsError}>
-            <FieldLabel htmlFor="task-form-tag-input">{t('form.tags', { ns: 'tasks' })}</FieldLabel>
+            <FieldLabel htmlFor="task-form-tag-input">{t('tasks.form.tags')}</FieldLabel>
 
             <div className="flex gap-2">
                 <Input
                     id="task-form-tag-input"
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
-                    placeholder={t('form.tagsPlaceholder', { ns: 'tasks' })}
+                    placeholder={t('tasks.form.tagsPlaceholder')}
                     onKeyDown={handleKeyDown}
                     aria-invalid={!!tagsError}
                 />
 
                 <Button type="button" variant="outline" onClick={handleAddTag}>
-                    {t('add')}
+                    {t('common.add')}
                 </Button>
             </div>
 
-            <FieldDescription>{t('form.tagsDescription', { ns: 'tasks' })}</FieldDescription>
+            <FieldDescription>{t('tasks.form.tagsDescription')}</FieldDescription>
 
             {tags.length ? (
                 <div className="flex flex-wrap gap-2">
