@@ -34,7 +34,7 @@ export function TaskGridCard({
     onOpenEditModal,
     onOpenDeleteModal,
 }: TaskGridCardProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'tasks']);
 
     const statusConfig = getTaskStatusConfig(t)[task.status];
     const priorityConfig = getTaskPriorityConfig(t)[task.priority];
@@ -45,9 +45,9 @@ export function TaskGridCard({
 
     const taskAssignee = task.assigneeName.length
         ? task.assigneeName
-        : t('tasks.defaults.noAssignee');
+        : t('defaults.noAssignee', { ns: 'tasks' });
 
-    const taskDeadline = formatDeadline(task.deadline) ?? t('tasks.defaults.noDeadline');
+    const taskDeadline = formatDeadline(task.deadline) ?? t('defaults.noDeadline', { ns: 'tasks' });
 
     return (
         <>
@@ -104,7 +104,7 @@ export function TaskGridCard({
 
                         <div className="min-w-0">
                             <p className="truncate text-sm font-medium">{taskAssignee}</p>
-                            <p className="text-xs text-muted-foreground">Assignee</p>
+                            <p className="text-xs text-muted-foreground"></p>
                         </div>
                     </div>
                 </CardContent>
@@ -117,13 +117,13 @@ export function TaskGridCard({
                         onClick={() => onOpenEditModal(task)}
                     >
                         <Pencil className="h-4 w-4" />
-                        {t('common.edit')}
+                        {t('edit')}
                     </Button>
 
                     <Button asChild variant="outline" size="sm" className="gap-2">
                         <Link to={taskDetailsPagePath}>
                             <Info className="h-4 w-4" />
-                            {t('common.details')}
+                            {t('details')}
                         </Link>
                     </Button>
                     <Button
@@ -134,7 +134,7 @@ export function TaskGridCard({
                         disabled={task.status === 'done'}
                     >
                         <Check className="h-4 w-4" />
-                        {t('common.complete')}
+                        {t('complete')}
                     </Button>
 
                     <Button
@@ -144,7 +144,7 @@ export function TaskGridCard({
                         onClick={() => onOpenDeleteModal(task)}
                     >
                         <Trash2 className="h-4 w-4" />
-                        {t('common.delete')}
+                        {t('delete')}
                     </Button>
                 </CardFooter>
             </Card>

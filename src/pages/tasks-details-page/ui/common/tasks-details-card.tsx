@@ -23,7 +23,7 @@ interface TasksDetailsCardProps {
 }
 
 export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'tasks']);
 
     const statusConfig = getTaskStatusConfig(t)[task.status];
     const priorityConfig = getTaskStatusConfig(t)[task.status];
@@ -48,7 +48,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                             {task.isPrivate ? (
                                 <Badge className="gap-1">
                                     <Lock />
-                                    {t('tasks.form.private')}
+                                    {t('form.private', { ns: 'tasks' })}
                                 </Badge>
                             ) : null}
                         </div>
@@ -58,7 +58,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
             <CardContent className="space-y-6">
                 <section className="space-y-2">
                     <h2 className="text-sm font-medium text-muted-foreground">
-                        {t('tasks.form.description')}
+                        {t('form.description', { ns: 'tasks' })}
                     </h2>
                     <p className="whitespace-pre-wrap text-sm leading-7 text-foreground">
                         {task.description}
@@ -69,7 +69,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                     <div className="rounded-xl border p-4">
                         <div className="mb-3 flex items-center gap-2 text-sm font-medium">
                             <Calendar className="h-4 w-4" />
-                            {t('tasks.form.deadline')}
+                            {t('form.deadline', { ns: 'tasks' })}
                         </div>
                         <p className="text-sm text-muted-foreground">
                             {formatDeadline(task.deadline)}
@@ -79,7 +79,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                     <div className="rounded-xl border p-4">
                         <div className="mb-3 flex items-center gap-2 text-sm font-medium">
                             <User className="h-4 w-4" />
-                            {t('tasks.form.assignee')}
+                            {t('form.assignee', { ns: 'tasks' })}
                         </div>
 
                         <div className="flex items-center gap-3">
@@ -92,10 +92,10 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
 
                             <div>
                                 <p className="text-sm font-medium">
-                                    {task.assigneeName || t('tasks.form.unassigned')}
+                                    {task.assigneeName || t('form.unassigned', { ns: 'tasks' })}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
-                                    {t('tasks.form.taskOwner')}
+                                    {t('form.taskOwner', { ns: 'tasks' })}
                                 </p>
                             </div>
                         </div>
@@ -106,7 +106,9 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                     {task.tags?.length ? (
                         <BadgeList badges={task.tags} variant="default" />
                     ) : (
-                        <p className="text-sm text-muted-foreground">{t('tasks.form.noTags')}</p>
+                        <p className="text-sm text-muted-foreground">
+                            {t('form.noTags', { ns: 'tasks' })}
+                        </p>
                     )}
                 </section>
             </CardContent>

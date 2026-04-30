@@ -40,7 +40,7 @@ export function TaskPageHeader({
     openCreateModal,
     tasksCount,
 }: HeaderProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'tasks']);
 
     return (
         <>
@@ -48,7 +48,7 @@ export function TaskPageHeader({
                 <div className="flex items-center justify-between p-4">
                     <div className="space-y-1">
                         <h2 className="text-1xl font-semibold">
-                            {t('tasks.title')} {tasksCount}
+                            {t('title', { ns: 'tasks' })} {tasksCount}
                         </h2>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -59,12 +59,12 @@ export function TaskPageHeader({
                             onPriorityChange={onPriorityChange}
                             onSortByChange={onSortByChange}
                         />
-                        <IconTooltip content={t('tasks.createTask')}>
+                        <IconTooltip content={t('createTask', { ns: 'tasks' })}>
                             <Button
                                 onClick={openCreateModal}
                                 variant="outline"
                                 className="mr-2"
-                                aria-label={t('tasks.createTask')}
+                                aria-label={t('createTask', { ns: 'tasks' })}
                                 size="icon"
                             >
                                 <Plus className="h-4 w-4" />
