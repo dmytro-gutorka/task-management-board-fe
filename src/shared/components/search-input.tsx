@@ -17,7 +17,7 @@ interface SearchInputProps {
 }
 
 export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'tasks']);
     const {
         handleOpen,
         handleClose,
@@ -31,12 +31,12 @@ export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) 
     return (
         <div className="relative flex items-center">
             {!isOpen && (
-                <IconTooltip content={t('common.search')}>
+                <IconTooltip content={t('search', { ns: 'common' })}>
                     <Button
                         onClick={handleOpen}
                         variant="outline"
                         size="icon"
-                        aria-label={t('common.search')}
+                        aria-label={t('search', { ns: 'common' })}
                     >
                         <Search className="h-4 w-4" />
                     </Button>
@@ -52,7 +52,7 @@ export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) 
                 onBlur={handleClose}
             >
                 <InputGroupInput
-                    placeholder={`${t('common.search')}...`}
+                    placeholder={`${t('search', { ns: 'common' })}...`}
                     value={inputValue}
                     ref={inputRef}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
@@ -62,7 +62,9 @@ export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) 
                     <Search />
                 </InputGroupAddon>
 
-                <InputGroupAddon align="inline-end">12 {t('common.results')}</InputGroupAddon>
+                <InputGroupAddon align="inline-end">
+                    12 {t('results', { ns: 'common' })}
+                </InputGroupAddon>
             </InputGroup>
         </div>
     );

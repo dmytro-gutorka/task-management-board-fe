@@ -8,17 +8,18 @@ interface DeleteTaskModalProps {
 }
 
 export function DeleteTaskModal({ isOpen, onDelete, setOpen }: DeleteTaskModalProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'tasks']);
 
     return (
         <>
             <ConfirmationModal
                 open={isOpen}
                 onOpenChange={setOpen}
-                title={t('tasks.deleteTask')}
-                description={t('tasks.deleteConfirmation')}
-                confirmLabel={t('common.delete')}
+                title={t('deleteTask', { ns: 'tasks' })}
+                description={t('deleteConfirmation', { ns: 'tasks' })}
+                confirmLabel={t('delete', { ns: 'common' })}
                 confirmVariant="destructive"
+                cancelLabel={t('cancel', { ns: 'common' })}
                 onConfirm={onDelete}
             />
         </>

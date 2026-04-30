@@ -29,11 +29,11 @@ export function TasksFiltersMenu({
     onPriorityChange,
     onSortByChange,
 }: TasksFiltersMenuProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'tasks']);
 
     return (
         <DropdownMenu>
-            <IconTooltip content={t('common.filters')}>
+            <IconTooltip content={t('filters', { ns: 'common' })}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon" aria-label="Filters">
                         <Filter className="h-4 w-4" />
@@ -43,7 +43,7 @@ export function TasksFiltersMenu({
 
             <DropdownMenuContent align="end" className="w-64">
                 <DropDownMenuBlock
-                    title={t('tasks.filters.status')}
+                    title={t('filters.status', { ns: 'tasks' })}
                     value={filters.status}
                     onChange={(status) => onStatusChange(status)}
                     options={getTaskFilterStatusOptions(t)}
@@ -52,7 +52,7 @@ export function TasksFiltersMenu({
                 <DropdownMenuSeparator />
 
                 <DropDownMenuBlock
-                    title={t('tasks.filters.priority')}
+                    title={t('filters.priority', { ns: 'tasks' })}
                     value={filters.priority}
                     onChange={(priority) => onPriorityChange(priority)}
                     options={getTaskFilterPriorityOptions(t)}
@@ -61,7 +61,7 @@ export function TasksFiltersMenu({
                 <DropdownMenuSeparator />
 
                 <DropDownMenuBlock
-                    title={t('tasks.filters.sortBy')}
+                    title={t('filters.sortBy', { ns: 'tasks' })}
                     value={filters.sortBy}
                     onChange={(sortBy) => onSortByChange(sortBy)}
                     options={getTaskFilterSortOptions(t)}

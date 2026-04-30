@@ -153,8 +153,8 @@ export function TasksPage() {
                 <EditTaskModal
                     onSubmit={handleSubmitEditForm}
                     initialValues={selectedTask}
-                    isOpen={editModal.open}
                     setOpen={editModal.setOpen}
+                    isOpen={editModal.open}
                 />
             )}
             <DeleteTaskModal
