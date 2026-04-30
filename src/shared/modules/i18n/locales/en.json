@@ -1,0 +1,33 @@
+{
+  "common": {
+    "filters": "Filters",
+    "search": "Search",
+    "cancel": "Cancel",
+    "save": "Save",
+    "create": "Create",
+    "delete": "Delete",
+    "edit": "Edit",
+    "details": "Details",
+    "complete": "Complete"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "createTask": "Create task",
+    "filters": {
+      "status": "Status",
+      "priority": "Priority",
+      "sortBy": "Sort by",
+      "allStatuses": "All statuses",
+      "allPriorities": "All priorities",
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "done": "Done",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "createdAt": "Date created",
+      "deadline": "Deadline",
+      "title": "Title"
+    }
+  }
+}

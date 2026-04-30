@@ -25,7 +25,7 @@ import {
 import { buildTaskFormDefaultValues } from '@/shared/modules/tasks/helpers/buildTaskFormDefaultValues.ts';
 
 interface TaskFormProps {
-    initialValues: TaskFormValues;
+    initialValues?: TaskFormValues;
     onSubmit: (values: TaskFormValues) => void | Promise<void>;
     formId: string;
 }
