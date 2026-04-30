@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ROUTES } from '../../../app/routes/routes.constants.ts';
+import { ROUTES } from '../../../app/routes/common/routes.constants.ts';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
 import type { TaskFormValues } from '../../../shared/modules/tasks/model/task-form/tasks-form.types.ts';
 import { getTaskById, updateTask } from '../../../shared/modules/tasks/model/task/task.api.ts';
