@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from '@/shared/components/layout';
+import { RegisterPage } from '../../shared/modules/auth/registration/registration-page.tsx';
 import { ROUTES } from './common/routes.constants.ts';
 import { TasksPage } from '@/pages/tasks-page';
 import { TasksDetailsPage } from '@/pages/tasks-details-page';
@@ -14,6 +15,10 @@ export const router = createBrowserRouter([
             {
                 path: ROUTES.LOGIN_PAGE,
                 Component: LoginPage,
+            },
+            {
+                path: ROUTES.REGISTRATION_PAGE,
+                Component: RegisterPage,
             },
         ],
     },

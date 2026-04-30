@@ -3,7 +3,7 @@ import { API_ROUTES } from './auth-api.constants.ts';
 import type { AuthResponse, SignInPayload, SignUpPayload } from './auth-api.types.ts';
 
 export const AuthApiService = {
-    async signIn(payload: SignInPayload): Promise<AuthResponse> {
+    async signIn(payload: SignInPayload) {
         const { data } = await httpClient.post<AuthResponse>(API_ROUTES.LOGIN, payload);
 
         return data;
@@ -12,9 +12,5 @@ export const AuthApiService = {
     async signUp(payload: SignUpPayload) {
         const { data } = await httpClient.post<AuthResponse>(API_ROUTES.REGISTRATION, payload);
         return data;
-    },
-
-    async signOut() {
-        await httpClient.post(API_ROUTES.LOGOUT);
     },
 };

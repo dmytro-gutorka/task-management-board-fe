@@ -1,0 +1,137 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { Controller, useForm } from 'react-hook-form';
+import { Button } from '../../../../components/shadcn/ui/button.tsx';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '../../../../components/shadcn/ui/card.tsx';
+import {
+    Field,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+} from '../../../../components/shadcn/ui/field.tsx';
+import { Input } from '../../../../components/shadcn/ui/input.tsx';
+import { registerStepTwoSchema, type RegisterStepTwoValues } from '../../auth.schema.ts';
+
+interface RegisterStepTwoFormProps {
+    isSubmitting: boolean;
+    onSubmit: (values: RegisterStepTwoValues) => void | Promise<void>;
+    onSkip: () => void;
+}
+
+export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: RegisterStepTwoFormProps) {
+    const form = useForm<RegisterStepTwoValues>({
+        resolver: zodResolver(registerStepTwoSchema),
+        defaultValues: {
+            name: '',
+            surname: '',
+            birthday: '',
+        },
+    });
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Complete profile</CardTitle>
+                <CardDescription>You can skip this step for now.</CardDescription>
+            </CardHeader>
+
+            <CardContent>
+                <form
+                    id="register-step-two-form"
+                    onSubmit={(event) => {
+                        void form.handleSubmit(onSubmit)(event);
+                    }}
+                >
+                    <FieldGroup>
+                        <Controller
+                            name="name"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor="register-name">Name</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id="register-name"
+                                        disabled={isSubmitting}
+                                        aria-label="type"
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+                                </Field>
+                            )}
+                        />
+
+                        <Controller
+                            name="surname"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor="register-surname">Surname</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id="register-surname"
+                                        disabled={isSubmitting}
+                                        aria-label="type"
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+                                </Field>
+                            )}
+                        />
+
+                        <Controller
+                            name="birthday"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor="register-birthday">Birthday</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id="register-birthday"
+                                        type="date"
+                                        disabled={isSubmitting}
+                                        aria-label="type"
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+                                </Field>
+                            )}
+                        />
+                    </FieldGroup>
+                </form>
+            </CardContent>
+
+            <CardFooter className="gap-2">
+                <Button
+                    type="button"
+                    variant="outline"
+                    disabled={isSubmitting}
+                    onClick={onSkip}
+                    className="w-full"
+                >
+                    Skip
+                </Button>
+
+                <Button
+                    type="submit"
+                    form="register-step-two-form"
+                    disabled={isSubmitting}
+                    className="w-full"
+                >
+                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Finish
+                </Button>
+            </CardFooter>
+        </Card>
+    );
+}
