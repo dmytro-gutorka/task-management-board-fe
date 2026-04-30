@@ -1,5 +1,5 @@
 export function formatDeadline(deadline?: string | null) {
-    if (!deadline) return 'No deadline';
+    if (!deadline) return null;
 
     const date = new Date(deadline);
 

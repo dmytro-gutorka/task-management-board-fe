@@ -8,14 +8,18 @@ import {
 } from '@/shared/components/shadcn/ui/dropdown-menu';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
 import { useTheme } from '@/shared/providers/theme-provider/hooks/useTheme';
-import { themeOptions } from '@/shared/providers/theme-provider/theme-provider.constants';
+import { themeOptions, THEMES } from '@/shared/providers/theme-provider/theme-provider.constants';
+import { useTranslation } from 'react-i18next';
 
 export function ThemeToggle() {
     const { setTheme } = useTheme();
+    const { t } = useTranslation('common');
+
+    const themes = themeOptions(t);
 
     return (
         <DropdownMenu>
-            <IconTooltip content="Toggle theme">
+            <IconTooltip content={t('toggleTheme', { ns: 'common' })}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon">
                         <Sun className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
@@ -26,14 +30,14 @@ export function ThemeToggle() {
             </IconTooltip>
 
             <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setTheme(themeOptions.LIGHT)}>
-                    Light
+                <DropdownMenuItem onClick={() => setTheme(THEMES.LIGHT)}>
+                    {themes.light}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme(themeOptions.DARK)}>
-                    Dark
+                <DropdownMenuItem onClick={() => setTheme(THEMES.DARK)}>
+                    {themes.dark}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme(themeOptions.SYSTEM)}>
-                    System
+                <DropdownMenuItem onClick={() => setTheme(THEMES.SYSTEM)}>
+                    {themes.system}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

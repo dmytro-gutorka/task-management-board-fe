@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Plus } from 'lucide-react';
 import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
 import { SearchInput } from '../../../../shared/components/search-input.tsx';
@@ -39,12 +40,16 @@ export function TaskPageHeader({
     openCreateModal,
     tasksCount,
 }: HeaderProps) {
+    const { t } = useTranslation(['common', 'tasks']);
+
     return (
         <>
             <TooltipProvider delayDuration={150}>
                 <div className="flex items-center justify-between p-4">
                     <div className="space-y-1">
-                        <h2 className="text-1xl font-semibold">Tasks {tasksCount}</h2>
+                        <h2 className="text-1xl font-semibold">
+                            {t('title', { ns: 'tasks' })} {tasksCount}
+                        </h2>
                     </div>
                     <div className="flex items-center space-x-2">
                         <SearchInput searchValue={searchValue} setSearchChange={setSearchValue} />
@@ -54,12 +59,12 @@ export function TaskPageHeader({
                             onPriorityChange={onPriorityChange}
                             onSortByChange={onSortByChange}
                         />
-                        <IconTooltip content="Create task">
+                        <IconTooltip content={t('createTask', { ns: 'tasks' })}>
                             <Button
                                 onClick={openCreateModal}
                                 variant="outline"
                                 className="mr-2"
-                                aria-label="Create task"
+                                aria-label={t('createTask', { ns: 'tasks' })}
                                 size="icon"
                             >
                                 <Plus className="h-4 w-4" />
