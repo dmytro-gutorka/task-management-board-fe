@@ -11,7 +11,7 @@ interface CreateTaskModalProps {
 }
 
 export function CreateTaskModal({ isOpen, setOpen, onSubmit }: CreateTaskModalProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'tasks']);
     const formId = 'create-task-form';
 
     return (
@@ -19,10 +19,11 @@ export function CreateTaskModal({ isOpen, setOpen, onSubmit }: CreateTaskModalPr
             <ActionModal
                 open={isOpen}
                 onOpenChange={setOpen}
-                title={t('tasks.createTask')}
-                description={t('tasks.fillFields')}
-                submitLabel={t('common.create')}
+                title={t('createTask', { ns: 'tasks' })}
+                description={t('fillFields', { ns: 'tasks' })}
+                submitLabel={t('create', { ns: 'common' })}
                 submitFormId={formId}
+                cancelLabel={t('cancel', { ns: 'common' })}
             >
                 <Separator />
 

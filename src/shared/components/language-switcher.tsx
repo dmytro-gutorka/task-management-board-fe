@@ -14,11 +14,11 @@ import {
 
 export function LanguageSwitcher() {
     const { language, changeLanguage } = useChangeLanguage();
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common']);
 
     return (
         <DropdownMenu>
-            <IconTooltip content={t('common.switchLanguage')}>
+            <IconTooltip content={t('switchLanguage', { ns: 'common' })}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon">
                         <Languages className="h-4 w-4" />

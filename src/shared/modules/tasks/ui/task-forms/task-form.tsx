@@ -32,7 +32,7 @@ interface TaskFormProps {
 }
 
 export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'form']);
     const form = useForm<TaskFormValues>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: buildTaskFormDefaultValues(initialValues),
@@ -54,16 +54,18 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel htmlFor="task-form-title">
-                                {t('tasks.form.title')}
+                                {t('form.title', { ns: 'tasks' })}
                             </FieldLabel>
                             <Input
                                 {...field}
                                 id="task-form-title"
-                                placeholder={t('tasks.form.titlePlaceholder')}
+                                placeholder={t('form.titlePlaceholder', { ns: 'tasks' })}
                                 aria-invalid={fieldState.invalid}
                                 aria-label="type"
                             />
-                            <FieldDescription>{t('tasks.form.titleDescription')}</FieldDescription>
+                            <FieldDescription>
+                                {t('form.titleDescription', { ns: 'tasks' })}
+                            </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
                     )}
@@ -74,18 +76,18 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel htmlFor="task-form-description">
-                                {t('tasks.form.description')}
+                                {t('form.description', { ns: 'tasks' })}
                             </FieldLabel>
                             <Textarea
                                 {...field}
                                 id="task-form-description"
-                                placeholder={t('tasks.form.descriptionPlaceholder')}
+                                placeholder={t('form.descriptionPlaceholder', { ns: 'tasks' })}
                                 rows={5}
                                 aria-invalid={fieldState.invalid}
                                 aria-label="type"
                             />
                             <FieldDescription>
-                                {t('tasks.form.descriptionDescription')}
+                                {t('form.descriptionDescription', { ns: 'tasks' })}
                             </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
@@ -113,7 +115,7 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
                                 <FieldLabel htmlFor="task-form-deadline">
-                                    {t('tasks.form.deadline')}
+                                    {t('form.deadline', { ns: 'tasks' })}
                                 </FieldLabel>
                                 <Input
                                     {...field}
@@ -123,7 +125,7 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                                     aria-label="type"
                                 />
                                 <FieldDescription>
-                                    {t('tasks.form.deadlineDescription')}
+                                    {t('form.deadlineDescription', { ns: 'tasks' })}
                                 </FieldDescription>
                                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                             </Field>
@@ -136,17 +138,17 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
                                 <FieldLabel htmlFor="task-form-assignee">
-                                    {t('tasks.form.assignee')}
+                                    {t('form.assignee', { ns: 'tasks' })}
                                 </FieldLabel>
                                 <Input
                                     {...field}
                                     id="task-form-assignee"
-                                    placeholder={t('tasks.form.assigneePlaceholder')}
+                                    placeholder={t('form.assigneePlaceholder', { ns: 'tasks' })}
                                     aria-invalid={fieldState.invalid}
                                     aria-label="type"
                                 />
                                 <FieldDescription>
-                                    {t('tasks.form.assigneeDescription')}
+                                    {t('form.assigneeDescription', { ns: 'tasks' })}
                                 </FieldDescription>
                                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                             </Field>
@@ -163,9 +165,9 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                             className="items-center justify-between rounded-xl border p-4"
                         >
                             <div className="space-y-1">
-                                <FieldLabel>{t('tasks.form.isPrivate')}</FieldLabel>
+                                <FieldLabel>{t('form.isPrivate', { ns: 'tasks' })}</FieldLabel>
                                 <FieldDescription>
-                                    {t('tasks.form.isPrivateDescription')}
+                                    {t('form.isPrivateDescription', { ns: 'tasks' })}
                                 </FieldDescription>
                             </div>
 

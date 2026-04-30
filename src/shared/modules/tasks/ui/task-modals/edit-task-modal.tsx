@@ -15,7 +15,7 @@ interface EditTaskModalProps {
 }
 
 export function EditTaskModal({ initialValues, isOpen, setOpen, onSubmit }: EditTaskModalProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['common', 'tasks']);
     const formInitialValues = mapTaskTiInitialValues(initialValues);
     const formId = 'edit-task-form';
 
@@ -24,9 +24,9 @@ export function EditTaskModal({ initialValues, isOpen, setOpen, onSubmit }: Edit
             <ActionModal
                 open={isOpen}
                 onOpenChange={setOpen}
-                title={t('tasks.editTask')}
-                description={t('tasks.fillFields')}
-                submitLabel={t('common.edit')}
+                title={t('editTask', { ns: 'tasks' })}
+                description={t('fillFields', { ns: 'tasks' })}
+                submitLabel={t('edit', { ns: 'tasks' })}
                 submitFormId={formId}
             >
                 <Separator />
