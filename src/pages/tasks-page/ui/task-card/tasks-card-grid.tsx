@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { generatePath, Link } from 'react-router-dom';
 import { Calendar, Check, Lock, Info, Circle, Flag, Pencil, Trash2 } from 'lucide-react';
 import {
@@ -12,8 +13,8 @@ import { Badge } from '@/shared/components/shadcn/ui/badge';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { Avatar } from '@/shared/components/shadcn/ui/avatar';
 import {
-    taskPriorityConfig,
-    taskStatusConfig,
+    getTaskPriorityConfig,
+    getTaskStatusConfig,
 } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
 import { formatDeadline } from '@/shared/modules/tasks/helpers/formatDeadline.ts';
 import { BadgeList } from '@/shared/components/badge-list';
@@ -33,15 +34,20 @@ export function TaskGridCard({
     onOpenEditModal,
     onOpenDeleteModal,
 }: TaskGridCardProps) {
-    const statusBadgeStyles = taskStatusConfig[task.status].badgeClassName;
-    const statusBadgeTitle = taskStatusConfig[task.status].badgeTitle;
+    const { t } = useTranslation();
 
-    const priorityBadgeStyles = taskPriorityConfig[task.priority].badgeClassName;
-    const priorityBadgeTitle = taskPriorityConfig[task.priority].badgeTitle;
+    const statusConfig = getTaskStatusConfig(t)[task.status];
+    const priorityConfig = getTaskPriorityConfig(t)[task.priority];
 
     const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
         taskId: task.id,
     });
+
+    const taskAssignee = task.assigneeName.length
+        ? task.assigneeName
+        : t('tasks.defaults.noAssignee');
+
+    const taskDeadline = formatDeadline(task.deadline) ?? t('tasks.defaults.noDeadline');
 
     return (
         <>
@@ -69,21 +75,21 @@ export function TaskGridCard({
 
                 <CardContent className="flex flex-1 flex-col gap-4">
                     <div className="flex flex-wrap gap-2">
-                        <Badge className={`gap-1 ${statusBadgeStyles}`}>
+                        <Badge className={`gap-1 ${statusConfig.badgeClassName}`}>
                             <Circle className="h-3 w-3 fill-current" />
-                            {statusBadgeTitle}
+                            {statusConfig.badgeTitle}
                         </Badge>
 
-                        <Badge className={`gap-1 ${priorityBadgeStyles}`}>
+                        <Badge className={`gap-1 ${priorityConfig.badgeClassName}`}>
                             <Flag className="h-3.5 w-3.5" />
-                            {priorityBadgeTitle}
+                            {priorityConfig.badgeTitle}
                         </Badge>
                     </div>
 
                     <div className="space-y-3 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 shrink-0" />
-                            <span>{formatDeadline(task.deadline)}</span>
+                            <span>{taskDeadline}</span>
                         </div>
                         <BadgeList badges={task.tags} variant="secondary" />
                     </div>
@@ -97,9 +103,7 @@ export function TaskGridCard({
                         </Avatar>
 
                         <div className="min-w-0">
-                            <p className="truncate text-sm font-medium">
-                                {task.assigneeName ?? 'Unassigned'}
-                            </p>
+                            <p className="truncate text-sm font-medium">{taskAssignee}</p>
                             <p className="text-xs text-muted-foreground">Assignee</p>
                         </div>
                     </div>
@@ -113,13 +117,13 @@ export function TaskGridCard({
                         onClick={() => onOpenEditModal(task)}
                     >
                         <Pencil className="h-4 w-4" />
-                        Edit
+                        {t('common.edit')}
                     </Button>
 
                     <Button asChild variant="outline" size="sm" className="gap-2">
                         <Link to={taskDetailsPagePath}>
                             <Info className="h-4 w-4" />
-                            Details
+                            {t('common.details')}
                         </Link>
                     </Button>
                     <Button
@@ -130,7 +134,7 @@ export function TaskGridCard({
                         disabled={task.status === 'done'}
                     >
                         <Check className="h-4 w-4" />
-                        Complete
+                        {t('common.complete')}
                     </Button>
 
                     <Button
@@ -140,7 +144,7 @@ export function TaskGridCard({
                         onClick={() => onOpenDeleteModal(task)}
                     >
                         <Trash2 className="h-4 w-4" />
-                        Delete
+                        {t('common.delete')}
                     </Button>
                 </CardFooter>
             </Card>

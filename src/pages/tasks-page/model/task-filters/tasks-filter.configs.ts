@@ -4,28 +4,25 @@ import {
     TASK_STATUS_FILTER,
 } from './tasks-filter.constants.ts';
 
-export const getTaskFilterStatusOptions = (t: (key: string, obj: { ns: string }) => string) => [
-    { value: TASK_STATUS_FILTER.ALL, title: t('filters.allStatuses', { ns: 'tasks' }) },
-    { value: TASK_STATUS_FILTER.TODO, title: t('filters.todo', { ns: 'tasks' }) },
-    {
-        value: TASK_STATUS_FILTER.IN_PROGRESS,
-        title: t('filters.inProgress', { ns: 'tasks' }),
-    },
-    { value: TASK_STATUS_FILTER.DONE, title: t('filters.done', { ns: 'tasks' }) },
+export const getTaskFilterStatusOptions = (t: (key: string) => string) => [
+    { value: TASK_STATUS_FILTER.ALL, title: t('tasks.filters.allStatuses') },
+    { value: TASK_STATUS_FILTER.TODO, title: t('tasks.filters.todo') },
+    { value: TASK_STATUS_FILTER.IN_PROGRESS, title: t('tasks.filters.inProgress') },
+    { value: TASK_STATUS_FILTER.DONE, title: t('tasks.filters.done') },
 ];
 
-export const getTaskFilterPriorityOptions = (t: (key: string, obj: { ns: string }) => string) => [
-    { value: TASK_PRIORITY_FILTER.ALL, title: t('filters.allPriorities', { ns: 'tasks' }) },
-    { value: TASK_PRIORITY_FILTER.HIGH, title: t('filters.high', { ns: 'tasks' }) },
-    { value: TASK_PRIORITY_FILTER.MEDIUM, title: t('filters.medium', { ns: 'tasks' }) },
-    { value: TASK_PRIORITY_FILTER.LOW, title: t('filters.low', { ns: 'tasks' }) },
+export const getTaskFilterPriorityOptions = (t: (key: string) => string) => [
+    { value: TASK_PRIORITY_FILTER.ALL, title: t('tasks.filters.allPriorities') },
+    { value: TASK_PRIORITY_FILTER.HIGH, title: t('tasks.filters.high') },
+    { value: TASK_PRIORITY_FILTER.MEDIUM, title: t('tasks.filters.medium') },
+    { value: TASK_PRIORITY_FILTER.LOW, title: t('tasks.filters.low') },
 ];
 
-export const getTaskFilterSortOptions = (t: (key: string, obj: { ns: string }) => string) => [
-    { value: TASK_SORT_BY_FILTER.CREATED_AT, title: t('filters.createdAt', { ns: 'tasks' }) },
-    { value: TASK_SORT_BY_FILTER.DEADLINE, title: t('filters.deadline', { ns: 'tasks' }) },
-    { value: TASK_SORT_BY_FILTER.PRIORITY, title: t('filters.priority', { ns: 'tasks' }) },
-    { value: TASK_SORT_BY_FILTER.TITLE, title: t('filters.title', { ns: 'tasks' }) },
+export const getTaskFilterSortOptions = (t: (key: string) => string) => [
+    { value: TASK_SORT_BY_FILTER.CREATED_AT, title: t('tasks.filters.createdAt') },
+    { value: TASK_SORT_BY_FILTER.DEADLINE, title: t('tasks.filters.deadline') },
+    { value: TASK_SORT_BY_FILTER.PRIORITY, title: t('tasks.filters.priority') },
+    { value: TASK_SORT_BY_FILTER.TITLE, title: t('tasks.filters.title') },
 ];
 
 // Fallback for components not yet updated

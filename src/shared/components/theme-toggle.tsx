@@ -13,13 +13,13 @@ import { useTranslation } from 'react-i18next';
 
 export function ThemeToggle() {
     const { setTheme } = useTheme();
-    const { t } = useTranslation('common');
+    const { t } = useTranslation();
 
     const themes = themeOptions(t);
 
     return (
         <DropdownMenu>
-            <IconTooltip content={t('toggleTheme', { ns: 'common' })}>
+            <IconTooltip content={t('common.toggleTheme')}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon">
                         <Sun className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />

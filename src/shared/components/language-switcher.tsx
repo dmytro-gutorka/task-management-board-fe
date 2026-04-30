@@ -1,6 +1,8 @@
 import { Languages } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { type AppLanguage, languageOptions } from '../modules/i18n/i18n.constants.ts';
 import { useChangeLanguage } from '../modules/i18n/use-change-language.ts';
+import { IconTooltip } from './icon-tooltip.tsx';
 import { Button } from './shadcn/ui/button.tsx';
 import {
     DropdownMenu,
@@ -12,15 +14,18 @@ import {
 
 export function LanguageSwitcher() {
     const { language, changeLanguage } = useChangeLanguage();
+    const { t } = useTranslation();
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                    <Languages className="h-4 w-4" />
-                    <span className="sr-only">Change language</span>
-                </Button>
-            </DropdownMenuTrigger>
+            <IconTooltip content={t('common.switchLanguage')}>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon">
+                        <Languages className="h-4 w-4" />
+                        <span className="sr-only">Change language</span>
+                    </Button>
+                </DropdownMenuTrigger>
+            </IconTooltip>
 
             <DropdownMenuContent align="end">
                 <DropdownMenuRadioGroup
