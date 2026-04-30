@@ -1,13 +1,13 @@
-export type SignUpPayload = {
+export interface SignUpPayload {
     email: string;
     password: string;
-};
+}
 
-export type SignInPayload = {
+export interface SignInPayload {
     email: string;
     password: string;
-};
+}
 
-export type AuthResponse = {
+export interface AuthResponse {
     accessToken: string;
-};
+}
