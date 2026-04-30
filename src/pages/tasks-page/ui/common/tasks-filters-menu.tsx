@@ -1,4 +1,5 @@
 import { Filter } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../../../shared/components/shadcn/ui/button.tsx';
 import {
     DropdownMenu,
@@ -28,9 +29,11 @@ export function TasksFiltersMenu({
     onPriorityChange,
     onSortByChange,
 }: TasksFiltersMenuProps) {
+    const { t } = useTranslation();
+
     return (
         <DropdownMenu>
-            <IconTooltip content="Filters">
+            <IconTooltip content={t('common.filters')}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon" aria-label="Filters">
                         <Filter className="h-4 w-4" />
@@ -40,7 +43,7 @@ export function TasksFiltersMenu({
 
             <DropdownMenuContent align="end" className="w-64">
                 <DropDownMenuBlock
-                    title="Status"
+                    title={t('tasks.filters.status')}
                     value={filters.status}
                     onChange={(status) => onStatusChange(status)}
                     options={taskFilterStatusOptions}
@@ -49,7 +52,7 @@ export function TasksFiltersMenu({
                 <DropdownMenuSeparator />
 
                 <DropDownMenuBlock
-                    title="Priority"
+                    title={t('tasks.filters.priority')}
                     value={filters.priority}
                     onChange={(priority) => onPriorityChange(priority)}
                     options={taskFilterPriorityOptions}
@@ -58,7 +61,7 @@ export function TasksFiltersMenu({
                 <DropdownMenuSeparator />
 
                 <DropDownMenuBlock
-                    title="Sort by"
+                    title={t('tasks.filters.sortBy')}
                     value={filters.sortBy}
                     onChange={(sortBy) => onSortByChange(sortBy)}
                     options={taskFilterSortOptions}

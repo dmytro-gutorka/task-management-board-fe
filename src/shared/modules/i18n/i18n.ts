@@ -1,30 +1,39 @@
 import i18n from 'i18next';
-import Backend from 'i18next-http-backend';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
-import { DEFAULT_LANGUAGE } from './i18n.constants';
 
-void i18n
-    .use(Backend)
-    .use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-        ns: ['common', 'tasks'],
-        defaultNS: 'common',
-        fallbackNS: 'common',
-        fallbackLng: DEFAULT_LANGUAGE,
-        supportedLngs: ['en', 'uk'],
+import en from './locales/en.json';
+import uk from './locales/uk.json';
+import {
+    DEFAULT_LANGUAGE,
+    LANGUAGE_STORAGE_KEY,
+    type AppLanguage,
+    APP_LANGUAGE,
+} from './i18n.constants';
 
-        backend: {
-            loadPath: '/locales/{{lng}}/{{ns}}.json',
+const getInitialLanguage = (): AppLanguage => {
+    const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+
+    if (storedLanguage === APP_LANGUAGE.EN || storedLanguage === APP_LANGUAGE.UK) {
+        return storedLanguage;
+    }
+
+    return DEFAULT_LANGUAGE;
+};
+
+void i18n.use(initReactI18next).init({
+    resources: {
+        en: {
+            translation: en,
         },
-        detection: {
-            order: ['localStorage', 'navigator'],
-            caches: ['localStorage'],
+        uk: {
+            translation: uk,
         },
-        interpolation: {
-            escapeValue: false,
-        },
-    });
+    },
+    lng: getInitialLanguage(),
+    fallbackLng: DEFAULT_LANGUAGE,
+    interpolation: {
+        escapeValue: false,
+    },
+});
 
 export { i18n };
