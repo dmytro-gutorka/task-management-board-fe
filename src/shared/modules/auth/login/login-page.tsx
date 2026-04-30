@@ -1,12 +1,12 @@
+import type { LocationState } from '../../../types/common.ts';
+import type { LoginFormValues } from '../auth.schema.ts';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../../app/routes/common/routes.constants.ts';
-import type { LocationState } from '../../../types/common.ts';
+import { handleError } from '../../../lib/errors/utils/handle-error.ts';
 import { AuthApiService } from '../auth-api.service.ts';
 import { setAccessToken } from '../auth-token.helpers.ts';
-import type { LoginFormValues } from '../auth.schema.ts';
 import { LoginForm } from './ui/login-form.tsx';
-import { toast } from 'react-toastify';
 
 export function LoginPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,8 +26,10 @@ export function LoginPage() {
             setAccessToken(response.accessToken);
 
             void navigate(from, { replace: true });
-        } catch {
-            toast.error('Invalid credentials');
+        } catch (error: unknown) {
+            handleError(error, {
+                logoutOnUnauthorized: false,
+            });
         } finally {
             setIsSubmitting(false);
         }
@@ -40,7 +42,7 @@ export function LoginPage() {
 
                 <p className="text-center text-sm text-muted-foreground">
                     Do not have an account?
-                    <Link to="/register" className="font-medium text-primary">
+                    <Link to={ROUTES.REGISTRATION_PAGE} className="font-medium text-primary">
                         Register
                     </Link>
                 </p>

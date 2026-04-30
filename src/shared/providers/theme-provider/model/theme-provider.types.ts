@@ -1,5 +1,5 @@
-import type { ValueOf } from '@/shared/types/common';
-import { THEMES } from '@/shared/providers/theme-provider/theme-provider.constants';
+import type { ValueOf } from '../../../types/common.ts';
+import { THEMES } from './theme-provider.constants.ts';
 
 export type ThemeOptions = ValueOf<typeof THEMES>;
 

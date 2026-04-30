@@ -1,4 +1,4 @@
-import type { ThemeProviderState } from '@/shared/providers/theme-provider/theme-provider.types';
+import type { ThemeProviderState } from './theme-provider.types.ts';
 
 export const THEMES = {
     DARK: 'dark',

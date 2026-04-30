@@ -1,9 +1,6 @@
 import { createContext, type ReactNode, useState } from 'react';
-import type {
-    ThemeOptions,
-    ThemeProviderState,
-} from '@/shared/providers/theme-provider/theme-provider.types';
-import { initialState, THEMES } from '@/shared/providers/theme-provider/theme-provider.constants';
+import type { ThemeOptions, ThemeProviderState } from './model/theme-provider.types.ts';
+import { initialState, THEMES } from './model/theme-provider.constants.ts';
 import { useApplyTheme } from '@/shared/providers/theme-provider/hooks/useApplyTheme';
 
 export interface ThemeProviderProps {
