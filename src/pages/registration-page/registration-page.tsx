@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../app/routes/common/routes.constants.ts';
-import { handleError } from '../../../lib/errors/utils/handle-error.ts';
-import { logger } from '../../../lib/logger.ts';
-import { LOCAL_STORAGE_PROFILE_KEYS } from '../../local-storage/model/local-storage.constants.ts';
-import { UserApiService } from '../../users/user-api.service.ts';
-import { AuthApiService } from '../auth-api.service.ts';
-import { getAccessToken, setAccessToken } from '../auth-token.helpers.ts';
-import type { RegisterStepOneValues, RegisterStepTwoValues } from '../auth.schema.ts';
+import { ROUTES } from '../../app/routes/common/routes.constants.ts';
+import { handleError } from '../../shared/lib/errors/utils/handle-error.ts';
+import { logger } from '../../shared/lib/logger.ts';
+import { LOCAL_STORAGE_PROFILE_KEYS } from '../../shared/modules/local-storage/model/local-storage.constants.ts';
+import { UserApiService } from '../../shared/modules/users/user-api.service.ts';
+import { AuthApiService } from '../../shared/modules/auth/auth-api.service.ts';
+import { getAccessToken, setAccessToken } from '../../shared/modules/auth/auth-token.helpers.ts';
+import type {
+    RegisterStepOneValues,
+    RegisterStepTwoValues,
+} from '../../shared/modules/auth/auth.schema.ts';
 import { RegisterStepOneForm } from './ui/register-step-one-form.tsx';
 import { RegisterStepTwoForm } from './ui/register-step-two-form.tsx';
 
@@ -82,7 +85,7 @@ export function RegisterPage() {
                 <p className="text-center text-sm text-muted-foreground">
                     {t('register.form-labels.common.have-account', { ns: 'auth' })}
                     <Link to={ROUTES.LOGIN_PAGE} className="pl-[1ch] font-medium text-primary">
-                        {t('register.form-labels.common.login-link', { ns: 'auth' })}
+                        {t('register.form-labels.common.login-page-link', { ns: 'auth' })}
                     </Link>
                 </p>
             </div>

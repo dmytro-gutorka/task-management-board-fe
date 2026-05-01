@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import type { LocationState } from '../../../types/common.ts';
-import type { LoginFormValues } from '../auth.schema.ts';
+import type { LocationState } from '../../shared/types/common.ts';
+import type { LoginFormValues } from '../../shared/modules/auth/auth.schema.ts';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../app/routes/common/routes.constants.ts';
-import { handleError } from '../../../lib/errors/utils/handle-error.ts';
-import { AuthApiService } from '../auth-api.service.ts';
-import { setAccessToken } from '../auth-token.helpers.ts';
+import { ROUTES } from '../../app/routes/common/routes.constants.ts';
+import { handleError } from '../../shared/lib/errors/utils/handle-error.ts';
+import { AuthApiService } from '../../shared/modules/auth/auth-api.service.ts';
+import { setAccessToken } from '../../shared/modules/auth/auth-token.helpers.ts';
 import { LoginForm } from './ui/login-form.tsx';
 
 export function LoginPage() {
@@ -43,12 +43,12 @@ export function LoginPage() {
                 <LoginForm isSubmitting={isSubmitting} onSubmit={handleSubmit} />
 
                 <p className="text-center text-sm text-muted-foreground">
-                    {t('login.form-labels.have-account', { ns: 'auth' })}
+                    {t('login-page.form-labels.have-account', { ns: 'auth' })}
                     <Link
                         to={ROUTES.REGISTRATION_PAGE}
                         className="pl-[1ch] font-medium text-primary"
                     >
-                        {t('login.form-labels.register-link', { ns: 'auth' })}
+                        {t('login-page.form-labels.register-link', { ns: 'auth' })}
                     </Link>
                 </p>
             </div>

@@ -1,29 +1,29 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { Input } from '@/shared/components/shadcn/ui/input.tsx';
-import { Textarea } from '@/shared/components/shadcn/ui/textarea.tsx';
-import { Switch } from '@/shared/components/shadcn/ui/switch.tsx';
+import { Input } from '../../../components/shadcn/ui/input.tsx';
+import { Textarea } from '../../../components/shadcn/ui/textarea.tsx';
+import { Switch } from '../../../components/shadcn/ui/switch.tsx';
 import {
     Field,
     FieldDescription,
     FieldError,
     FieldGroup,
     FieldLabel,
-} from '@/shared/components/shadcn/ui/field.tsx';
-import { type TaskFormValues } from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
-import { taskFormSchema } from '@/shared/modules/tasks/model/task-form/tasks-form.schema.ts';
+} from '../../../components/shadcn/ui/field.tsx';
+import { type TaskFormValues } from '../model/task-form/tasks-form.types.ts';
+import { taskFormSchema } from '../model/task-form/tasks-form.schema.ts';
 import {
     getTaskPriorityOptions,
     getTaskStatusOptions,
-} from '@/shared/modules/tasks/model/task-form/tasks-form.constants.ts';
-import { TagsSelector } from '@/shared/components/tags-selector.tsx';
-import { SelectInput } from '@/shared/components/select/select-input.tsx';
+} from '../model/task-form/tasks-form.constants.ts';
+import { TagsSelector } from '../../../components/tags-selector.tsx';
+import { SelectInput } from '../../../components/select/select-input.tsx';
 import {
     getTaskPrioritySelectConfig,
     getTaskStatusSelectConfig,
-} from '@/shared/modules/tasks/model/task-form/tasks-form.configs.ts';
-import { buildTaskFormDefaultValues } from '@/shared/modules/tasks/helpers/buildTaskFormDefaultValues.ts';
+} from '../model/task-form/tasks-form.configs.ts';
+import { buildTaskFormDefaultValues } from '../helpers/buildTaskFormDefaultValues.ts';
 
 interface TaskFormProps {
     initialValues?: TaskFormValues;

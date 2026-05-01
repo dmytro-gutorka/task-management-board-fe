@@ -1,7 +1,7 @@
 import { normalizeError } from '@/shared/lib/errors/utils/normalize-error.ts';
 import type { AppError, HandleErrorOptions } from '@/shared/lib/errors/error.types.ts';
 import { logger } from '@/shared/lib/logger';
-import { toast } from 'sonner';
+import { toast } from 'react-toastify';
 import { removeAccessToken } from '../../../modules/auth/auth-token.helpers.ts';
 
 export const handleError = (error: unknown, options: HandleErrorOptions = {}): AppError => {
