@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { ActionModal } from '@/shared/components/modal/ui/action-modal.tsx';
-import { Separator } from '@/shared/components/shadcn/ui/separator.tsx';
-import { mapTaskTiInitialValues } from '../../helpers/mapTaskTiInitialValues.ts';
-import type { TaskFormValues } from '../../model/task-form/tasks-form.types.ts';
-import type { Task } from '../../model/task/task.types.ts';
+import { ActionModal } from '../../../components/modal/ui/action-modal.tsx';
+import { Separator } from '../../../components/shadcn/ui/separator.tsx';
+import { mapTaskTiInitialValues } from '../helpers/mapTaskTiInitialValues.ts';
+import type { TaskFormValues } from '../model/task-form/tasks-form.types.ts';
+import type { Task } from '../model/task/task.types.ts';
 
-import { TaskForm } from '../task-forms/task-form.tsx';
+import { TaskForm } from './task-form.tsx';
 
 interface EditTaskModalProps {
     initialValues: Task;

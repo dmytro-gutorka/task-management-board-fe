@@ -1,6 +1,7 @@
 import { normalizeError } from '@/shared/lib/errors/utils/normalize-error.ts';
 import type { AppError, HandleErrorOptions } from '@/shared/lib/errors/error.types.ts';
 import { logger } from '@/shared/lib/logger';
+import { removeAccessToken } from '../../../modules/auth/auth-token.helpers.ts';
 import { toast } from 'sonner';
 
 export const handleError = (error: unknown, options: HandleErrorOptions = {}): AppError => {
@@ -9,7 +10,7 @@ export const handleError = (error: unknown, options: HandleErrorOptions = {}): A
     const appError = normalizeError(error);
 
     if (appError.code === 'UNAUTHORIZED' && logoutOnUnauthorized) {
-        // later: remove token + redirect to login
+        removeAccessToken();
     }
 
     if (showToast) toast.error(appError.message);

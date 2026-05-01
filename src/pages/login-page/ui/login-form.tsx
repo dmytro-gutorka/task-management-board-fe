@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Button } from '../../../../components/shadcn/ui/button.tsx';
+import { Button } from '../../../shared/components/shadcn/ui/button.tsx';
 import {
     Card,
     CardContent,
@@ -10,15 +10,15 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '../../../../components/shadcn/ui/card.tsx';
+} from '../../../shared/components/shadcn/ui/card.tsx';
 import {
     Field,
     FieldError,
     FieldGroup,
     FieldLabel,
-} from '../../../../components/shadcn/ui/field.tsx';
-import { Input } from '../../../../components/shadcn/ui/input.tsx';
-import { type LoginFormValues, loginSchema } from '../../auth.schema.ts';
+} from '../../../shared/components/shadcn/ui/field.tsx';
+import { Input } from '../../../shared/components/shadcn/ui/input.tsx';
+import { type LoginFormValues, loginSchema } from '../../../shared/modules/auth/auth.schema.ts';
 
 interface LoginFormProps {
     isSubmitting: boolean;

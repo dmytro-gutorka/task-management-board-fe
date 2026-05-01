@@ -7,7 +7,7 @@ import {
     CardTitle,
 } from '../../../../shared/components/shadcn/ui/card.tsx';
 import { formatDeadline } from '../../../../shared/modules/tasks/helpers/formatDeadline.ts';
-import { getAvatarFallback } from '../../../../shared/modules/tasks/helpers/getAvatarFallback.ts';
+import { getAvatarFallback } from '../../../tasks-page/helpers/getAvatarFallback.ts';
 import {
     AvatarFallback,
     AvatarImage,
@@ -15,7 +15,10 @@ import {
 } from '../../../../shared/components/shadcn/ui/avatar.tsx';
 import { Badge } from '../../../../shared/components/shadcn/ui/badge.tsx';
 import { BadgeList } from '../../../../shared/components/badge-list.tsx';
-import { getTaskStatusConfig } from '../../../../shared/modules/tasks/model/task-card/task-card.configs.ts';
+import {
+    getTaskPriorityConfig,
+    getTaskStatusConfig,
+} from '../../../../shared/modules/tasks/model/task-card/task-card.configs.ts';
 import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TasksDetailsCardProps {
@@ -26,7 +29,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
     const { t } = useTranslation(['common', 'tasks']);
 
     const statusConfig = getTaskStatusConfig(t)[task.status];
-    const priorityConfig = getTaskStatusConfig(t)[task.status];
+    const priorityConfig = getTaskPriorityConfig(t)[task.priority];
 
     const StatusIcon = statusConfig.icon;
 

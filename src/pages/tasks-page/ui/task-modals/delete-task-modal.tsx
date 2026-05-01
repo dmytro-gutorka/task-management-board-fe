@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ConfirmationModal } from '@/shared/components/modal/ui/confirmation-modal.tsx';
+import { ConfirmationModal } from '../../../../shared/components/modal/ui/confirmation-modal.tsx';
 
 interface DeleteTaskModalProps {
     setOpen: (open: boolean) => void;

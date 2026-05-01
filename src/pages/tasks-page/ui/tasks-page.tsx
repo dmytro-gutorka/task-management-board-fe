@@ -10,9 +10,9 @@ import {
     updateTask,
 } from '../../../shared/modules/tasks/model/task/task.api.ts';
 import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
-import { CreateTaskModal } from '../../../shared/modules/tasks/ui/task-modals/create-task-modal.tsx';
-import { DeleteTaskModal } from '../../../shared/modules/tasks/ui/task-modals/delete-task-modal.tsx';
-import { EditTaskModal } from '../../../shared/modules/tasks/ui/task-modals/edit-task-modal.tsx';
+import { CreateTaskModal } from './task-modals/create-task-modal.tsx';
+import { DeleteTaskModal } from './task-modals/delete-task-modal.tsx';
+import { EditTaskModal } from '../../../shared/modules/tasks/ui/edit-task-modal.tsx';
 import type { Nullable } from '../../../shared/types/common.ts';
 import { getFilteredAndSortedTasks } from '../helpers/getFilteredAndSortedTasks.ts';
 import { useTasksQueryState } from '../hooks/useTasksQueryState.ts';

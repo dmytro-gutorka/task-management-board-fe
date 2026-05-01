@@ -5,7 +5,7 @@ import { useModalState } from '../../../shared/components/modal/model/hooks/useS
 import type { TaskFormValues } from '../../../shared/modules/tasks/model/task-form/tasks-form.types.ts';
 import { getTaskById, updateTask } from '../../../shared/modules/tasks/model/task/task.api.ts';
 import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
-import { EditTaskModal } from '../../../shared/modules/tasks/ui/task-modals/edit-task-modal.tsx';
+import { EditTaskModal } from '../../../shared/modules/tasks/ui/edit-task-modal.tsx';
 import type { Nullable } from '../../../shared/types/common.ts';
 import { TasksDetailsCard } from './common/tasks-details-card.tsx';
 import { TasksDetailsHeader } from './common/tasks-details-header.tsx';
