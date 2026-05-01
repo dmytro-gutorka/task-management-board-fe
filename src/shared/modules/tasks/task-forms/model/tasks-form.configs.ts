@@ -1,4 +1,4 @@
-import { type SelectConfig } from '@/shared/components/select/model/select-input.types.ts';
+import { type SelectConfig } from '../../../../components/select/model/select-input.types.ts';
 import type { TFunction } from 'i18next';
 
 export const getTaskStatusSelectConfig = (t: TFunction): SelectConfig => ({

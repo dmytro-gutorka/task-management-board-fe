@@ -11,18 +11,18 @@ import { PublicOnlyRoute } from './common/public-route.tsx';
 export const router = createBrowserRouter([
     {
         path: ROUTES.HOME,
-        Component: Layout,
+        element: <Layout />,
         children: [
             {
                 element: <PublicOnlyRoute />,
                 children: [
                     {
                         path: ROUTES.LOGIN_PAGE,
-                        Component: LoginPage,
+                        element: <LoginPage />,
                     },
                     {
                         path: ROUTES.REGISTRATION_PAGE,
-                        Component: RegisterPage,
+                        element: <RegisterPage />,
                     },
                 ],
             },
@@ -33,19 +33,19 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: ROUTES.HOME,
-                Component: Layout,
+                element: <Layout />,
                 children: [
                     {
                         index: true,
-                        Component: TasksPage,
+                        element: <TasksPage />,
                     },
                     {
                         path: ROUTES.TASKS_PAGE,
-                        Component: TasksPage,
+                        element: <TasksPage />,
                     },
                     {
                         path: ROUTES.TASKS_DETAILS_PAGE,
-                        Component: TasksDetailsPage,
+                        element: <TasksDetailsPage />,
                     },
                 ],
             },

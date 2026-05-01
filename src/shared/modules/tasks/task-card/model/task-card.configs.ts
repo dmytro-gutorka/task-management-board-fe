@@ -1,4 +1,4 @@
-import { TASK_PRIORITY, TASK_STATUS } from '@/shared/modules/tasks/model/task/task.constants.ts';
+import { TASK_PRIORITY, TASK_STATUS } from '../../common/model/task.constants.ts';
 import { CheckCircle2, Circle, Clock3 } from 'lucide-react';
 import type { TFunction } from 'i18next';
 

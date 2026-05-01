@@ -1,5 +1,5 @@
-import type { TaskFormValues } from '@/shared/modules/tasks/model/task-form/tasks-form.types.ts';
-import { TASK_PRIORITY, TASK_STATUS } from '@/shared/modules/tasks/model/task/task.constants.ts';
+import type { TaskFormValues } from './tasks-form.types.ts';
+import { TASK_PRIORITY, TASK_STATUS } from '../../common/model/task.constants.ts';
 
 export const taskFormDefaultValues: TaskFormValues = {
     title: '',

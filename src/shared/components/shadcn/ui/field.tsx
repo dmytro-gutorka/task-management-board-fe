@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-
-import { cn } from '@/shared/lib/utils';
-import { Label } from '@/shared/components/shadcn/ui/label';
-import { Separator } from '@/shared/components/shadcn/ui/separator';
+import { cn } from '../../../lib/utils.ts';
+import { Label } from './label.tsx';
+import { Separator } from './separator.tsx';
 
 function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
     return (
@@ -173,8 +172,7 @@ function FieldError({
 }: React.ComponentProps<'div'> & {
     errors?: Array<{ message?: string } | undefined>;
 }) {
-    // eslint-disable-next-line react-hooks/use-memo
-    const content = useMemo(async () => {
+    const content = useMemo(() => {
         if (children) {
             return children;
         }
@@ -198,7 +196,6 @@ function FieldError({
         );
     }, [children, errors]);
 
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     if (!content) {
         return null;
     }

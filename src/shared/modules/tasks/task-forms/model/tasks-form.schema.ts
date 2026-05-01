@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TASK_PRIORITY, TASK_STATUS } from '@/shared/modules/tasks/model/task/task.constants.ts';
+import { TASK_PRIORITY, TASK_STATUS } from '../../common/model/task.constants.ts';
 
 // TODO 2: Maybe split some rules to separate files for better readability later ?
 // TODO 3: Build reusable factory for error-message ZOD rules ?

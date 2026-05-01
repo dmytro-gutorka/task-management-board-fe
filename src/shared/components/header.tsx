@@ -1,8 +1,8 @@
 import { Separator } from '@/shared/components/shadcn/ui/separator';
 import { TooltipProvider } from '@/shared/components/shadcn/ui/tooltip';
+import { LanguageSwitcher } from './language-switcher.tsx';
 import { NotebookText } from 'lucide-react';
 import { ThemeToggle } from '@/shared/components/theme-toggle';
-import { LanguageSwitcher } from './language-switcher.tsx';
 import { useTranslation } from 'react-i18next';
 
 export function Header() {
