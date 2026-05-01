@@ -38,11 +38,17 @@ export function RegisterPage() {
         try {
             setIsSubmitting(true);
 
-            await UserApiService.updateMe({
+            const payload = {
                 name: values.name?.trim() || undefined,
                 surname: values.surname?.trim() || undefined,
                 birthday: values.birthday || undefined,
-            });
+            };
+
+            const hasData = Object.values(payload).some((value) => value !== undefined);
+
+            if (hasData) {
+                await UserApiService.updateMe(payload);
+            }
 
             logger.debug(getAccessToken());
             void navigate(ROUTES.HOME, { replace: true });
