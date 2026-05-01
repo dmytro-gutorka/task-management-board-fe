@@ -1,4 +1,4 @@
-import type { LocationState } from '../../../types/common.ts';
+import type { FromPathLocationState } from '../../../types/common.ts';
 import type { LoginFormValues } from '../auth.schema.ts';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -14,10 +14,10 @@ export function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const state = location.state as LocationState | null;
-    const from = state?.from?.pathname ?? ROUTES.TASKS_PAGE;
-
     async function handleSubmit(values: LoginFormValues) {
+        const state = location.state as FromPathLocationState | null;
+        const from = state?.from?.pathname ?? ROUTES.TASKS_PAGE;
+
         try {
             setIsSubmitting(true);
 
