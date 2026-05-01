@@ -13,6 +13,7 @@ import { RegisterStepTwoForm } from './ui/register-step-two-form.tsx';
 export function RegisterPage() {
     const [step, setStep] = useState<1 | 2>(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
     const navigate = useNavigate();
 
     async function handleStepOneSubmit(values: RegisterStepOneValues) {
@@ -76,7 +77,7 @@ export function RegisterPage() {
 
                 <p className="text-center text-sm text-muted-foreground">
                     Already have an account?
-                    <Link to={ROUTES.LOGIN_PAGE} className="font-medium text-primary">
+                    <Link to={ROUTES.LOGIN_PAGE} className="pl-[1ch] font-medium text-primary">
                         Login
                     </Link>
                 </p>

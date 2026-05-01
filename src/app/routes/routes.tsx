@@ -10,15 +10,21 @@ import { PublicOnlyRoute } from './common/public-route.tsx';
 
 export const router = createBrowserRouter([
     {
-        element: <PublicOnlyRoute />,
+        path: ROUTES.HOME,
+        Component: Layout,
         children: [
             {
-                path: ROUTES.LOGIN_PAGE,
-                Component: LoginPage,
-            },
-            {
-                path: ROUTES.REGISTRATION_PAGE,
-                Component: RegisterPage,
+                element: <PublicOnlyRoute />,
+                children: [
+                    {
+                        path: ROUTES.LOGIN_PAGE,
+                        Component: LoginPage,
+                    },
+                    {
+                        path: ROUTES.REGISTRATION_PAGE,
+                        Component: RegisterPage,
+                    },
+                ],
             },
         ],
     },
