@@ -8,7 +8,10 @@ import {
 } from '@/shared/components/shadcn/ui/dropdown-menu';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
 import { useTheme } from '@/shared/providers/theme-provider/hooks/useTheme';
-import { themeOptions, THEMES } from '@/shared/providers/theme-provider/theme-provider.constants';
+import {
+    themeOptions,
+    THEMES,
+} from '../providers/theme-provider/model/theme-provider.constants.ts';
 import { useTranslation } from 'react-i18next';
 
 export function ThemeToggle() {

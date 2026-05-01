@@ -1,6 +1,6 @@
-import { type ThemeOptions } from '@/shared/providers/theme-provider/theme-provider.types';
+import { type ThemeOptions } from '../model/theme-provider.types.ts';
 import { useEffect } from 'react';
-import { THEMES } from '@/shared/providers/theme-provider/theme-provider.constants';
+import { THEMES } from '../model/theme-provider.constants.ts';
 
 export function useApplyTheme(theme: ThemeOptions) {
     useEffect(() => {

@@ -18,7 +18,7 @@ import {
 } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
 import { formatDeadline } from '@/shared/modules/tasks/helpers/formatDeadline.ts';
 import { BadgeList } from '@/shared/components/badge-list';
-import { ROUTES } from '@/app/routes/routes.constants';
+import { ROUTES } from '../../../../app/routes/common/routes.constants.ts';
 import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TaskGridCardProps {
