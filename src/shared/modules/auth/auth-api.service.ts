@@ -13,4 +13,8 @@ export const AuthApiService = {
         const { data } = await httpClient.post<AuthResponse>(API_ROUTES.REGISTRATION, payload);
         return data;
     },
+
+    async signOut() {
+        await httpClient.post(API_ROUTES.LOGOUT);
+    },
 };

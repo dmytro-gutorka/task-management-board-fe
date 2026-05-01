@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../../../components/shadcn/ui/button.tsx';
 import {
     Card,
@@ -25,6 +26,8 @@ interface RegisterStepOneFormProps {
 }
 
 export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneFormProps) {
+    const { t } = useTranslation(['auth']);
+
     const form = useForm<RegisterStepOneValues>({
         resolver: zodResolver(registerStepOneSchema),
         defaultValues: {
@@ -37,8 +40,12 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Register</CardTitle>
-                <CardDescription>Create your account.</CardDescription>
+                <CardTitle>
+                    {t('register.form-labels.first-step.form-header', { ns: 'auth' })}
+                </CardTitle>
+                <CardDescription>
+                    {t('register.form-labels.first-step.form-header', { ns: 'auth' })}
+                </CardDescription>
             </CardHeader>
 
             <CardContent>
@@ -54,7 +61,9 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-email">Email</FieldLabel>
+                                    <FieldLabel htmlFor="register-email">
+                                        {t('common.input-labels.email', { ns: 'auth' })}
+                                    </FieldLabel>
                                     <Input
                                         {...field}
                                         id="register-email"
@@ -74,7 +83,9 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-password">Password</FieldLabel>
+                                    <FieldLabel htmlFor="register-password">
+                                        {t('common.input-labels.password', { ns: 'auth' })}
+                                    </FieldLabel>
                                     <Input
                                         {...field}
                                         id="register-password"
@@ -95,7 +106,9 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldLabel htmlFor="register-confirm-password">
-                                        Confirm password
+                                        {t('register.input-labels.first-step.confirm-password', {
+                                            ns: 'auth',
+                                        })}
                                     </FieldLabel>
                                     <Input
                                         {...field}
@@ -122,7 +135,9 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
                     className="w-full"
                 >
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Continue
+                    {t('common.buttons.continue', {
+                        ns: 'auth',
+                    })}
                 </Button>
             </CardFooter>
         </Card>

@@ -9,7 +9,7 @@ void i18n
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-        ns: ['common', 'tasks'],
+        ns: ['common', 'tasks', 'auth'],
         defaultNS: 'common',
         fallbackNS: 'common',
         fallbackLng: DEFAULT_LANGUAGE,

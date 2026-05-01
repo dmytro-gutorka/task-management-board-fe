@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../../app/routes/common/routes.constants.ts';
 import { handleError } from '../../../lib/errors/utils/handle-error.ts';
 import { logger } from '../../../lib/logger.ts';
+import { LOCAL_STORAGE_PROFILE_KEYS } from '../../local-storage/model/local-storage.constants.ts';
 import { UserApiService } from '../../users/user-api.service.ts';
 import { AuthApiService } from '../auth-api.service.ts';
 import { getAccessToken, setAccessToken } from '../auth-token.helpers.ts';
@@ -13,6 +15,8 @@ import { RegisterStepTwoForm } from './ui/register-step-two-form.tsx';
 export function RegisterPage() {
     const [step, setStep] = useState<1 | 2>(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const { t } = useTranslation(['auth']);
 
     const navigate = useNavigate();
 
@@ -54,7 +58,7 @@ export function RegisterPage() {
     }
 
     function handleSkip() {
-        localStorage.setItem('profileCompletionSkipped', 'true');
+        localStorage.setItem(LOCAL_STORAGE_PROFILE_KEYS.PROFILE_COMPLETION_SKIPPED, 'true');
 
         void navigate(ROUTES.HOME, { replace: true });
     }
@@ -76,9 +80,9 @@ export function RegisterPage() {
                 )}
 
                 <p className="text-center text-sm text-muted-foreground">
-                    Already have an account?
+                    {t('register.form-labels.common.have-account', { ns: 'auth' })}
                     <Link to={ROUTES.LOGIN_PAGE} className="pl-[1ch] font-medium text-primary">
-                        Login
+                        {t('register.form-labels.common.login-link', { ns: 'auth' })}
                     </Link>
                 </p>
             </div>

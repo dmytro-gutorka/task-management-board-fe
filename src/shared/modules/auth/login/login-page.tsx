@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { LocationState } from '../../../types/common.ts';
 import type { LoginFormValues } from '../auth.schema.ts';
 import { useState } from 'react';
@@ -11,6 +12,7 @@ import { LoginForm } from './ui/login-form.tsx';
 export function LoginPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const { t } = useTranslation(['auth']);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -41,12 +43,12 @@ export function LoginPage() {
                 <LoginForm isSubmitting={isSubmitting} onSubmit={handleSubmit} />
 
                 <p className="text-center text-sm text-muted-foreground">
-                    Do not have an account?
+                    {t('login.form-labels.have-account', { ns: 'auth' })}
                     <Link
                         to={ROUTES.REGISTRATION_PAGE}
                         className="pl-[1ch] font-medium text-primary"
                     >
-                        Register
+                        {t('login.form-labels.register-link', { ns: 'auth' })}
                     </Link>
                 </p>
             </div>

@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../../../components/shadcn/ui/button.tsx';
 import {
     Card,
@@ -26,6 +27,8 @@ interface RegisterStepTwoFormProps {
 }
 
 export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: RegisterStepTwoFormProps) {
+    const { t } = useTranslation(['auth']);
+
     const form = useForm<RegisterStepTwoValues>({
         resolver: zodResolver(registerStepTwoSchema),
         defaultValues: {
@@ -38,8 +41,16 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Complete profile</CardTitle>
-                <CardDescription>You can skip this step for now.</CardDescription>
+                <CardTitle>
+                    {t('register.form-labels.second-step.form-header', {
+                        ns: 'auth',
+                    })}
+                </CardTitle>
+                <CardDescription>
+                    {t('register.form-labels.second-step.form-description', {
+                        ns: 'auth',
+                    })}
+                </CardDescription>
             </CardHeader>
 
             <CardContent>
@@ -55,7 +66,12 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-name">Name</FieldLabel>
+                                    <FieldLabel htmlFor="register-name">
+                                        {' '}
+                                        {t('register.input-labels.second-step.name', {
+                                            ns: 'auth',
+                                        })}
+                                    </FieldLabel>
                                     <Input
                                         {...field}
                                         id="register-name"
@@ -74,7 +90,12 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-surname">Surname</FieldLabel>
+                                    <FieldLabel htmlFor="register-surname">
+                                        {' '}
+                                        {t('register.input-labels.second-step.surname', {
+                                            ns: 'auth',
+                                        })}
+                                    </FieldLabel>
                                     <Input
                                         {...field}
                                         id="register-surname"
@@ -93,7 +114,11 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-birthday">Birthday</FieldLabel>
+                                    <FieldLabel htmlFor="register-birthday">
+                                        {t('register.input-labels.second-step.birthday', {
+                                            ns: 'auth',
+                                        })}
+                                    </FieldLabel>
                                     <Input
                                         {...field}
                                         id="register-birthday"
@@ -119,7 +144,9 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                     className="w-full"
                     variant="outline"
                 >
-                    Skip
+                    {t('common.buttons.skip', {
+                        ns: 'auth',
+                    })}
                 </Button>
                 <Button
                     type="submit"
@@ -128,7 +155,9 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                     className="w-full"
                 >
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Finish
+                    {t('common.buttons.finish', {
+                        ns: 'auth',
+                    })}
                 </Button>
             </CardFooter>
         </Card>

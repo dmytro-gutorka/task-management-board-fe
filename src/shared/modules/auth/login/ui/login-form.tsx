@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../../../components/shadcn/ui/button.tsx';
 import {
     Card,
@@ -25,6 +26,8 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
+    const { t } = useTranslation(['auth']);
+
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -36,8 +39,10 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Login</CardTitle>
-                <CardDescription>Sign in to your account.</CardDescription>
+                <CardTitle> {t('login.form-labels.form-header', { ns: 'auth' })}</CardTitle>
+                <CardDescription>
+                    {t('login.form-labels.form-description', { ns: 'auth' })}
+                </CardDescription>
             </CardHeader>
 
             <CardContent>
@@ -53,12 +58,14 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="login-email">Email</FieldLabel>
+                                    <FieldLabel htmlFor="login-email">
+                                        {t('common.input-labels.email', { ns: 'auth' })}
+                                    </FieldLabel>
                                     <Input
                                         {...field}
                                         id="login-email"
                                         type="email"
-                                        placeholder="you@example.com"
+                                        placeholder={t('common.placeholders.email', { ns: 'auth' })}
                                         disabled={isSubmitting}
                                         aria-invalid={fieldState.invalid}
                                         aria-label="type"
@@ -75,13 +82,17 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="login-password">Password</FieldLabel>
+                                    <FieldLabel htmlFor="login-password">
+                                        {t('common.input-labels.password', { ns: 'auth' })}
+                                    </FieldLabel>
                                     <Input
                                         {...field}
                                         id="login-password"
                                         type="password"
                                         aria-label="type"
-                                        placeholder="Your password"
+                                        placeholder={t('common.placeholders.password', {
+                                            ns: 'auth',
+                                        })}
                                         disabled={isSubmitting}
                                         aria-invalid={fieldState.invalid}
                                     />
@@ -98,7 +109,7 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
             <CardFooter>
                 <Button type="submit" form="login-form" disabled={isSubmitting} className="w-full">
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Sign in
+                    {t('common.buttons.sign-in', { ns: 'auth' })}
                 </Button>
             </CardFooter>
         </Card>
