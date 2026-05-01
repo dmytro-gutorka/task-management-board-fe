@@ -5,7 +5,6 @@ import type { AuthResponse, SignInPayload, SignUpPayload } from './auth-api.type
 export const AuthApiService = {
     async signIn(payload: SignInPayload) {
         const { data } = await httpClient.post<AuthResponse>(API_ROUTES.LOGIN, payload);
-
         return data;
     },
 
@@ -16,5 +15,10 @@ export const AuthApiService = {
 
     async signOut() {
         await httpClient.post(API_ROUTES.LOGOUT);
+    },
+
+    async refreshToken() {
+        const { data } = await httpClient.post<AuthResponse>(API_ROUTES.REFRESH);
+        return data;
     },
 };
