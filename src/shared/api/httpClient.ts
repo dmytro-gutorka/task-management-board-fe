@@ -31,7 +31,7 @@ httpClient.interceptors.response.use(
 
         if (error.response?.status === 401 && originalRequest) {
             try {
-                const response = await AuthApiService.refreshToken();
+                const response = await AuthApiService.refresh();
 
                 setAccessToken(response.accessToken);
                 originalRequest.headers.Authorization = `Bearer ${response.accessToken}`;

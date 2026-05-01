@@ -17,8 +17,8 @@ export const AuthApiService = {
         await httpClient.post(API_ROUTES.LOGOUT);
     },
 
-    async refreshToken() {
-        const { data } = await httpClient.post<AuthResponse>(API_ROUTES.REFRESH);
+    async refresh() {
+        const { data } = await httpClient.get<AuthResponse>(API_ROUTES.REFRESH);
         return data;
     },
 };
