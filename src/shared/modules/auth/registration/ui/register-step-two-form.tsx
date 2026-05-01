@@ -111,17 +111,16 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                 </form>
             </CardContent>
 
-            <CardFooter className="gap-2">
+            <CardFooter className="gap-6 flex flex-col">
                 <Button
                     type="button"
-                    variant="outline"
                     disabled={isSubmitting}
                     onClick={onSkip}
                     className="w-full"
+                    variant="outline"
                 >
                     Skip
                 </Button>
-
                 <Button
                     type="submit"
                     form="register-step-two-form"

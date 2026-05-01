@@ -5,8 +5,6 @@ export const loginSchema = z.object({
     password: z.string().min(1, 'Password is required'),
 });
 
-export type LoginFormValues = z.infer<typeof loginSchema>;
-
 export const registerStepOneSchema = z
     .object({
         email: z.string().min(1, 'Email is required'),
@@ -18,12 +16,12 @@ export const registerStepOneSchema = z
         message: 'Passwords do not match',
     });
 
-export type RegisterStepOneValues = z.infer<typeof registerStepOneSchema>;
-
 export const registerStepTwoSchema = z.object({
     name: z.string().trim().optional(),
     surname: z.string().trim().optional(),
     birthday: z.string().optional(),
 });
 
+export type LoginFormValues = z.infer<typeof loginSchema>;
+export type RegisterStepOneValues = z.infer<typeof registerStepOneSchema>;
 export type RegisterStepTwoValues = z.infer<typeof registerStepTwoSchema>;

@@ -42,7 +42,10 @@ export function LoginPage() {
 
                 <p className="text-center text-sm text-muted-foreground">
                     Do not have an account?
-                    <Link to={ROUTES.REGISTRATION_PAGE} className="font-medium text-primary">
+                    <Link
+                        to={ROUTES.REGISTRATION_PAGE}
+                        className="pl-[1ch] font-medium text-primary"
+                    >
                         Register
                     </Link>
                 </p>
