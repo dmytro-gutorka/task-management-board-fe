@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { ActionModal } from '@/shared/components/modal/ui/action-modal.tsx';
-import { Separator } from '@/shared/components/shadcn/ui/separator.tsx';
-import type { TaskFormValues } from '../../model/task-form/tasks-form.types.ts';
-import { TaskForm } from '../task-forms/task-form.tsx';
+import { ActionModal } from '../../../../components/modal/ui/action-modal.tsx';
+import { Separator } from '../../../../components/shadcn/ui/separator.tsx';
+import type { TaskFormValues } from '../../task-forms/model/tasks-form.types.ts';
+import { TaskForm } from '../../task-forms/task-form.tsx';
 
 interface CreateTaskModalProps {
     isOpen: boolean;

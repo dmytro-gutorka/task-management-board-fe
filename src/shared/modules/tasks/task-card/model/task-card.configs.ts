@@ -1,7 +1,8 @@
-import { TASK_PRIORITY, TASK_STATUS } from '@/shared/modules/tasks/model/task/task.constants.ts';
+import { TASK_PRIORITY, TASK_STATUS } from '../../common/model/task.constants.ts';
 import { CheckCircle2, Circle, Clock3 } from 'lucide-react';
+import type { TFunction } from 'i18next';
 
-export const getTaskStatusConfig = (t: (key: string, obj: { ns: string }) => string) =>
+export const getTaskStatusConfig = (t: TFunction) =>
     ({
         [TASK_STATUS.TODO]: {
             badgeClassName: 'border-transparent bg-muted text-muted-foreground',
@@ -25,7 +26,7 @@ export const getTaskStatusConfig = (t: (key: string, obj: { ns: string }) => str
         },
     }) as const;
 
-export const getTaskPriorityConfig = (t: (key: string, obj: { ns: string }) => string) =>
+export const getTaskPriorityConfig = (t: TFunction) =>
     ({
         [TASK_PRIORITY.LOW]: {
             badgeClassName:

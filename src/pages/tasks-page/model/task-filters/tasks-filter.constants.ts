@@ -1,4 +1,7 @@
-import { TASK_PRIORITY, TASK_STATUS } from '@/shared/modules/tasks/model/task/task.constants.ts';
+import {
+    TASK_PRIORITY,
+    TASK_STATUS,
+} from '../../../../shared/modules/tasks/common/model/task.constants.ts';
 
 export const TASK_STATUS_FILTER = {
     ...TASK_STATUS,

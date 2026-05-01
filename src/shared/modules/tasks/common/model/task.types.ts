@@ -1,5 +1,5 @@
 import type { MetaDbFields } from '../../../../types/common.ts';
-import type { TaskPriority, TaskStatus } from '../task-card/task-card.types.ts';
+import type { TaskPriority, TaskStatus } from '../../task-card/model/task-card.types.ts';
 
 export type Task = {
     id: string;

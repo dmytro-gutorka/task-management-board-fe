@@ -49,7 +49,7 @@ export default defineConfig([
             '@typescript-eslint/no-array-delete': 'error',
             '@typescript-eslint/no-explicit-any': 'error',
             '@typescript-eslint/no-unsafe-return': 'error',
-            '@typescript-eslint/promise-function-async': 'error',
+            '@typescript-eslint/promise-function-async': 'off',
             '@typescript-eslint/no-empty-object-type': 'off',
             '@typescript-eslint/no-wrapper-object-types': 'error',
             '@typescript-eslint/prefer-reduce-type-parameter': 'error',

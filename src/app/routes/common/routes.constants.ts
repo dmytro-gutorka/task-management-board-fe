@@ -4,4 +4,4 @@ export const ROUTES = {
     TASKS_DETAILS_PAGE: '/tasks/:taskId',
     LOGIN_PAGE: '/login',
     REGISTRATION_PAGE: '/registration',
-};
+} as const;

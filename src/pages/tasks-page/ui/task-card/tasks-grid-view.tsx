@@ -1,4 +1,4 @@
-import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
+import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 import { TaskGridCard } from './tasks-card-grid.tsx';
 
 interface TasksGridViewProps {

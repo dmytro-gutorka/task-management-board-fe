@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from '@/shared/components/layout';
+import { RegisterPage } from '../../shared/modules/auth/registration/registration-page.tsx';
 import { ROUTES } from './common/routes.constants.ts';
 import { TasksPage } from '@/pages/tasks-page';
 import { TasksDetailsPage } from '@/pages/tasks-details-page';
@@ -9,11 +10,21 @@ import { PublicOnlyRoute } from './common/public-route.tsx';
 
 export const router = createBrowserRouter([
     {
-        element: <PublicOnlyRoute />,
+        path: ROUTES.HOME,
+        element: <Layout />,
         children: [
             {
-                path: ROUTES.LOGIN_PAGE,
-                Component: LoginPage,
+                element: <PublicOnlyRoute />,
+                children: [
+                    {
+                        path: ROUTES.LOGIN_PAGE,
+                        element: <LoginPage />,
+                    },
+                    {
+                        path: ROUTES.REGISTRATION_PAGE,
+                        element: <RegisterPage />,
+                    },
+                ],
             },
         ],
     },
@@ -22,19 +33,19 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: ROUTES.HOME,
-                Component: Layout,
+                element: <Layout />,
                 children: [
                     {
                         index: true,
-                        Component: TasksPage,
+                        element: <TasksPage />,
                     },
                     {
                         path: ROUTES.TASKS_PAGE,
-                        Component: TasksPage,
+                        element: <TasksPage />,
                     },
                     {
                         path: ROUTES.TASKS_DETAILS_PAGE,
-                        Component: TasksDetailsPage,
+                        element: <TasksDetailsPage />,
                     },
                 ],
             },
