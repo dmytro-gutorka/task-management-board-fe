@@ -43,12 +43,12 @@ export function LoginPage() {
                 <LoginForm isSubmitting={isSubmitting} onSubmit={handleSubmit} />
 
                 <p className="text-center text-sm text-muted-foreground">
-                    {t('login-page.form-labels.have-account', { ns: 'auth' })}
+                    {t('login.form-labels.have-account', { ns: 'auth' })}
                     <Link
                         to={ROUTES.REGISTRATION_PAGE}
                         className="pl-[1ch] font-medium text-primary"
                     >
-                        {t('login-page.form-labels.register-link', { ns: 'auth' })}
+                        {t('login.form-labels.register-link', { ns: 'auth' })}
                     </Link>
                 </p>
             </div>

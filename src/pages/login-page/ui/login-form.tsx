@@ -39,9 +39,9 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle> {t('login-page.form-labels.form-header', { ns: 'auth' })}</CardTitle>
+                <CardTitle> {t('login.form-labels.form-header', { ns: 'auth' })}</CardTitle>
                 <CardDescription>
-                    {t('login-page.form-labels.form-description', { ns: 'auth' })}
+                    {t('login.form-labels.form-description', { ns: 'auth' })}
                 </CardDescription>
             </CardHeader>
 

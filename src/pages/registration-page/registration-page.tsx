@@ -85,7 +85,7 @@ export function RegisterPage() {
                 <p className="text-center text-sm text-muted-foreground">
                     {t('register.form-labels.common.have-account', { ns: 'auth' })}
                     <Link to={ROUTES.LOGIN_PAGE} className="pl-[1ch] font-medium text-primary">
-                        {t('register.form-labels.common.login-page-link', { ns: 'auth' })}
+                        {t('register.form-labels.common.login-link', { ns: 'auth' })}
                     </Link>
                 </p>
             </div>
