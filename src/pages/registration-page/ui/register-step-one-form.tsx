@@ -80,7 +80,6 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
                                 </Field>
                             )}
                         />
-
                         <Controller
                             name="password"
                             control={form.control}
@@ -102,7 +101,6 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
                                 </Field>
                             )}
                         />
-
                         <Controller
                             name="confirmPassword"
                             control={form.control}

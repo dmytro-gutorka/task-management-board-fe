@@ -87,7 +87,6 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                                 </Field>
                             )}
                         />
-
                         <Controller
                             name="surname"
                             control={form.control}
@@ -111,7 +110,6 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                                 </Field>
                             )}
                         />
-
                         <Controller
                             name="birthday"
                             control={form.control}
@@ -138,7 +136,6 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                     </FieldGroup>
                 </form>
             </CardContent>
-
             <CardFooter className="gap-6 flex flex-col">
                 <Button
                     type="button"

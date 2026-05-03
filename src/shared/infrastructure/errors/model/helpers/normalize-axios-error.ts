@@ -15,10 +15,11 @@ export function normalizeAxiosError(error: AxiosError<ApiErrorResponse>): AppErr
 
     if (status && httpErrorMap[status]) {
         const mapped = httpErrorMap[status];
+        const message = Array.isArray(data.message) ? data?.message?.join('. ') : data?.message;
 
         return {
             code: mapped.code,
-            message: data?.message || mapped.message,
+            message: message || mapped.message,
             details: data?.errors,
             status,
             originalError: error,

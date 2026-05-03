@@ -7,8 +7,8 @@ import { useAuth } from '../../../../providers/auth-provider/auth.provider.tsx';
 
 export function LogoutButton() {
     const { t } = useTranslation(['auth']);
+    const { isLogoutLoading, logout, isAuthenticated } = useAuth();
 
-    const { isAuthenticated, isSubmitting, logout } = useAuth();
     const navigate = useNavigate();
 
     async function handleLogout() {
@@ -19,8 +19,8 @@ export function LogoutButton() {
     if (!isAuthenticated) return null;
 
     return (
-        <Button variant="outline" onClick={() => void handleLogout()} disabled={isSubmitting}>
-            {isSubmitting ? (
+        <Button variant="outline" onClick={() => void handleLogout()} disabled={isLogoutLoading}>
+            {isLogoutLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
                 <LogOut className="mr-2 h-4 w-4" />

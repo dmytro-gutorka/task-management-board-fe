@@ -2,7 +2,7 @@ export const ROUTES = {
     HOME: '/',
     TASKS_PAGE: '/tasks',
     TASKS_DETAILS_PAGE: '/tasks/:taskId',
-    LOGIN_PAGE: '/login-page',
-    REGISTRATION_PAGE: '/registration-page',
-    PROFILE_PAGE: '/profile-page',
+    LOGIN_PAGE: '/login',
+    REGISTRATION_PAGE: '/registration',
+    PROFILE_PAGE: '/profile',
 } as const;

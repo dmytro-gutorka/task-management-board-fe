@@ -2,7 +2,7 @@ import { Separator } from '@/shared/components/shadcn/ui/separator';
 import { TooltipProvider } from '@/shared/components/shadcn/ui/tooltip';
 import { NotebookText } from 'lucide-react';
 import { ThemeToggle } from '@/shared/components/theme-toggle';
-import { httpClient } from '../infrastructure/httpClient.ts';
+import { httpClient } from '../infrastructure/axios/httpClient.ts';
 import { logger } from '../infrastructure/logger.ts';
 import { LogoutButton } from '../infrastructure/auth/logout/ui/logout-button.tsx';
 import { LanguageSwitcher } from './language-switcher.tsx';

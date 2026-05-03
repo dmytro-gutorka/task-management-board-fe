@@ -1,4 +1,5 @@
-import { httpClient } from '../httpClient.ts';
+import { authClient } from '../axios/authClient.ts';
+import { httpClient } from '../axios/httpClient.ts';
 import { API_ROUTES } from './auth-api.constants.ts';
 import type { AuthResponse, SignInPayload, SignUpPayload } from './auth-api.types.ts';
 
@@ -14,11 +15,11 @@ export const AuthApiService = {
     },
 
     async signOut() {
-        await httpClient.post(API_ROUTES.LOGOUT);
+        await httpClient.get(API_ROUTES.LOGOUT);
     },
 
     async refresh() {
-        const { data } = await httpClient.get<AuthResponse>(API_ROUTES.REFRESH);
+        const { data } = await authClient.get<AuthResponse>(API_ROUTES.REFRESH);
         return data;
     },
 };

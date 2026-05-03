@@ -1,4 +1,4 @@
-import { httpClient } from '../../infrastructure/httpClient.ts';
+import { httpClient } from '../../infrastructure/axios/httpClient.ts';
 import { USER_ROUTES } from './user-api.constants.ts';
 import type { UpdateMePayload, UpdateMeResponse } from './user-api.types.ts';
 

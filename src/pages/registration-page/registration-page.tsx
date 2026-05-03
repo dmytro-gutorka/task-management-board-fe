@@ -1,70 +1,38 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../shared/constants/routes.constants.ts';
-import { handleError } from '../../shared/infrastructure/errors/handle-error.ts';
-import { logger } from '../../shared/infrastructure/logger.ts';
-import { LOCAL_STORAGE_PROFILE_KEYS } from '../../shared/infrastructure/local-storage/model/local-storage.constants.ts';
-import { UserApiService } from '../../shared/modules/users/user-api.service.ts';
-import { AuthApiService } from '../../shared/infrastructure/auth/auth-api.service.ts';
+import type { RegisterStepTwoValues } from '../../shared/infrastructure/auth/auth.schema.ts';
 import {
-    getAccessToken,
-    setAccessToken,
-} from '../../shared/infrastructure/auth/auth-token.helpers.ts';
-import type {
-    RegisterStepOneValues,
-    RegisterStepTwoValues,
-} from '../../shared/infrastructure/auth/auth.schema.ts';
+    LOCAL_STORAGE_BOOLEANS,
+    LOCAL_STORAGE_PROFILE_KEYS,
+} from '../../shared/infrastructure/local-storage/model/local-storage.constants.ts';
+import { useAuth } from '../../shared/providers/auth-provider/auth.provider.tsx';
 import { RegisterStepOneForm } from './ui/register-step-one-form.tsx';
 import { RegisterStepTwoForm } from './ui/register-step-two-form.tsx';
 
 export function RegisterPage() {
-    const [step, setStep] = useState<1 | 2>(1);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
     const { t } = useTranslation(['auth']);
+    const { step, setStep, registrationStepOne, registrationStepTwo, isRegistrationLoading } =
+        useAuth();
 
     const navigate = useNavigate();
 
-    async function handleStepOneSubmit(values: RegisterStepOneValues) {
-        try {
-            setIsSubmitting(true);
+    async function handleRegistrationStepTwo(values: RegisterStepTwoValues) {
+        const isSuccess = await registrationStepTwo(values);
 
-            const response = await AuthApiService.signUp({
-                email: values.email,
-                password: values.password,
-            });
+        if (!isSuccess) return;
+        setStep(1);
 
-            setAccessToken(response.accessToken);
-            setStep(2);
-        } catch (error: unknown) {
-            handleError(error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    }
-
-    async function handleStepTwoSubmit(values: RegisterStepTwoValues) {
-        try {
-            setIsSubmitting(true);
-
-            await UserApiService.updateMe({
-                name: values.name?.trim() || undefined,
-                surname: values.surname?.trim() || undefined,
-                birthday: values.birthday || undefined,
-            });
-
-            logger.debug(getAccessToken());
-            void navigate(ROUTES.HOME, { replace: true });
-        } catch (error: unknown) {
-            handleError(error);
-        } finally {
-            setIsSubmitting(false);
-        }
+        void navigate(ROUTES.HOME, { replace: true });
     }
 
     function handleSkip() {
-        localStorage.setItem(LOCAL_STORAGE_PROFILE_KEYS.PROFILE_COMPLETION_SKIPPED, 'true');
+        setStep(1);
+
+        localStorage.setItem(
+            LOCAL_STORAGE_PROFILE_KEYS.PROFILE_COMPLETION_SKIPPED,
+            LOCAL_STORAGE_BOOLEANS.TRUE,
+        );
 
         void navigate(ROUTES.HOME, { replace: true });
     }
@@ -74,17 +42,16 @@ export function RegisterPage() {
             <div className="w-full max-w-md space-y-4">
                 {step === 1 ? (
                     <RegisterStepOneForm
-                        onSubmit={handleStepOneSubmit}
-                        isSubmitting={isSubmitting}
+                        isSubmitting={isRegistrationLoading}
+                        onSubmit={registrationStepOne}
                     />
                 ) : (
                     <RegisterStepTwoForm
-                        onSubmit={handleStepTwoSubmit}
+                        isSubmitting={isRegistrationLoading}
+                        onSubmit={handleRegistrationStepTwo}
                         onSkip={handleSkip}
-                        isSubmitting={isSubmitting}
                     />
                 )}
-
                 <p className="text-center text-sm text-muted-foreground">
                     {t('register.form-labels.common.have-account', { ns: 'auth' })}
                     <Link to={ROUTES.LOGIN_PAGE} className="pl-[1ch] font-medium text-primary">
