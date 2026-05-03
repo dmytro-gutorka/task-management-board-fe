@@ -3,7 +3,7 @@ export type Nullable<T> = T | null;
 
 export type MetaDbFields = 'id' | 'createdAt' | 'updatedAt';
 
-export interface LocationState {
+export interface FromPathLocationState {
     from?: {
         pathname?: string;
     };

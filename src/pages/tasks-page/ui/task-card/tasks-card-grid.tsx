@@ -12,14 +12,14 @@ import {
 import { Badge } from '@/shared/components/shadcn/ui/badge';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { Avatar } from '@/shared/components/shadcn/ui/avatar';
+import { ROUTES } from '../../../../shared/constants/routes.constants.ts';
+import { BadgeList } from '../../../../shared/components/badge-list.tsx';
+import { formatDeadline } from '../../../../shared/modules/tasks/common/helpers/formatDeadline.ts';
+import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 import {
     getTaskPriorityConfig,
     getTaskStatusConfig,
-} from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
-import { formatDeadline } from '@/shared/modules/tasks/helpers/formatDeadline.ts';
-import { BadgeList } from '@/shared/components/badge-list';
-import { ROUTES } from '../../../../app/routes/common/routes.constants.ts';
-import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
+} from '../../../../shared/modules/tasks/task-card/model/task-card.configs.ts';
 
 interface TaskGridCardProps {
     task: Task;

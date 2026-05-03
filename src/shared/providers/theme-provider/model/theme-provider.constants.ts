@@ -1,4 +1,5 @@
 import type { ThemeProviderState } from './theme-provider.types.ts';
+import type { TFunction } from 'i18next';
 
 export const THEMES = {
     DARK: 'dark',
@@ -6,7 +7,7 @@ export const THEMES = {
     SYSTEM: 'system',
 } as const;
 
-export const themeOptions = (t: (key: string, obj: { ns: string }) => string) =>
+export const themeOptions = (t: TFunction) =>
     ({
         [THEMES.DARK]: t('themes.dark', { ns: 'common' }),
         [THEMES.LIGHT]: t('themes.light', { ns: 'common' }),

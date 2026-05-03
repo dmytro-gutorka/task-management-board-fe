@@ -1,7 +1,7 @@
 import { type ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search } from 'lucide-react';
-import { cn } from '@/shared/lib/utils';
+import { cn } from '../helpers/shadcn.utils.ts';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import {
     InputGroup,

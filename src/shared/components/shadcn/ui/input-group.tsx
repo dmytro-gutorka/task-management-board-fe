@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/shared/lib/utils';
+import { cn } from '../../../helpers/shadcn.utils.ts';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { Input } from '@/shared/components/shadcn/ui/input';
 import { Textarea } from '@/shared/components/shadcn/ui/textarea';

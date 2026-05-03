@@ -1,15 +1,8 @@
 import { useTranslation } from 'react-i18next';
-<<<<<<<< HEAD:src/shared/modules/tasks/task-modals/ui/create-task-modal.tsx
-import { ActionModal } from '../../../../components/modal/ui/action-modal.tsx';
-import { Separator } from '../../../../components/shadcn/ui/separator.tsx';
-import type { TaskFormValues } from '../../task-forms/model/tasks-form.types.ts';
-import { TaskForm } from '../../task-forms/task-form.tsx';
-========
 import { ActionModal } from '../../../../shared/components/modal/ui/action-modal.tsx';
 import { Separator } from '../../../../shared/components/shadcn/ui/separator.tsx';
-import type { TaskFormValues } from '../../../../shared/modules/tasks/model/task-form/tasks-form.types.ts';
-import { TaskForm } from '../../../../shared/modules/tasks/ui/task-form.tsx';
->>>>>>>> feature/logout:src/pages/tasks-page/ui/task-modals/create-task-modal.tsx
+import { TaskForm } from '../../../../shared/modules/tasks/task-form/task-form.tsx';
+import type { TaskFormValues } from '../../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
 
 interface CreateTaskModalProps {
     isOpen: boolean;

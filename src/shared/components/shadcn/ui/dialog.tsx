@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dialog as DialogPrimitive } from 'radix-ui';
 
-import { cn } from '@/shared/lib/utils';
+import { cn } from '../../../helpers/shadcn.utils.ts';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { XIcon } from 'lucide-react';
 

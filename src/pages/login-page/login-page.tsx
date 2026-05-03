@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../shared/modules/auth/auth.provider.tsx';
-import type { LocationState } from '../../shared/types/common.ts';
-import type { LoginFormValues } from '../../shared/modules/auth/auth.schema.ts';
+import { useAuth } from '../../shared/providers/auth-provider/auth.provider.tsx';
+import type { FromPathLocationState } from '../../shared/types/common.ts';
+import type { LoginFormValues } from '../../shared/infrastructure/auth/auth.schema.ts';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../app/routes/common/routes.constants.ts';
+import { ROUTES } from '../../shared/constants/routes.constants.ts';
 import { LoginForm } from './ui/login-form.tsx';
 
 export function LoginPage() {
@@ -15,7 +15,7 @@ export function LoginPage() {
     const { isLoginSubmitting, login } = useAuth();
 
     async function handleSubmit(values: LoginFormValues) {
-        const state = location.state as LocationState | null;
+        const state = location.state as FromPathLocationState | null;
         const from = state?.from?.pathname ?? ROUTES.TASKS_PAGE;
 
         await login(values);
@@ -23,7 +23,6 @@ export function LoginPage() {
         void navigate(from, { replace: true });
     }
 
-    console.log(isLoginSubmitting);
     return (
         <main className="flex min-h-svh items-center justify-center px-4">
             <div className="w-full max-w-md space-y-4">

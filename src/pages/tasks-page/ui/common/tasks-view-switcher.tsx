@@ -4,7 +4,7 @@ import {
     ToggleGroup,
     ToggleGroupItem,
 } from '../../../../shared/components/shadcn/ui/toggle-group.tsx';
-import { cn } from '../../../../shared/lib/utils.ts';
+import { cn } from '../../../../shared/helpers/shadcn.utils.ts';
 import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
 import { TASK_VIEW_MODE } from '../../model/task-filters/tasks-filter.constants.ts';
 import type { TaskViewMode } from '../../model/task-filters/tasks-filter.types.ts';

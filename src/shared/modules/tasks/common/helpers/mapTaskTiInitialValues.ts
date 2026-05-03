@@ -1,4 +1,4 @@
-import type { TaskFormInitialValues } from '../../task-forms/model/tasks-form.types.ts';
+import type { TaskFormInitialValues } from '../../task-form/model/tasks-form.types.ts';
 import type { Task } from '../model/task.types.ts';
 
 export function mapTaskTiInitialValues(task: Task): TaskFormInitialValues {

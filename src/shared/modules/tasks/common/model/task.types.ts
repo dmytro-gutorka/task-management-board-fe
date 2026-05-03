@@ -9,8 +9,6 @@ export type Task = {
     priority: TaskPriority;
     deadline: string;
     assigneeName: string;
-    // assigneeAvatarUrl: string;
-    // assigneeId: string;
     isPrivate: boolean;
     tags: string[];
     createdAt: string;

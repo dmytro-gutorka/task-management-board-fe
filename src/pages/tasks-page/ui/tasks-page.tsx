@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
-import type { TaskFormValues } from '../../../shared/modules/tasks/model/task-form/tasks-form.types.ts';
 import {
     completeTask,
     createTask,
@@ -8,11 +7,12 @@ import {
     getTaskById,
     getTasks,
     updateTask,
-} from '../../../shared/modules/tasks/model/task/task.api.ts';
-import type { Task } from '../../../shared/modules/tasks/model/task/task.types.ts';
+} from '../../../shared/modules/tasks/common/model/task.api.ts';
+import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
+import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
+import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
 import { CreateTaskModal } from './task-modals/create-task-modal.tsx';
 import { DeleteTaskModal } from './task-modals/delete-task-modal.tsx';
-import { EditTaskModal } from '../../../shared/modules/tasks/ui/edit-task-modal.tsx';
 import type { Nullable } from '../../../shared/types/common.ts';
 import { getFilteredAndSortedTasks } from '../helpers/getFilteredAndSortedTasks.ts';
 import { useTasksQueryState } from '../hooks/useTasksQueryState.ts';

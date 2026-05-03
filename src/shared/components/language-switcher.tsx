@@ -1,7 +1,7 @@
 import { Languages } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { type AppLanguage, languageOptions } from '../modules/i18n/i18n.constants.ts';
-import { useChangeLanguage } from '../modules/i18n/use-change-language.ts';
+import { languageOptions } from '../infrastructure/i18n/model/i18n.constants.ts';
+import { useChangeLanguage } from '../infrastructure/i18n/model/hooks/use-change-language.ts';
 import { IconTooltip } from './icon-tooltip.tsx';
 import { Button } from './shadcn/ui/button.tsx';
 import {
@@ -11,6 +11,7 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from './shadcn/ui/dropdown-menu';
+import type { AppLanguage } from '../infrastructure/i18n/model/i18n.types.ts';
 
 export function LanguageSwitcher() {
     const { language, changeLanguage } = useChangeLanguage();
@@ -30,9 +31,7 @@ export function LanguageSwitcher() {
             <DropdownMenuContent align="end">
                 <DropdownMenuRadioGroup
                     value={language}
-                    onValueChange={(value) => {
-                        void changeLanguage(value as AppLanguage);
-                    }}
+                    onValueChange={(value) => void changeLanguage(value as AppLanguage)}
                 >
                     {languageOptions.map((option) => (
                         <DropdownMenuRadioItem key={option.value} value={option.value}>

@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { ROUTES } from '../../../../app/routes/common/routes.constants.ts';
+import { ROUTES } from '../../../constants/routes.constants.ts';
 import { ProfileReminderToast } from '../profile-reminder-toast.tsx';
-import { LOCAL_STORAGE_PROFILE_KEYS } from '../../local-storage/model/local-storage.constants.ts';
+import { LOCAL_STORAGE_PROFILE_KEYS } from '../../../infrastructure/local-storage/model/local-storage.constants.ts';
 
 function shouldShowReminder(): boolean {
     const skipped =

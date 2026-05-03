@@ -1,4 +1,4 @@
-import { AppEnv } from '@/app/env/env.types';
+import { AppEnv } from '../../infrastructure/env/model/env.types.ts';
 
 interface ImportMetaEnv extends AppEnv {}
 

@@ -6,7 +6,12 @@ import {
     CardHeader,
     CardTitle,
 } from '../../../../shared/components/shadcn/ui/card.tsx';
-import { formatDeadline } from '../../../../shared/modules/tasks/helpers/formatDeadline.ts';
+import { formatDeadline } from '../../../../shared/modules/tasks/common/helpers/formatDeadline.ts';
+import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
+import {
+    getTaskPriorityConfig,
+    getTaskStatusConfig,
+} from '../../../../shared/modules/tasks/task-card/model/task-card.configs.ts';
 import { getAvatarFallback } from '../../../tasks-page/helpers/getAvatarFallback.ts';
 import {
     AvatarFallback,
@@ -15,11 +20,6 @@ import {
 } from '../../../../shared/components/shadcn/ui/avatar.tsx';
 import { Badge } from '../../../../shared/components/shadcn/ui/badge.tsx';
 import { BadgeList } from '../../../../shared/components/badge-list.tsx';
-import {
-    getTaskPriorityConfig,
-    getTaskStatusConfig,
-} from '../../../../shared/modules/tasks/model/task-card/task-card.configs.ts';
-import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
 
 interface TasksDetailsCardProps {
     task: Task;
@@ -87,7 +87,7 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
 
                         <div className="flex items-center gap-3">
                             <Avatar className="h-10 w-10">
-                                <AvatarImage src={undefined} />
+                                <AvatarImage src={undefined} alt="Assigned user avatar" />
                                 <AvatarFallback>
                                     {getAvatarFallback(task.assigneeName)}
                                 </AvatarFallback>

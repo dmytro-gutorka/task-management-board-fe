@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../app/routes/common/routes.constants.ts';
-import { handleError } from '../../shared/lib/errors/utils/handle-error.ts';
-import { logger } from '../../shared/lib/logger.ts';
-import { LOCAL_STORAGE_PROFILE_KEYS } from '../../shared/modules/local-storage/model/local-storage.constants.ts';
+import { ROUTES } from '../../shared/constants/routes.constants.ts';
+import { handleError } from '../../shared/infrastructure/errors/handle-error.ts';
+import { logger } from '../../shared/infrastructure/logger.ts';
+import { LOCAL_STORAGE_PROFILE_KEYS } from '../../shared/infrastructure/local-storage/model/local-storage.constants.ts';
 import { UserApiService } from '../../shared/modules/users/user-api.service.ts';
-import { AuthApiService } from '../../shared/modules/auth/auth-api.service.ts';
-import { getAccessToken, setAccessToken } from '../../shared/modules/auth/auth-token.helpers.ts';
+import { AuthApiService } from '../../shared/infrastructure/auth/auth-api.service.ts';
+import {
+    getAccessToken,
+    setAccessToken,
+} from '../../shared/infrastructure/auth/auth-token.helpers.ts';
 import type {
     RegisterStepOneValues,
     RegisterStepTwoValues,
-} from '../../shared/modules/auth/auth.schema.ts';
+} from '../../shared/infrastructure/auth/auth.schema.ts';
 import { RegisterStepOneForm } from './ui/register-step-one-form.tsx';
 import { RegisterStepTwoForm } from './ui/register-step-two-form.tsx';
 

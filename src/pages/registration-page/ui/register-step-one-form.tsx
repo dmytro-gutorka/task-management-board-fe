@@ -21,7 +21,7 @@ import { Input } from '../../../shared/components/shadcn/ui/input.tsx';
 import {
     registerStepOneSchema,
     type RegisterStepOneValues,
-} from '../../../shared/modules/auth/auth.schema.ts';
+} from '../../../shared/infrastructure/auth/auth.schema.ts';
 
 interface RegisterStepOneFormProps {
     isSubmitting: boolean;

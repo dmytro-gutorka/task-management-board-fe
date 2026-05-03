@@ -1,7 +1,7 @@
 import type { Nullable } from '../../../../types/common.ts';
-import { readFromLocalStorage } from '../../../local-storage/helpers/readFromLocalStorage.ts';
-import { writeToLocalStorage } from '../../../local-storage/helpers/writeToLocalStorage.ts';
-import { LOCAL_STORAGE_TASKS_KEYS } from '../../../local-storage/model/local-storage.constants.ts';
+import { readFromLocalStorage } from '../../../../infrastructure/local-storage/helpers/readFromLocalStorage.ts';
+import { writeToLocalStorage } from '../../../../infrastructure/local-storage/helpers/writeToLocalStorage.ts';
+import { LOCAL_STORAGE_TASKS_KEYS } from '../../../../infrastructure/local-storage/model/local-storage.constants.ts';
 import type { CreateTaskPayload, Task, UpdateTaskPayload } from './task.types.ts';
 
 export function getTasks(): Task[] {

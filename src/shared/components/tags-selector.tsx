@@ -13,7 +13,7 @@ import {
     FieldLabel,
 } from '@/shared/components/shadcn/ui/field';
 
-import type { TaskFormValues } from '../modules/tasks/task-forms/model/tasks-form.types.ts';
+import type { TaskFormValues } from '../modules/tasks/task-form/model/tasks-form.types.ts';
 
 interface TagsSelectorProps {
     form: UseFormReturn<TaskFormValues>;

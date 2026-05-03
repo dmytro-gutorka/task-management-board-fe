@@ -10,8 +10,8 @@ export function useApplyTheme(theme: ThemeOptions) {
 
         if (theme === THEMES.SYSTEM) {
             const isDark = window.matchMedia(`(prefers-color-scheme: ${THEMES.DARK})`).matches;
-
             root.classList.add(isDark ? THEMES.DARK : THEMES.LIGHT);
+
             return;
         }
 

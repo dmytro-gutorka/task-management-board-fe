@@ -1,9 +1,9 @@
-import { cn } from '@/shared/lib/utils';
-import { getTaskStatusConfig } from '@/shared/modules/tasks/model/task-card/task-card.configs.ts';
+import { cn } from '../../../../shared/helpers/shadcn.utils.ts';
 import { useTranslation } from 'react-i18next';
 import { generatePath, Link } from 'react-router-dom';
-import { ROUTES } from '../../../../app/routes/common/routes.constants.ts';
-import type { Task } from '../../../../shared/modules/tasks/model/task/task.types.ts';
+import { ROUTES } from '../../../../shared/constants/routes.constants.ts';
+import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
+import { getTaskStatusConfig } from '../../../../shared/modules/tasks/task-card/model/task-card.configs.ts';
 
 interface TaskListItemProps {
     task: Task;

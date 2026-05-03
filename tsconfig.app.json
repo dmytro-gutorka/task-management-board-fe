@@ -39,7 +39,7 @@
     "noEmitOnError": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
   },
   "include": ["src"]
 }

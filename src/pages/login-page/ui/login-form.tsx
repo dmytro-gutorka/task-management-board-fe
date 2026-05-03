@@ -18,7 +18,10 @@ import {
     FieldLabel,
 } from '../../../shared/components/shadcn/ui/field.tsx';
 import { Input } from '../../../shared/components/shadcn/ui/input.tsx';
-import { type LoginFormValues, loginSchema } from '../../../shared/modules/auth/auth.schema.ts';
+import {
+    type LoginFormValues,
+    loginSchema,
+} from '../../../shared/infrastructure/auth/auth.schema.ts';
 
 interface LoginFormProps {
     isSubmitting: boolean;
@@ -65,7 +68,9 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
                                         {...field}
                                         id="login-email"
                                         type="email"
-                                        placeholder={t('common.placeholders.email', { ns: 'auth' })}
+                                        placeholder={t('common.placeholders.email', {
+                                            ns: 'auth',
+                                        })}
                                         disabled={isSubmitting}
                                         aria-invalid={fieldState.invalid}
                                         aria-label="type"
