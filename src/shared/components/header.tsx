@@ -1,12 +1,19 @@
 import { Separator } from '@/shared/components/shadcn/ui/separator';
 import { TooltipProvider } from '@/shared/components/shadcn/ui/tooltip';
-import { LanguageSwitcher } from './language-switcher.tsx';
 import { NotebookText } from 'lucide-react';
 import { ThemeToggle } from '@/shared/components/theme-toggle';
+import { httpClient } from '../api/httpClient.ts';
+import { LogoutButton } from '../modules/auth/logout/ui/logout-button.tsx';
+import { LanguageSwitcher } from './language-switcher.tsx';
 import { useTranslation } from 'react-i18next';
 
 export function Header() {
     const { t } = useTranslation(['common', 'tasks']);
+
+    async function getMe() {
+        const data = await httpClient.get('/users/me');
+        console.log(data.data);
+    }
 
     return (
         <>
@@ -19,6 +26,8 @@ export function Header() {
                     <div className="flex items-center space-x-2">
                         <ThemeToggle />
                         <LanguageSwitcher />
+                        <LogoutButton />
+                        <button onClick={() => void getMe()}>Get me</button>
                     </div>
                 </div>
                 <Separator />

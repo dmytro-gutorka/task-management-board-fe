@@ -1,11 +1,11 @@
 import type { Nullable } from '../../../../types/common.ts';
 import { readFromLocalStorage } from '../../../local-storage/helpers/readFromLocalStorage.ts';
 import { writeToLocalStorage } from '../../../local-storage/helpers/writeToLocalStorage.ts';
-import { LOCAL_STORAGE_KEYS } from '../../../local-storage/model/local-storage.constants.ts';
+import { LOCAL_STORAGE_TASKS_KEYS } from '../../../local-storage/model/local-storage.constants.ts';
 import type { CreateTaskPayload, Task, UpdateTaskPayload } from './task.types.ts';
 
 export function getTasks(): Task[] {
-    return readFromLocalStorage<Task[]>(LOCAL_STORAGE_KEYS.TASKS);
+    return readFromLocalStorage<Task[]>(LOCAL_STORAGE_TASKS_KEYS.TASKS);
 }
 
 export function getTaskById(taskId: string | null): Nullable<Task> {
@@ -26,7 +26,7 @@ export function createTask(payload: CreateTaskPayload): Task {
         ...payload,
     };
 
-    writeToLocalStorage(LOCAL_STORAGE_KEYS.TASKS, [newTask, ...tasks]);
+    writeToLocalStorage(LOCAL_STORAGE_TASKS_KEYS.TASKS, [newTask, ...tasks]);
 
     return newTask;
 }
@@ -46,7 +46,7 @@ export function updateTask(taskId: string, payload: UpdateTaskPayload): Task {
 
     const updatedTasks = tasks.map((task) => (task.id === taskId ? updatedTask : task));
 
-    writeToLocalStorage(LOCAL_STORAGE_KEYS.TASKS, updatedTasks);
+    writeToLocalStorage(LOCAL_STORAGE_TASKS_KEYS.TASKS, updatedTasks);
 
     return updatedTask;
 }
@@ -62,5 +62,5 @@ export function deleteTask(taskId: Nullable<string>): void {
 
     const updatedTasks = tasks.filter((task) => task.id !== taskId);
 
-    writeToLocalStorage(LOCAL_STORAGE_KEYS.TASKS, updatedTasks);
+    writeToLocalStorage(LOCAL_STORAGE_TASKS_KEYS.TASKS, updatedTasks);
 }

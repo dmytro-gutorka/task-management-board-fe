@@ -11,16 +11,30 @@ import {
     FieldGroup,
     FieldLabel,
 } from '../../../components/shadcn/ui/field.tsx';
+<<<<<<<< HEAD:src/shared/modules/tasks/task-forms/task-form.tsx
 import { type TaskFormValues } from './model/tasks-form.types.ts';
 import { taskFormSchema } from './model/tasks-form.schema.ts';
 import { getTaskPriorityOptions, getTaskStatusOptions } from './model/tasks-form.constants.ts';
+========
+import { type TaskFormValues } from '../model/task-form/tasks-form.types.ts';
+import { taskFormSchema } from '../model/task-form/tasks-form.schema.ts';
+import {
+    getTaskPriorityOptions,
+    getTaskStatusOptions,
+} from '../model/task-form/tasks-form.constants.ts';
+>>>>>>>> feature/logout:src/shared/modules/tasks/task-form.tsx
 import { TagsSelector } from '../../../components/tags-selector.tsx';
 import { SelectInput } from '../../../components/select/select-input.tsx';
 import {
     getTaskPrioritySelectConfig,
     getTaskStatusSelectConfig,
+<<<<<<<< HEAD:src/shared/modules/tasks/task-forms/task-form.tsx
 } from './model/tasks-form.configs.ts';
 import { buildTaskFormDefaultValues } from './helpers/buildTaskFormDefaultValues.ts';
+========
+} from '../model/task-form/tasks-form.configs.ts';
+import { buildTaskFormDefaultValues } from '../helpers/buildTaskFormDefaultValues.ts';
+>>>>>>>> feature/logout:src/shared/modules/tasks/task-form.tsx
 
 interface TaskFormProps {
     initialValues?: TaskFormValues;
