@@ -1,11 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from '@/shared/components/header';
 import { ToastContainer } from 'react-toastify';
-import { useProfileCompletionReminder } from '../modules/profile-toast-reminder/model/useProfileCompletionReminder.tsx';
 
 export function Layout() {
-    useProfileCompletionReminder();
-
     return (
         <div>
             <Header />

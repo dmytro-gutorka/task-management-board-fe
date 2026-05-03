@@ -26,14 +26,8 @@ export const router = createBrowserRouter([
                     },
                 ],
             },
-        ],
-    },
-    {
-        element: <ProtectedRoute />,
-        children: [
             {
-                path: ROUTES.HOME,
-                Component: Layout,
+                element: <ProtectedRoute />,
                 children: [
                     {
                         index: true,

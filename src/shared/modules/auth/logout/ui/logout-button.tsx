@@ -1,12 +1,22 @@
 import { Loader2, LogOut } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../../../app/routes/common/routes.constants.ts';
 import { Button } from '../../../../components/shadcn/ui/button.tsx';
-import { useLogout } from '../model/hooks/useLogout.ts';
+import { useAuth } from '../../auth.provider.tsx';
 
 export function LogoutButton() {
     const { t } = useTranslation(['auth']);
 
-    const { isAuthenticated, isSubmitting, handleLogout } = useLogout();
+    const { isAuthenticated, isSubmitting, logout } = useAuth();
+    const navigate = useNavigate();
+
+    async function handleLogout() {
+        await logout();
+        void navigate(ROUTES.LOGIN_PAGE, { replace: true });
+    }
+
+    console.log('component rendered', isAuthenticated);
 
     if (!isAuthenticated) return null;
 
