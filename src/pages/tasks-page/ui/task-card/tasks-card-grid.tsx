@@ -11,9 +11,7 @@ import {
 } from '@/shared/components/shadcn/ui/card';
 import { Badge } from '@/shared/components/shadcn/ui/badge';
 import { Button } from '@/shared/components/shadcn/ui/button';
-import { Avatar } from '@/shared/components/shadcn/ui/avatar';
 import { ROUTES } from '../../../../shared/constants/routes.constants.ts';
-import { BadgeList } from '../../../../shared/components/badge-list.tsx';
 import { formatDeadline } from '../../../../shared/modules/tasks/common/helpers/formatDeadline.ts';
 import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 import {
@@ -42,10 +40,6 @@ export function TaskGridCard({
     const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
         taskId: task.id,
     });
-
-    const taskAssignee = task.assigneeName.length
-        ? task.assigneeName
-        : t('defaults.noAssignee', { ns: 'tasks' });
 
     const taskDeadline = formatDeadline(task.deadline) ?? t('defaults.noDeadline', { ns: 'tasks' });
 
@@ -90,21 +84,6 @@ export function TaskGridCard({
                         <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 shrink-0" />
                             <span>{taskDeadline}</span>
-                        </div>
-                        <BadgeList badges={task.tags} variant="secondary" />
-                    </div>
-
-                    <div className="mt-auto flex items-center gap-3 rounded-xl border p-3">
-                        <Avatar className="h-9 w-9">
-                            {/*<AvatarImage src={task.assigneeAvatarUrl ?? undefined} />*/}
-                            {/*<AvatarFallback>*/}
-                            {/*    {getAvatarFallback(task.assigneeAvatarUrl)}*/}
-                            {/*</AvatarFallback>*/}
-                        </Avatar>
-
-                        <div className="min-w-0">
-                            <p className="truncate text-sm font-medium">{taskAssignee}</p>
-                            <p className="text-xs text-muted-foreground"></p>
                         </div>
                     </div>
                 </CardContent>

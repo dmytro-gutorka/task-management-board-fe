@@ -1,21 +1,19 @@
 import { useMemo, useState } from 'react';
+import { PageLoader } from '../../../shared/components/loader-page.tsx';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
-import {
-    completeTask,
-    createTask,
-    deleteTask,
-    getTaskById,
-    getTasks,
-    updateTask,
-} from '../../../shared/modules/tasks/common/model/task.api.ts';
+import { completeTask, getTaskById } from '../../../shared/modules/tasks/common/model/task.api.ts';
 import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
+import { useCreateTasks } from '../model/common/api/hooks/useCreateTasks.ts';
+import { useDeleteTask } from '../model/common/api/hooks/useDeleteTask.ts';
+import { useGetAllTasks } from '../model/common/api/hooks/useGetAllTasks.ts';
+import { useUpdateTasks } from '../model/common/api/hooks/useUpdateTasks.ts';
 import { CreateTaskModal } from './task-modals/create-task-modal.tsx';
 import { DeleteTaskModal } from './task-modals/delete-task-modal.tsx';
 import type { Nullable } from '../../../shared/types/common.ts';
-import { getFilteredAndSortedTasks } from '../helpers/getFilteredAndSortedTasks.ts';
-import { useTasksQueryState } from '../hooks/useTasksQueryState.ts';
+import { getFilteredAndSortedTasks } from '../model/common/helpers/getFilteredAndSortedTasks.ts';
+import { useTasksQueryState } from '../model/common/hooks/useTasksQueryState.ts';
 import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
 import type {
     TaskPriorityFilter,
@@ -27,14 +25,14 @@ import { TasksGridView } from './task-card/tasks-grid-view.tsx';
 import { TasksListView } from './task-card/tasks-list-view.tsx';
 import { TaskPageHeader } from './common/task-page-header.tsx';
 
-// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
-// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
-// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
-// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
-
 export function TasksPage() {
-    const [tasks, setTasks] = useState<Task[]>(getTasks());
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
+
+    const { isLoading: isTasksGetting } = useGetAllTasks(setTasks);
+    const { createTask, isLoading: isTaskCreating } = useCreateTasks();
+    const { updateTask, isLoading: isTaskUpdating } = useUpdateTasks();
+    const { deleteTask, isLoading: isTaskDeleting } = useDeleteTask();
 
     const deleteModal = useModalState();
     const createModal = useModalState();
@@ -52,11 +50,33 @@ export function TasksPage() {
         return getFilteredAndSortedTasks(tasks ?? [], { status, sortBy, priority }, search);
     }, [tasks, status, sortBy, priority, search]);
 
-    function handleSubmitCreateForm(values: TaskFormValues) {
-        const tasks = createTask(values);
+    async function handleSubmitCreateForm(values: TaskFormValues) {
+        const createdTask = await createTask(values);
 
-        setTasks((prevTasks) => [...prevTasks, tasks]);
+        setTasks((prevTasks) => [...prevTasks, createdTask]);
+
         createModal.closeModal();
+    }
+
+    async function handleSubmitEditForm(values: TaskFormValues) {
+        if (!selectedTask) return;
+
+        const updatedTask = await updateTask(values, selectedTask.id);
+
+        setTasks((prevTasks) =>
+            prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+        );
+        setSelectedTask(null);
+        editModal.closeModal();
+    }
+
+    async function handleDeleteTask() {
+        if (!selectedTask) return;
+        await deleteTask(selectedTask.id);
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
+
+        setSelectedTask(null);
+        deleteModal.closeModal();
     }
 
     function handleCompleteTask(taskId: string) {
@@ -64,8 +84,9 @@ export function TasksPage() {
 
         const updatedTask = getTaskById(taskId);
         if (!updatedTask) return;
+        // TODO 5: DO LATER
 
-        setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? updatedTask : task)));
+        // setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? updatedTask : task)));
     }
 
     function handleTaskViewChange(value: TaskViewMode) {
@@ -90,34 +111,12 @@ export function TasksPage() {
         editModal.openModal();
     }
 
-    function handleSubmitEditForm(values: TaskFormValues) {
-        if (!selectedTask) return;
-
-        const updatedTask = updateTask(selectedTask.id, values);
-
-        setTasks((prevTasks) =>
-            prevTasks.map((task) => (task.id === selectedTask.id ? updatedTask : task)),
-        );
-
-        setSelectedTask(null);
-        editModal.closeModal();
-    }
-
     function handleOpenDeleteModal(task: Task) {
         setSelectedTask(task);
         deleteModal.openModal();
     }
 
-    function handleDeleteTask() {
-        if (!selectedTask) return;
-
-        deleteTask(selectedTask.id);
-
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
-
-        setSelectedTask(null);
-        deleteModal.closeModal();
-    }
+    if (isTasksGetting) return <PageLoader />;
 
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
@@ -148,6 +147,7 @@ export function TasksPage() {
                 onSubmit={handleSubmitCreateForm}
                 setOpen={createModal.setOpen}
                 isOpen={createModal.open}
+                isTaskCreating={isTaskCreating}
             />
             {selectedTask && (
                 <EditTaskModal
@@ -155,12 +155,14 @@ export function TasksPage() {
                     initialValues={selectedTask}
                     setOpen={editModal.setOpen}
                     isOpen={editModal.open}
+                    isTaskUpdating={isTaskUpdating}
                 />
             )}
             <DeleteTaskModal
                 onDelete={handleDeleteTask}
                 setOpen={deleteModal.setOpen}
                 isOpen={deleteModal.open}
+                isTaskDeleting={isTaskDeleting}
             />
         </div>
     );

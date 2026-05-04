@@ -5,14 +5,14 @@ import type {
     TaskSortBy,
     TaskStatusFilter,
     TaskViewMode,
-} from '../model/task-filters/tasks-filter.types.ts';
-import { tasksQueryParam } from '../model/tasks-query-state/tasks-query-state.constants.ts';
+} from '../../task-filters/tasks-filter.types.ts';
+import { tasksQueryParam } from '../../tasks-query-state/tasks-query-state.constants.ts';
 import type {
     TasksQueryParam,
     TasksQueryState,
-} from '../model/tasks-query-state/tasks-query-state.types.ts';
-import { parseTasksQueryState } from '../model/tasks-query-state/utils/parseTasksQueryState.ts';
-import { updateTasksQueryParam } from '../model/tasks-query-state/utils/updateTasksQueryParam.ts';
+} from '../../tasks-query-state/tasks-query-state.types.ts';
+import { parseTasksQueryState } from '../../tasks-query-state/utils/parseTasksQueryState.ts';
+import { updateTasksQueryParam } from '../../tasks-query-state/utils/updateTasksQueryParam.ts';
 
 export function useTasksQueryState() {
     const [searchParams, setSearchParams] = useSearchParams();

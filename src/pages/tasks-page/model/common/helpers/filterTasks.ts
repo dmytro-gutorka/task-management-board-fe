@@ -1,5 +1,5 @@
-import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
-import type { TasksFiltersValue } from '../model/task-filters/tasks-filter.types.ts';
+import type { Task } from '../../../../../shared/modules/tasks/common/model/task.types.ts';
+import type { TasksFiltersValue } from '../../task-filters/tasks-filter.types.ts';
 
 export function filterTasks(
     tasks: Task[],

@@ -1,6 +1,6 @@
 import { defaultTasksQueryState } from '../tasks-query-state.constants.ts';
 import type { TasksQueryParam, TasksQueryState } from '../tasks-query-state.types.ts';
-import { normalizeQueryValue } from './normalizeQueryValue';
+import { normalizeQueryValue } from './normalizeQueryValue.ts';
 
 export function updateTasksQueryParam(
     nextSearchParams: URLSearchParams,

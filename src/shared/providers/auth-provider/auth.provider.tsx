@@ -1,5 +1,5 @@
 import { createContext, type ReactNode, useContext, useState } from 'react';
-import { getAccessToken } from '../../infrastructure/auth/auth-token.helpers.ts';
+import { getAccessToken } from '../../infrastructure/auth/auth.token-helpers.ts';
 import { useLogin } from './hooks/useLogin.ts';
 import { useLogout } from './hooks/useLogout.ts';
 import type { Nullable } from '../../types/common.ts';

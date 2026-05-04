@@ -1,5 +1,5 @@
 import { deleteFromLocalStorage } from '../local-storage/helpers/deleteFromLocalStorage.ts';
-import { ACCESS_TOKEN_KEY } from './auth-api.constants.ts';
+import { ACCESS_TOKEN_KEY } from './auth.api-constants.ts';
 
 export function getAccessToken() {
     return localStorage.getItem(ACCESS_TOKEN_KEY);

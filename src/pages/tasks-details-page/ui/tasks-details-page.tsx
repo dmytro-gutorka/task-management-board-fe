@@ -38,6 +38,9 @@ export function TasksDetailsPage() {
             </div>
             <EditTaskModal
                 initialValues={task}
+                // Will be handled later, when I get the backend ready for /"task/taskId" endpoint
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 onSubmit={handleSubmit}
                 isOpen={open}
                 setOpen={setOpen}

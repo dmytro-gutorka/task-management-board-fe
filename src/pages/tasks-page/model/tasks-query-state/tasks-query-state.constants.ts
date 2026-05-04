@@ -12,6 +12,6 @@ export const defaultTasksQueryState = {
     [tasksQueryParam.VIEW]: 'grid',
     [tasksQueryParam.STATUS]: 'all',
     [tasksQueryParam.PRIORITY]: 'all',
-    [tasksQueryParam.SORT_BY]: 'createdAt',
+    [tasksQueryParam.SORT_BY]: 'title',
     [tasksQueryParam.SEARCH]: '',
 } as const satisfies Record<TasksQueryParam, string>;

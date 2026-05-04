@@ -7,7 +7,5 @@ export const taskFormDefaultValues: TaskFormValues = {
     status: TASK_STATUS.TODO,
     priority: TASK_PRIORITY.MEDIUM,
     deadline: '',
-    assigneeName: '',
     isPrivate: false,
-    tags: [],
 };

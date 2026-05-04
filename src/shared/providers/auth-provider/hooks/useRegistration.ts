@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { AuthApiService } from '../../../infrastructure/auth/auth-api.service.ts';
-import { setAccessToken } from '../../../infrastructure/auth/auth-token.helpers.ts';
+import { AuthApiService } from '../../../infrastructure/auth/auth.api-service.ts';
+import { setAccessToken } from '../../../infrastructure/auth/auth.token-helpers.ts';
 import type {
     RegisterStepOneValues,
     RegisterStepTwoValues,

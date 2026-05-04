@@ -13,10 +13,8 @@ import {
     FieldLabel,
 } from '@/shared/components/shadcn/ui/field';
 
-import type { TaskFormValues } from '../modules/tasks/task-form/model/tasks-form.types.ts';
-
 interface TagsSelectorProps {
-    form: UseFormReturn<TaskFormValues>;
+    form: UseFormReturn<{ tags: string[] }>;
 }
 
 export function TagsSelector({ form }: TagsSelectorProps) {
@@ -75,6 +73,7 @@ export function TagsSelector({ form }: TagsSelectorProps) {
                     placeholder={t('form.tagsPlaceholder', { ns: 'tasks' })}
                     onKeyDown={handleKeyDown}
                     aria-invalid={!!tagsError}
+                    aria-label="type="
                 />
 
                 <Button type="button" variant="outline" onClick={handleAddTag}>

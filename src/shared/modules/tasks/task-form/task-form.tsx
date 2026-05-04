@@ -12,7 +12,6 @@ import { SelectInput } from '../../../components/select/select-input.tsx';
 import { Input } from '../../../components/shadcn/ui/input.tsx';
 import { Switch } from '../../../components/shadcn/ui/switch.tsx';
 import { Textarea } from '../../../components/shadcn/ui/textarea.tsx';
-import { TagsSelector } from '../../../components/tags-selector.tsx';
 import { buildTaskFormDefaultValues } from './helpers/buildTaskFormDefaultValues.ts';
 import {
     getTaskPrioritySelectConfig,
@@ -128,31 +127,7 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                             </Field>
                         )}
                     />
-
-                    <Controller
-                        name="assigneeName"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="task-form-assignee">
-                                    {t('form.assignee', { ns: 'tasks' })}
-                                </FieldLabel>
-                                <Input
-                                    {...field}
-                                    id="task-form-assignee"
-                                    placeholder={t('form.assigneePlaceholder', { ns: 'tasks' })}
-                                    aria-invalid={fieldState.invalid}
-                                    aria-label="type"
-                                />
-                                <FieldDescription>
-                                    {t('form.assigneeDescription', { ns: 'tasks' })}
-                                </FieldDescription>
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                    />
                 </div>
-                <TagsSelector form={form} />
                 <Controller
                     control={form.control}
                     name="isPrivate"

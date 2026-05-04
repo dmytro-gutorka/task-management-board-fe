@@ -8,11 +8,11 @@ export type Task = {
     status: TaskStatus;
     priority: TaskPriority;
     deadline: string;
-    assigneeName: string;
     isPrivate: boolean;
-    tags: string[];
     createdAt: string;
     updatedAt: string;
+    // assigneeName: string;
+    // tags: string[];
 };
 
 export type CreateTaskPayload = Omit<Task, MetaDbFields>;

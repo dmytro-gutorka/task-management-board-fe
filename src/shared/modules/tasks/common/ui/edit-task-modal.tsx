@@ -10,10 +10,17 @@ interface EditTaskModalProps {
     initialValues: Task;
     isOpen: boolean;
     setOpen: (open: boolean) => void;
-    onSubmit: (values: TaskFormValues) => void;
+    onSubmit: (values: TaskFormValues) => Promise<void>;
+    isTaskUpdating: boolean;
 }
 
-export function EditTaskModal({ initialValues, isOpen, setOpen, onSubmit }: EditTaskModalProps) {
+export function EditTaskModal({
+    initialValues,
+    isOpen,
+    setOpen,
+    onSubmit,
+    isTaskUpdating,
+}: EditTaskModalProps) {
     const { t } = useTranslation(['common', 'tasks']);
     const formInitialValues = mapTaskTiInitialValues(initialValues);
     const formId = 'edit-task-form';
@@ -27,6 +34,7 @@ export function EditTaskModal({ initialValues, isOpen, setOpen, onSubmit }: Edit
                 description={t('fillFields', { ns: 'tasks' })}
                 submitLabel={t('edit', { ns: 'tasks' })}
                 submitFormId={formId}
+                isLoading={isTaskUpdating}
             >
                 <Separator />
 

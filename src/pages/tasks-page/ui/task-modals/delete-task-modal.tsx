@@ -3,11 +3,17 @@ import { ConfirmationModal } from '../../../../shared/components/modal/ui/confir
 
 interface DeleteTaskModalProps {
     setOpen: (open: boolean) => void;
-    onDelete: () => void;
+    onDelete: () => Promise<void>;
     isOpen: boolean;
+    isTaskDeleting: boolean;
 }
 
-export function DeleteTaskModal({ isOpen, onDelete, setOpen }: DeleteTaskModalProps) {
+export function DeleteTaskModal({
+    isOpen,
+    onDelete,
+    setOpen,
+    isTaskDeleting,
+}: DeleteTaskModalProps) {
     const { t } = useTranslation(['common', 'tasks']);
 
     return (
@@ -21,6 +27,7 @@ export function DeleteTaskModal({ isOpen, onDelete, setOpen }: DeleteTaskModalPr
                 confirmVariant="destructive"
                 cancelLabel={t('cancel', { ns: 'common' })}
                 onConfirm={onDelete}
+                isLoading={isTaskDeleting}
             />
         </>
     );

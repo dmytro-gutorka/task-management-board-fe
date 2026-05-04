@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Button } from '@/shared/components/shadcn/ui/button';
+import { Loader } from '../../loader.tsx';
 import { BaseModal } from './base-modal';
 import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
 
@@ -38,6 +39,7 @@ export function ActionModal({
                 </Button>
 
                 <Button variant="default" form={submitFormId} disabled={isLoading}>
+                    {isLoading && <Loader />}
                     {submitLabel}
                 </Button>
             </div>

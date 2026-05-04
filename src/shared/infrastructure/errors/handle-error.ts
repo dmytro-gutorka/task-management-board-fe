@@ -1,7 +1,7 @@
 import { router } from '../../../app/routes/routes.tsx';
 import { ROUTES } from '../../constants/routes.constants.ts';
 import type { AppError, HandleErrorOptions } from './model/error.types.ts';
-import { removeAccessToken } from '../auth/auth-token.helpers.ts';
+import { removeAccessToken } from '../auth/auth.token-helpers.ts';
 import { normalizeError } from './model/helpers/normalize-error.ts';
 import { AppErrorCodes } from './model/error.constants.ts';
 import { logger } from '../logger.ts';
