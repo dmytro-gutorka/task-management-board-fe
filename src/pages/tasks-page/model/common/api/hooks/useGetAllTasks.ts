@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 import { handleError } from '../../../../../../shared/infrastructure/errors/handle-error.ts';
 import type { Task } from '../../../../../../shared/modules/tasks/common/model/task.types.ts';
@@ -16,13 +17,15 @@ export function useGetAllTasks(setTasks: Dispatch<SetStateAction<Task[]>>, query
 
                 setTasks(tasks);
             } catch (error) {
-                if (error instanceof DOMException && error.name === 'AbortError') {
+                if (axios.isCancel(error)) {
                     return;
                 }
 
                 handleError(error);
             } finally {
-                setIsLoading(false);
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
             }
         }
 
