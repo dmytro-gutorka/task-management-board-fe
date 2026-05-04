@@ -7,12 +7,10 @@ export type Task = {
     description: string;
     status: TaskStatus;
     priority: TaskPriority;
-    deadline: string;
+    deadline?: string | null | undefined;
     isPrivate: boolean;
     createdAt: string;
     updatedAt: string;
-    // assigneeName: string;
-    // tags: string[];
 };
 
 export type CreateTaskPayload = Omit<Task, MetaDbFields>;

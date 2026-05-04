@@ -51,7 +51,6 @@ httpClient.interceptors.response.use(
             }
         }
 
-        handleError(error);
         return Promise.reject(error);
     },
 );

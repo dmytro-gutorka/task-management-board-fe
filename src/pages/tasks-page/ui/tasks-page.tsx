@@ -53,6 +53,7 @@ export function TasksPage() {
     async function handleSubmitCreateForm(values: TaskFormValues) {
         const createdTask = await createTask(values);
 
+        if (!createdTask) return;
         setTasks((prevTasks) => [...prevTasks, createdTask]);
 
         createModal.closeModal();
@@ -62,6 +63,7 @@ export function TasksPage() {
         if (!selectedTask) return;
 
         const updatedTask = await updateTask(values, selectedTask.id);
+        if (!updatedTask) return;
 
         setTasks((prevTasks) =>
             prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
