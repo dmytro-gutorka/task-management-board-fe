@@ -46,12 +46,11 @@ httpClient.interceptors.response.use(
 
                 return httpClient(originalRequest);
             } catch (refreshError) {
-                handleError(refreshError, { logoutOnUnauthorized: true });
+                handleError(refreshError, { logoutOnUnauthorized: true, showToast: false });
                 return Promise.reject(error);
             }
         }
 
-        handleError(error);
         return Promise.reject(error);
     },
 );
