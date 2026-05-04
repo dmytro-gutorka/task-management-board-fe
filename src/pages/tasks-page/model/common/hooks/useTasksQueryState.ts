@@ -4,9 +4,8 @@ import type {
     TaskPriorityFilter,
     TaskSortBy,
     TaskStatusFilter,
-    TaskViewMode,
 } from '../../task-filters/tasks-filter.types.ts';
-import { tasksQueryParam } from '../../tasks-query-state/tasks-query-state.constants.ts';
+import { TASKS_QUERY_PARAMS } from '../../tasks-query-state/tasks-query-state.constants.ts';
 import type {
     TasksQueryParam,
     TasksQueryState,
@@ -29,7 +28,7 @@ export function useTasksQueryState() {
                 const nextSearchParams = new URLSearchParams(prev);
                 const nextQueryState: TasksQueryState = { ...currentState, ...updates };
 
-                const queryStateKeys = Object.values(tasksQueryParam);
+                const queryStateKeys = Object.values(TASKS_QUERY_PARAMS);
 
                 queryStateKeys.forEach((key: TasksQueryParam) => {
                     updateTasksQueryParam(nextSearchParams, nextQueryState, key);
@@ -41,7 +40,6 @@ export function useTasksQueryState() {
         [setSearchParams],
     );
 
-    const setView = useCallback((view: TaskViewMode) => updateParams({ view }), [updateParams]);
     const setStatus = useCallback(
         (status: TaskStatusFilter) => updateParams({ status }),
         [updateParams],
@@ -51,11 +49,11 @@ export function useTasksQueryState() {
         [updateParams],
     );
     const setSortBy = useCallback((sortBy: TaskSortBy) => updateParams({ sortBy }), [updateParams]);
-    const setSearch = useCallback((search: string) => updateParams({ search }), [updateParams]);
+    const setSearch = useCallback((q: string) => updateParams({ q }), [updateParams]);
 
     return {
+        searchParams,
         state,
-        setView,
         setStatus,
         setPriority,
         setSortBy,

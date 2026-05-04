@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { PageLoader } from '../../../shared/components/loader-page.tsx';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
 import { completeTask, getTaskById } from '../../../shared/modules/tasks/common/model/task.api.ts';
@@ -9,10 +9,10 @@ import { useCreateTasks } from '../model/common/api/hooks/useCreateTasks.ts';
 import { useDeleteTask } from '../model/common/api/hooks/useDeleteTask.ts';
 import { useGetAllTasks } from '../model/common/api/hooks/useGetAllTasks.ts';
 import { useUpdateTasks } from '../model/common/api/hooks/useUpdateTasks.ts';
+import { TASKS_VIEW_MODE } from '../model/common/tasks-page.constants.ts';
 import { CreateTaskModal } from './task-modals/create-task-modal.tsx';
 import { DeleteTaskModal } from './task-modals/delete-task-modal.tsx';
 import type { Nullable } from '../../../shared/types/common.ts';
-import { getFilteredAndSortedTasks } from '../model/common/helpers/getFilteredAndSortedTasks.ts';
 import { useTasksQueryState } from '../model/common/hooks/useTasksQueryState.ts';
 import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
 import type {
@@ -28,8 +28,18 @@ import { TaskPageHeader } from './common/task-page-header.tsx';
 export function TasksPage() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
+    const [view, setView] = useState<TaskViewMode>(
+        (localStorage.getItem(TASKS_VIEW_MODE) as TaskViewMode) || TASK_VIEW_MODE.GRID,
+    );
 
-    const { isLoading: isTasksGetting } = useGetAllTasks(setTasks);
+    const {
+        state: { status, q, sortBy, priority },
+        searchParams,
+        setSearch,
+        updateParams,
+    } = useTasksQueryState();
+
+    const { isLoading: isTasksGetting } = useGetAllTasks(setTasks, searchParams);
     const { createTask, isLoading: isTaskCreating } = useCreateTasks();
     const { updateTask, isLoading: isTaskUpdating } = useUpdateTasks();
     const { deleteTask, isLoading: isTaskDeleting } = useDeleteTask();
@@ -38,23 +48,12 @@ export function TasksPage() {
     const createModal = useModalState();
     const editModal = useModalState();
 
-    const {
-        state: { view, status, search, sortBy, priority },
-        setSearch,
-        setView,
-        updateParams,
-    } = useTasksQueryState();
-
     const filter = { status, sortBy, priority };
-    const filteredTasks = useMemo(() => {
-        return getFilteredAndSortedTasks(tasks ?? [], { status, sortBy, priority }, search);
-    }, [tasks, status, sortBy, priority, search]);
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
         const createdTask = await createTask(values);
 
         setTasks((prevTasks) => [...prevTasks, createdTask]);
-
         createModal.closeModal();
     }
 
@@ -72,9 +71,10 @@ export function TasksPage() {
 
     async function handleDeleteTask() {
         if (!selectedTask) return;
-        await deleteTask(selectedTask.id);
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
 
+        await deleteTask(selectedTask.id);
+
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
         setSelectedTask(null);
         deleteModal.closeModal();
     }
@@ -83,9 +83,9 @@ export function TasksPage() {
         completeTask(taskId);
 
         const updatedTask = getTaskById(taskId);
+
         if (!updatedTask) return;
         // TODO 5: DO LATER
-
         // setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? updatedTask : task)));
     }
 
@@ -129,19 +129,19 @@ export function TasksPage() {
                 openCreateModal={createModal.openModal}
                 openEditModal={editModal.openModal}
                 taskViewMode={view}
-                searchValue={search}
+                searchValue={q}
                 filters={filter}
                 setSearchValue={setSearch}
             />
             {view === 'grid' ? (
                 <TasksGridView
-                    tasks={filteredTasks}
+                    tasks={tasks}
                     onCompleteTask={handleCompleteTask}
                     onOpenEditModal={handleOpenEditModal}
                     onOpenDeleteModal={handleOpenDeleteModal}
                 />
             ) : (
-                <TasksListView tasks={filteredTasks} />
+                <TasksListView tasks={tasks} />
             )}
             <CreateTaskModal
                 onSubmit={handleSubmitCreateForm}

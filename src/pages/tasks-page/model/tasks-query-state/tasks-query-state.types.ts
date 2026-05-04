@@ -3,16 +3,17 @@ import type {
     TaskPriorityFilter,
     TaskSortBy,
     TaskStatusFilter,
-    TaskViewMode,
 } from '../task-filters/tasks-filter.types.ts';
-import type { tasksQueryParam } from './tasks-query-state.constants.ts';
+import { type TASKS_QUERY_PARAMS, TASKS_SEARCH_BY_PARAMS } from './tasks-query-state.constants.ts';
+
+type TasksSearchParam = ValueOf<typeof TASKS_SEARCH_BY_PARAMS>;
 
 export type TasksQueryState = {
-    view: TaskViewMode;
+    q: string;
     status: TaskStatusFilter;
     priority: TaskPriorityFilter;
     sortBy: TaskSortBy;
-    search: string;
+    searchBy: TasksSearchParam;
 };
 
-export type TasksQueryParam = ValueOf<typeof tasksQueryParam>;
+export type TasksQueryParam = ValueOf<typeof TASKS_QUERY_PARAMS>;

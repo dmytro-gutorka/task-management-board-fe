@@ -6,6 +6,7 @@ import {
 } from '../../../../shared/components/shadcn/ui/toggle-group.tsx';
 import { cn } from '../../../../shared/helpers/shadcn.utils.ts';
 import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
+import { TASKS_VIEW_MODE } from '../../model/common/tasks-page.constants.ts';
 import { TASK_VIEW_MODE } from '../../model/task-filters/tasks-filter.constants.ts';
 import type { TaskViewMode } from '../../model/task-filters/tasks-filter.types.ts';
 
@@ -20,11 +21,16 @@ const inactiveViewStyles = 'text-muted-foreground hover:text-foreground';
 export function TasksViewSwitcher({ view, onTaskViewChange }: TasksViewSwitcherProps) {
     const { t } = useTranslation('common');
 
+    function handleSwitchViewMode(value: TaskViewMode) {
+        onTaskViewChange(value);
+        localStorage.setItem(TASKS_VIEW_MODE, value);
+    }
+
     return (
         <ToggleGroup
             type="single"
             value={view}
-            onValueChange={(value: TaskViewMode) => onTaskViewChange(value)}
+            onValueChange={(value: TaskViewMode) => handleSwitchViewMode(value)}
             className="rounded-lg border bg-muted/40 p-1 ml-4"
         >
             <IconTooltip content={t('view.list')}>
