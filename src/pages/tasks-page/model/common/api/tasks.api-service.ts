@@ -7,10 +7,10 @@ import type {
 import { TASKS_API_ROUTES } from './tasks.api-constants.ts';
 
 export const TasksApiService = {
-    async findAll(query: URLSearchParams, controller: AbortSignal): Promise<Task[]> {
+    async findAll(params: URLSearchParams, signal: AbortSignal): Promise<Task[]> {
         const { data } = await httpClient.get<Task[]>(TASKS_API_ROUTES.FIND_ALL, {
-            params: query,
-            signal: controller,
+            params,
+            signal,
         });
         return data;
     },
