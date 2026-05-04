@@ -4,11 +4,12 @@ import { handleError } from '../../../../../../shared/infrastructure/errors/hand
 import type { Task } from '../../../../../../shared/modules/tasks/common/model/task.types.ts';
 import { TasksApiService } from '../tasks.api-service.ts';
 
-export function useGetAllTasks(setTasks: Dispatch<SetStateAction<Task[]>>, query: URLSearchParams) {
+export function useGetAllTasks(setTasks: Dispatch<SetStateAction<Task[]>>, queryString: string) {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const controller = new AbortController();
+        const query = new URLSearchParams(queryString);
 
         async function getTasks() {
             try {
@@ -32,7 +33,7 @@ export function useGetAllTasks(setTasks: Dispatch<SetStateAction<Task[]>>, query
         void getTasks();
 
         return () => controller.abort();
-    }, [query, setTasks]);
+    }, [queryString, setTasks]);
 
     return { isLoading };
 }

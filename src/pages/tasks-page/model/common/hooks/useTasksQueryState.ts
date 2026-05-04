@@ -52,7 +52,7 @@ export function useTasksQueryState() {
     const setSearch = useCallback((q: string) => updateParams({ q }), [updateParams]);
 
     return {
-        searchParams,
+        searchParams: searchParams.toString(),
         state,
         setStatus,
         setPriority,
