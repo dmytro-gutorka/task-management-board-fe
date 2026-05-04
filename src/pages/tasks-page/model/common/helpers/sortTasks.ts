@@ -2,12 +2,6 @@ import { compareByTime } from '../../../../../shared/helpers/compareByTime.ts';
 import type { Task } from '../../../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TasksFiltersValue } from '../../task-filters/tasks-filter.types.ts';
 
-const priorityRank: Record<Task['priority'], number> = {
-    high: 3,
-    medium: 2,
-    low: 1,
-};
-
 export function sortTasks(tasks: Task[], sortBy: TasksFiltersValue['sortBy']): Task[] {
     const sorted = [...tasks];
 
@@ -15,9 +9,6 @@ export function sortTasks(tasks: Task[], sortBy: TasksFiltersValue['sortBy']): T
         switch (sortBy) {
             case 'title':
                 return a.title.localeCompare(b.title);
-
-            case 'priority':
-                return priorityRank[b.priority] - priorityRank[a.priority];
 
             case 'deadline':
                 return compareByTime(a.deadline, b.deadline);

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { generatePath, Link } from 'react-router-dom';
-import { Calendar, Check, Lock, Info, Circle, Flag, Pencil, Trash2 } from 'lucide-react';
+import { Calendar, Lock, Info, Circle, Flag, Pencil, Trash2 } from 'lucide-react';
 import {
     Card,
     CardContent,
@@ -21,17 +21,11 @@ import {
 
 interface TaskGridCardProps {
     task: Task;
-    onCompleteTask: (taskId: string) => void;
     onOpenEditModal: (task: Task) => void;
     onOpenDeleteModal: (task: Task) => void;
 }
 
-export function TaskGridCard({
-    task,
-    onCompleteTask,
-    onOpenEditModal,
-    onOpenDeleteModal,
-}: TaskGridCardProps) {
+export function TaskGridCard({ task, onOpenEditModal, onOpenDeleteModal }: TaskGridCardProps) {
     const { t } = useTranslation(['common', 'tasks']);
 
     const statusConfig = getTaskStatusConfig(t)[task.status];
@@ -105,17 +99,6 @@ export function TaskGridCard({
                             {t('details')}
                         </Link>
                     </Button>
-                    <Button
-                        variant="secondary"
-                        size="sm"
-                        className="gap-2"
-                        onClick={() => onCompleteTask(task.id)}
-                        disabled={task.status === 'done'}
-                    >
-                        <Check className="h-4 w-4" />
-                        {t('complete')}
-                    </Button>
-
                     <Button
                         variant="destructive"
                         size="sm"

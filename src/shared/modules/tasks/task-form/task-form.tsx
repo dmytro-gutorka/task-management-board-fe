@@ -115,6 +115,7 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                                 </FieldLabel>
                                 <Input
                                     {...field}
+                                    value={field.value ?? ''}
                                     id="task-form-deadline"
                                     type="date"
                                     aria-invalid={fieldState.invalid}
