@@ -57,7 +57,7 @@ export function TasksPage() {
 
     useEffect(() => {
         setSearch(debouncedSearchValue);
-    }, [debouncedSearchValue]);
+    }, [debouncedSearchValue, setSearch]);
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
         const createdTask = await createTask(values);

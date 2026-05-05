@@ -19,7 +19,6 @@ import {
 } from './model/tasks-form.configs.ts';
 import { getTaskPriorityOptions, getTaskStatusOptions } from './model/tasks-form.constants.ts';
 import { taskFormSchema } from './model/tasks-form.schema.ts';
-import { format } from 'date-fns';
 import type { TaskFormValues } from './model/tasks-form.types.ts';
 
 interface TaskFormProps {
