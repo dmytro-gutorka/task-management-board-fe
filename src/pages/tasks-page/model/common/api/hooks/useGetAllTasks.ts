@@ -18,15 +18,10 @@ export function useGetAllTasks(setTasks: Dispatch<SetStateAction<Task[]>>, query
 
                 setTasks(tasks);
             } catch (error) {
-                if (axios.isCancel(error)) {
-                    return;
-                }
-
+                if (axios.isCancel(error)) return;
                 handleError(error);
             } finally {
-                if (!controller.signal.aborted) {
-                    setIsLoading(false);
-                }
+                if (!controller.signal.aborted) setIsLoading(false);
             }
         }
 

@@ -9,8 +9,10 @@ export function useSearch(searchValue: string, setSearchChange: (value: string) 
     const debouncedValue = useDebounce(inputValue, 300);
 
     useEffect(() => {
+        if (debouncedValue === searchValue) return;
+
         setSearchChange(debouncedValue);
-    }, [debouncedValue, setSearchChange]);
+    }, [debouncedValue, setSearchChange, searchValue]);
 
     function handleOpen() {
         setIsOpen(true);
