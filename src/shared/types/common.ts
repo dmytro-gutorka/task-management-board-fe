@@ -8,3 +8,23 @@ export interface FromPathLocationState {
         pathname?: string;
     };
 }
+
+export type CursorParam = Nullable<string>;
+
+export interface CursorParams {
+    cursor?: CursorParam;
+    limit?: number;
+}
+
+export interface PagePaginationResponse<T> {
+    items: T[];
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+}
+
+export interface CursorPaginationResponse<T> {
+    items: T[];
+    nextCursor: CursorParam;
+}

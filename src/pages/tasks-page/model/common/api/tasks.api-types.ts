@@ -1,21 +1,8 @@
 import type { Task } from '../../../../../shared/modules/tasks/common/model/task.types.ts';
+import type {
+    CursorPaginationResponse,
+    PagePaginationResponse,
+} from '../../../../../shared/types/common.ts';
 
-export type TasksCursor = string | null;
-
-export interface TasksCursorPage {
-    items: Task[];
-    nextCursor: TasksCursor;
-}
-
-export interface TasksCursorParams {
-    cursor?: TasksCursor;
-    limit?: number;
-}
-
-export interface TasksPaginatedPage {
-    items: Task[];
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-}
+export type TasksCursorPage = CursorPaginationResponse<Task>;
+export type TasksPaginatedPage = PagePaginationResponse<Task>;

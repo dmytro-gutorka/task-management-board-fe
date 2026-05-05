@@ -1,4 +1,5 @@
 import { GENERAL_QUERY_PARAMS } from '../../../../../shared/constants/common.constants.ts';
+import type { CursorParams } from '../../../../../shared/types/common.ts';
 import { TASKS_API_ROUTES } from './tasks.api-constants.ts';
 import { httpClient } from '../../../../../shared/infrastructure/axios/httpClient.ts';
 import type {
@@ -6,7 +7,7 @@ import type {
     Task,
     UpdateTaskPayload,
 } from '../../../../../shared/modules/tasks/common/model/task.types.ts';
-import type { TasksCursorPage, TasksCursorParams, TasksPaginatedPage } from './tasks.api-types.ts';
+import type { TasksCursorPage, TasksPaginatedPage } from './tasks.api-types.ts';
 
 export const TasksApiService = {
     async findPage(queryString: string, signal: AbortSignal): Promise<TasksPaginatedPage> {
@@ -21,7 +22,7 @@ export const TasksApiService = {
     },
 
     async findFeedPage(
-        { cursor = null, limit = 20 }: TasksCursorParams,
+        { cursor = null, limit = 20 }: CursorParams,
         signal: AbortSignal,
     ): Promise<TasksCursorPage> {
         const params = new URLSearchParams();

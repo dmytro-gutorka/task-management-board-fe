@@ -3,12 +3,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { handleError } from '../../../../../../shared/infrastructure/errors/handle-error.ts';
 import { TASKS_PAGE_LIMIT } from '../../tasks-page.constants.ts';
 import { TasksApiService } from '../tasks.api-service.ts';
+import type { CursorParam } from '../../../../../../shared/types/common.ts';
 import type { Task } from '../../../../../../shared/modules/tasks/common/model/task.types.ts';
-import type { TasksCursor } from '../tasks.api-types.ts';
 
 export function useGetTasksFeed(reloadKey: number) {
     const [tasks, setTasks] = useState<Task[]>([]);
-    const [nextCursor, setNextCursor] = useState<TasksCursor>(null);
+    const [nextCursor, setNextCursor] = useState<CursorParam>(null);
     const [isFirstPageLoading, setIsFirstPageLoading] = useState(false);
     const [isFetchingNextPage, setIsFetchingNextPage] = useState(false);
 
