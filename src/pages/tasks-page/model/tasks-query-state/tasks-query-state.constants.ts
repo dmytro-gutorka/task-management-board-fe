@@ -10,6 +10,7 @@ export const TASKS_QUERY_PARAMS = {
     PRIORITY: 'priority',
     SORT_BY: 'sortBy',
     SEARCH_BY: 'searchBy',
+    PAGE: 'page',
     Q: 'q',
 } as const;
 
@@ -19,6 +20,7 @@ export const TASKS_SEARCH_BY_PARAMS = {
 };
 
 export const defaultTasksQueryState = {
+    [TASKS_QUERY_PARAMS.PAGE]: '1',
     [TASKS_QUERY_PARAMS.STATUS]: TASK_STATUS_FILTER.ALL,
     [TASKS_QUERY_PARAMS.PRIORITY]: TASK_PRIORITY_FILTER.ALL,
     [TASKS_QUERY_PARAMS.SORT_BY]: TASK_SORT_BY_FILTER.TITLE,

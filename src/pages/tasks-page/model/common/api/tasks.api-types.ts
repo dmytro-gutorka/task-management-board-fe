@@ -11,3 +11,11 @@ export interface TasksCursorParams {
     cursor?: TasksCursor;
     limit?: number;
 }
+
+export interface TasksPaginatedPage {
+    items: Task[];
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+}

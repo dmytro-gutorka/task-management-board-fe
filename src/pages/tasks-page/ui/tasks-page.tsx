@@ -1,21 +1,17 @@
 import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
 import type { Nullable } from '../../../shared/types/common.ts';
-import { useIntersectionObserver } from '../model/common/hooks/useIntersectionObserver.ts';
 import type {
     TaskPriorityFilter,
     TaskSortBy,
     TaskStatusFilter,
     TaskViewMode,
 } from '../model/task-filters/tasks-filter.types.ts';
-import { useCallback, useRef, useState } from 'react';
-import { PageLoader } from '../../../shared/components/loader-page.tsx';
-import { Loader } from '../../../shared/components/loader.tsx';
+import { useState } from 'react';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
 import { useCreateTasks } from '../model/common/api/hooks/useCreateTasks.ts';
 import { useDeleteTask } from '../model/common/api/hooks/useDeleteTask.ts';
-import { useGetAllTasks } from '../model/common/api/hooks/useGetAllTasks.ts';
 import { useUpdateTasks } from '../model/common/api/hooks/useUpdateTasks.ts';
 import { LS_KEY_TASKS_VIEW_MODE } from '../model/common/tasks-page.constants.ts';
 import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
@@ -28,10 +24,11 @@ import { TaskPageHeader } from './common/task-page-header.tsx';
 
 export function TasksPage() {
     const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
+    const [tasksReloadKey, setTasksReloadKey] = useState(0);
+
     const [view, setView] = useState<TaskViewMode>(
         (localStorage.getItem(LS_KEY_TASKS_VIEW_MODE) as TaskViewMode) || TASK_VIEW_MODE.GRID,
     );
-    const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
     const {
         state: { status, q, sortBy, priority },
@@ -39,16 +36,6 @@ export function TasksPage() {
         setSearch,
         updateParams,
     } = useTasksQueryState();
-
-    const {
-        tasks,
-        setTasks,
-        isLoading: isTasksGetting,
-        isFetchingNextPage,
-        hasNextPage,
-        fetchNextPage,
-        refetch,
-    } = useGetAllTasks(searchParams);
 
     const { createTask, isLoading: isTaskCreating } = useCreateTasks();
     const { updateTask, isLoading: isTaskUpdating } = useUpdateTasks();
@@ -60,34 +47,23 @@ export function TasksPage() {
 
     const filter = { status, sortBy, priority };
 
-    const loadNextPage = useCallback(() => {
-        if (!hasNextPage || isFetchingNextPage || isTasksGetting) return;
-
-        void fetchNextPage();
-    }, [fetchNextPage, hasNextPage, isFetchingNextPage, isTasksGetting]);
-
-    useIntersectionObserver({
-        targetRef: loadMoreRef,
-        enabled: hasNextPage && !isFetchingNextPage && !isTasksGetting,
-        onIntersect: loadNextPage,
-    });
+    function reloadTasks() {
+        setTasksReloadKey((prev) => prev + 1);
+    }
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
         await createTask(values);
-        refetch();
 
+        reloadTasks();
         createModal.closeModal();
     }
 
     async function handleSubmitEditForm(values: TaskFormValues) {
         if (!selectedTask) return;
 
-        const updatedTask = await updateTask(values, selectedTask.id);
+        await updateTask(values, selectedTask.id);
 
-        setTasks((prevTasks) =>
-            prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
-        );
-
+        reloadTasks();
         setSelectedTask(null);
         editModal.closeModal();
     }
@@ -97,7 +73,7 @@ export function TasksPage() {
 
         await deleteTask(selectedTask.id);
 
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
+        reloadTasks();
         setSelectedTask(null);
         deleteModal.closeModal();
     }
@@ -107,15 +83,19 @@ export function TasksPage() {
     }
 
     function handleStatusChange(status: TaskStatusFilter) {
-        updateParams({ ...filter, status });
+        updateParams({ ...filter, status, page: '1' });
     }
 
     function handlePriorityChange(priority: TaskPriorityFilter) {
-        updateParams({ ...filter, priority });
+        updateParams({ ...filter, priority, page: '1' });
     }
 
     function handleSortByChange(sortBy: TaskSortBy) {
-        updateParams({ ...filter, sortBy });
+        updateParams({ ...filter, sortBy, page: '1' });
+    }
+
+    function handlePageChange(page: number) {
+        updateParams({ ...filter, page: String(page) });
     }
 
     function handleOpenEditModal(task: Task) {
@@ -128,12 +108,9 @@ export function TasksPage() {
         deleteModal.openModal();
     }
 
-    if (isTasksGetting) return <PageLoader />;
-
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
             <TaskPageHeader
-                tasksCount={tasks.length}
                 onStatusChange={handleStatusChange}
                 onPriorityChange={handlePriorityChange}
                 onSortByChange={handleSortByChange}
@@ -146,24 +123,17 @@ export function TasksPage() {
                 setSearchValue={setSearch}
             />
 
-            {view === 'grid' ? (
+            {view === TASK_VIEW_MODE.GRID ? (
                 <TasksGridView
-                    tasks={tasks}
+                    searchParams={searchParams}
                     onOpenEditModal={handleOpenEditModal}
                     onOpenDeleteModal={handleOpenDeleteModal}
+                    onPageChange={handlePageChange}
+                    reloadKey={tasksReloadKey}
                 />
             ) : (
-                <TasksListView tasks={tasks} />
+                <TasksListView reloadKey={tasksReloadKey} />
             )}
-
-            <div ref={loadMoreRef} className="flex min-h-16 items-center justify-center py-4">
-                {isFetchingNextPage && <Loader />}
-
-                {!hasNextPage && tasks.length > 0 && (
-                    <span className="text-sm text-muted-foreground">No more tasks</span>
-                )}
-            </div>
-
             <CreateTaskModal
                 onSubmit={handleSubmitCreateForm}
                 setOpen={createModal.setOpen}

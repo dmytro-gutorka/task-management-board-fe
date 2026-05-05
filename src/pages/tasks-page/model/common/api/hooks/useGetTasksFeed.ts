@@ -6,12 +6,11 @@ import { TasksApiService } from '../tasks.api-service.ts';
 import type { Task } from '../../../../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TasksCursor } from '../tasks.api-types.ts';
 
-export function useGetAllTasks(queryString: string) {
+export function useGetTasksFeed(reloadKey: number) {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [nextCursor, setNextCursor] = useState<TasksCursor>(null);
     const [isFirstPageLoading, setIsFirstPageLoading] = useState(false);
     const [isFetchingNextPage, setIsFetchingNextPage] = useState(false);
-    const [reloadKey, setReloadKey] = useState(0);
 
     const firstPageControllerRef = useRef<AbortController | null>(null);
     const nextPageControllerRef = useRef<AbortController | null>(null);
@@ -33,8 +32,7 @@ export function useGetAllTasks(queryString: string) {
                 setTasks([]);
                 setNextCursor(null);
 
-                const page = await TasksApiService.findPage(
-                    queryString,
+                const page = await TasksApiService.findFeedPage(
                     { cursor: null, limit: TASKS_PAGE_LIMIT },
                     controller.signal,
                 );
@@ -54,7 +52,7 @@ export function useGetAllTasks(queryString: string) {
         void loadFirstPage();
 
         return () => controller.abort();
-    }, [queryString, reloadKey]);
+    }, [reloadKey]);
 
     const fetchNextPage = useCallback(async () => {
         if (!nextCursor || isFetchingNextPage || isFirstPageLoading) return;
@@ -67,8 +65,7 @@ export function useGetAllTasks(queryString: string) {
         try {
             setIsFetchingNextPage(true);
 
-            const page = await TasksApiService.findPage(
-                queryString,
+            const page = await TasksApiService.findFeedPage(
                 { cursor: nextCursor, limit: TASKS_PAGE_LIMIT },
                 controller.signal,
             );
@@ -83,9 +80,7 @@ export function useGetAllTasks(queryString: string) {
         } finally {
             if (!controller.signal.aborted) setIsFetchingNextPage(false);
         }
-    }, [isFetchingNextPage, isFirstPageLoading, nextCursor, queryString]);
-
-    const refetch = useCallback(() => setReloadKey((prev) => prev + 1), []);
+    }, [isFetchingNextPage, isFirstPageLoading, nextCursor]);
 
     useEffect(() => {
         return () => {
@@ -101,6 +96,5 @@ export function useGetAllTasks(queryString: string) {
         isFetchingNextPage,
         hasNextPage,
         fetchNextPage,
-        refetch,
     };
 }

@@ -14,6 +14,7 @@ export type TasksQueryState = {
     priority: TaskPriorityFilter;
     sortBy: TaskSortBy;
     searchBy: TasksSearchParam;
+    page: string;
 };
 
 export type TasksQueryParam = ValueOf<typeof TASKS_QUERY_PARAMS>;

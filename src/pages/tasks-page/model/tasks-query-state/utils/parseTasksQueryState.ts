@@ -8,10 +8,11 @@ export function parseTasksQueryState(searchParams: URLSearchParams): TasksQueryS
     const sortByParam = searchParams.get(TASKS_QUERY_PARAMS.SORT_BY);
     const qParam = searchParams.get(TASKS_QUERY_PARAMS.Q);
     const searchByParam = searchParams.get(TASKS_QUERY_PARAMS.SEARCH_BY);
-    // TODO: 4 Come up with a better/reusable way to handle this
+    const page = searchParams.get(TASKS_QUERY_PARAMS.PAGE);
 
     return {
         q: qParam ?? defaultTasksQueryState.q,
+        page: page ?? defaultTasksQueryState.page,
         searchBy: searchByParam ?? defaultTasksQueryState.searchBy,
         status:
             statusParam && isTaskStatusFilter(statusParam)

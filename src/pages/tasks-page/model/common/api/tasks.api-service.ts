@@ -6,20 +6,30 @@ import type {
     Task,
     UpdateTaskPayload,
 } from '../../../../../shared/modules/tasks/common/model/task.types.ts';
-import type { TasksCursorPage, TasksCursorParams } from './tasks.api-types.ts';
+import type { TasksCursorPage, TasksCursorParams, TasksPaginatedPage } from './tasks.api-types.ts';
 
 export const TasksApiService = {
-    async findPage(
-        queryString: string,
-        { cursor = null, limit = 10 }: TasksCursorParams,
+    async findPage(queryString: string, signal: AbortSignal): Promise<TasksPaginatedPage> {
+        const params = new URLSearchParams(queryString);
+
+        const { data } = await httpClient.get<TasksPaginatedPage>(TASKS_API_ROUTES.FIND_ALL, {
+            params,
+            signal,
+        });
+
+        return data;
+    },
+
+    async findFeedPage(
+        { cursor = null, limit = 20 }: TasksCursorParams,
         signal: AbortSignal,
     ): Promise<TasksCursorPage> {
-        const params = new URLSearchParams(queryString);
+        const params = new URLSearchParams();
 
         params.set(GENERAL_QUERY_PARAMS.LIMIT, String(limit));
         if (cursor) params.set(GENERAL_QUERY_PARAMS.CURSOR, cursor);
 
-        const { data } = await httpClient.get<TasksCursorPage>(TASKS_API_ROUTES.FIND_ALL, {
+        const { data } = await httpClient.get<TasksCursorPage>(TASKS_API_ROUTES.FIND_FEED, {
             params,
             signal,
         });
