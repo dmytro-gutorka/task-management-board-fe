@@ -2,7 +2,6 @@ import type { Task } from '../../../shared/modules/tasks/common/model/task.types
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
 import type { Nullable } from '../../../shared/types/common.ts';
 import { useIntersectionObserver } from '../model/common/hooks/useIntersectionObserver.ts';
-
 import type {
     TaskPriorityFilter,
     TaskSortBy,
@@ -18,21 +17,21 @@ import { useCreateTasks } from '../model/common/api/hooks/useCreateTasks.ts';
 import { useDeleteTask } from '../model/common/api/hooks/useDeleteTask.ts';
 import { useGetAllTasks } from '../model/common/api/hooks/useGetAllTasks.ts';
 import { useUpdateTasks } from '../model/common/api/hooks/useUpdateTasks.ts';
-import { TASKS_VIEW_MODE } from '../model/common/tasks-page.constants.ts';
+import { LS_KEY_TASKS_VIEW_MODE } from '../model/common/tasks-page.constants.ts';
+import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
 import { CreateTaskModal } from './task-modals/create-task-modal.tsx';
 import { DeleteTaskModal } from './task-modals/delete-task-modal.tsx';
 import { useTasksQueryState } from '../model/common/hooks/useTasksQueryState.ts';
-import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
 import { TasksGridView } from './task-card/tasks-grid-view.tsx';
 import { TasksListView } from './task-card/tasks-list-view.tsx';
 import { TaskPageHeader } from './common/task-page-header.tsx';
 
 export function TasksPage() {
-    const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
     const [view, setView] = useState<TaskViewMode>(
-        (localStorage.getItem(TASKS_VIEW_MODE) as TaskViewMode) || TASK_VIEW_MODE.GRID,
+        (localStorage.getItem(LS_KEY_TASKS_VIEW_MODE) as TaskViewMode) || TASK_VIEW_MODE.GRID,
     );
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
     const {
         state: { status, q, sortBy, priority },
@@ -75,7 +74,7 @@ export function TasksPage() {
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
         await createTask(values);
-        await refetch();
+        refetch();
 
         createModal.closeModal();
     }

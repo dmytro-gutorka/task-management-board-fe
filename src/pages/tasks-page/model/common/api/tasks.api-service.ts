@@ -1,10 +1,11 @@
+import { GENERAL_QUERY_PARAMS } from '../../../../../shared/constants/common.constants.ts';
+import { TASKS_API_ROUTES } from './tasks.api-constants.ts';
 import { httpClient } from '../../../../../shared/infrastructure/axios/httpClient.ts';
 import type {
     CreateTaskPayload,
     Task,
     UpdateTaskPayload,
 } from '../../../../../shared/modules/tasks/common/model/task.types.ts';
-import { TASKS_API_ROUTES } from './tasks.api-constants.ts';
 import type { TasksCursorPage, TasksCursorParams } from './tasks.api-types.ts';
 
 export const TasksApiService = {
@@ -15,8 +16,8 @@ export const TasksApiService = {
     ): Promise<TasksCursorPage> {
         const params = new URLSearchParams(queryString);
 
-        params.set('limit', String(limit));
-        if (cursor) params.set('cursor', cursor);
+        params.set(GENERAL_QUERY_PARAMS.LIMIT, String(limit));
+        if (cursor) params.set(GENERAL_QUERY_PARAMS.CURSOR, cursor);
 
         const { data } = await httpClient.get<TasksCursorPage>(TASKS_API_ROUTES.FIND_ALL, {
             params,

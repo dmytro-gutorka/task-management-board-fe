@@ -1,16 +1,15 @@
 import axios from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { handleError } from '../../../../../../shared/infrastructure/errors/handle-error.ts';
-import type { Task } from '../../../../../../shared/modules/tasks/common/model/task.types.ts';
+import { TASKS_PAGE_LIMIT } from '../../tasks-page.constants.ts';
 import { TasksApiService } from '../tasks.api-service.ts';
+import type { Task } from '../../../../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TasksCursor } from '../tasks.api-types.ts';
-
-const TASKS_PAGE_LIMIT = 20;
 
 export function useGetAllTasks(queryString: string) {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [nextCursor, setNextCursor] = useState<TasksCursor>(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isFirstPageLoading, setIsFirstPageLoading] = useState(false);
     const [isFetchingNextPage, setIsFetchingNextPage] = useState(false);
     const [reloadKey, setReloadKey] = useState(0);
 
@@ -20,14 +19,17 @@ export function useGetAllTasks(queryString: string) {
     const hasNextPage = nextCursor !== null;
 
     useEffect(() => {
-        firstPageControllerRef.current?.abort();
-
         const controller = new AbortController();
+
+        firstPageControllerRef.current?.abort();
+        nextPageControllerRef.current?.abort();
+
         firstPageControllerRef.current = controller;
 
         async function loadFirstPage() {
             try {
-                setIsLoading(true);
+                setIsFirstPageLoading(true);
+                setIsFetchingNextPage(false);
                 setTasks([]);
                 setNextCursor(null);
 
@@ -45,9 +47,7 @@ export function useGetAllTasks(queryString: string) {
                 if (axios.isCancel(error)) return;
                 handleError(error);
             } finally {
-                if (!controller.signal.aborted) {
-                    setIsLoading(false);
-                }
+                if (!controller.signal.aborted) setIsFirstPageLoading(false);
             }
         }
 
@@ -57,11 +57,11 @@ export function useGetAllTasks(queryString: string) {
     }, [queryString, reloadKey]);
 
     const fetchNextPage = useCallback(async () => {
-        if (!nextCursor || isFetchingNextPage || isLoading) return;
-
-        nextPageControllerRef.current?.abort();
+        if (!nextCursor || isFetchingNextPage || isFirstPageLoading) return;
 
         const controller = new AbortController();
+
+        nextPageControllerRef.current?.abort();
         nextPageControllerRef.current = controller;
 
         try {
@@ -81,15 +81,11 @@ export function useGetAllTasks(queryString: string) {
             if (axios.isCancel(error)) return;
             handleError(error);
         } finally {
-            if (!controller.signal.aborted) {
-                setIsFetchingNextPage(false);
-            }
+            if (!controller.signal.aborted) setIsFetchingNextPage(false);
         }
-    }, [isFetchingNextPage, isLoading, nextCursor, queryString]);
+    }, [isFetchingNextPage, isFirstPageLoading, nextCursor, queryString]);
 
-    const refetch = useCallback(() => {
-        setReloadKey((prev) => prev + 1);
-    }, []);
+    const refetch = useCallback(() => setReloadKey((prev) => prev + 1), []);
 
     useEffect(() => {
         return () => {
@@ -101,7 +97,7 @@ export function useGetAllTasks(queryString: string) {
     return {
         tasks,
         setTasks,
-        isLoading,
+        isLoading: isFirstPageLoading,
         isFetchingNextPage,
         hasNextPage,
         fetchNextPage,

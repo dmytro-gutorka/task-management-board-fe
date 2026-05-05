@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/components/shadcn/ui/toggle-group.tsx';
 import { cn } from '../../../../shared/helpers/shadcn.utils.ts';
 import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
-import { TASKS_VIEW_MODE } from '../../model/common/tasks-page.constants.ts';
+import { LS_KEY_TASKS_VIEW_MODE } from '../../model/common/tasks-page.constants.ts';
 import { TASK_VIEW_MODE } from '../../model/task-filters/tasks-filter.constants.ts';
 import type { TaskViewMode } from '../../model/task-filters/tasks-filter.types.ts';
 
@@ -23,7 +23,7 @@ export function TasksViewSwitcher({ view, onTaskViewChange }: TasksViewSwitcherP
 
     function handleSwitchViewMode(value: TaskViewMode) {
         onTaskViewChange(value);
-        localStorage.setItem(TASKS_VIEW_MODE, value);
+        localStorage.setItem(LS_KEY_TASKS_VIEW_MODE, value);
     }
 
     return (
