@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { handleError } from '../../../../../../shared/infrastructure/errors/handle-error.ts';
 import { TasksApiService } from '../tasks.api-service.ts';
 
 export function useDeleteTask() {
@@ -11,6 +12,8 @@ export function useDeleteTask() {
             await TasksApiService.delete(taskId);
 
             setIsLoading(false);
+        } catch (error: unknown) {
+            handleError(error);
         } finally {
             setIsLoading(false);
         }

@@ -81,6 +81,7 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                                 rows={5}
                                 aria-invalid={fieldState.invalid}
                                 aria-label="type"
+                                maxLength={1000}
                             />
                             <FieldDescription>
                                 {t('form.descriptionDescription', { ns: 'tasks' })}
