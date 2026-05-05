@@ -1,3 +1,5 @@
+import { PageLoaderOverlay } from '../../../shared/components/overlay-loader-page.tsx';
+import { useDebounce } from '../../../shared/hooks/useDebounce.ts';
 import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
 import type { Nullable } from '../../../shared/types/common.ts';
@@ -8,7 +10,7 @@ import type {
     TaskStatusFilter,
     TaskViewMode,
 } from '../model/task-filters/tasks-filter.types.ts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageLoader } from '../../../shared/components/loader-page.tsx';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
@@ -49,6 +51,13 @@ export function TasksPage() {
     const editModal = useModalState();
 
     const filter = { status, sortBy, priority };
+
+    const [searchInputValue, setSearchInputValue] = useState(q);
+    const debouncedSearchValue = useDebounce(searchInputValue, 300);
+
+    useEffect(() => {
+        setSearch(debouncedSearchValue);
+    }, [debouncedSearchValue]);
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
         const createdTask = await createTask(values);
@@ -106,10 +115,16 @@ export function TasksPage() {
         deleteModal.openModal();
     }
 
-    if (isTasksGetting) return <PageLoader />;
+    const isInitialLoading = isTasksGetting && tasks.length === 0;
+    const isOverlayLoading = isTasksGetting && tasks.length > 0;
+
+    if (isInitialLoading) {
+        return <PageLoader className="min-h-[320px]" />;
+    }
 
     return (
-        <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
+        <div className="relative mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
+            {isOverlayLoading && <PageLoaderOverlay />}
             <TaskPageHeader
                 tasksCount={tasks.length}
                 onStatusChange={handleStatusChange}
@@ -119,9 +134,9 @@ export function TasksPage() {
                 openCreateModal={createModal.openModal}
                 openEditModal={editModal.openModal}
                 taskViewMode={view}
-                searchValue={q}
                 filters={filter}
-                setSearchValue={setSearch}
+                searchValue={searchInputValue}
+                setSearchValue={setSearchInputValue}
             />
             {view === 'grid' ? (
                 <TasksGridView
