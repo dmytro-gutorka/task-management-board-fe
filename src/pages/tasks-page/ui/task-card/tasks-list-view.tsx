@@ -2,8 +2,10 @@ import { PageLoader } from '../../../../shared/components/loader-page.tsx';
 import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 import { useCallback, useRef } from 'react';
 import { Loader } from '../../../../shared/components/loader.tsx';
-import { useGetTasksFeed } from '../../model/common/api/hooks/useGetTasksFeed.ts';
-import { useIntersectionObserver } from '../../model/common/hooks/useIntersectionObserver.ts';
+import type { CursorParams } from '../../../../shared/types/common.ts';
+import { useCursorPagination } from '../../../../shared/hooks/useCursorPagination.ts';
+import { TasksApiService } from '../../model/common/api/tasks.api-service.ts';
+import { useIntersectionObserver } from '../../../../shared/hooks/useIntersectionObserver.ts';
 import { TaskListCard } from './tasks-card-list.tsx';
 
 interface TasksListViewProps {
@@ -13,8 +15,19 @@ interface TasksListViewProps {
 export function TasksListView({ reloadKey }: TasksListViewProps) {
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    const { tasks, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
-        useGetTasksFeed(reloadKey);
+    const apiRequest = useCallback(
+        (cursorParams: CursorParams, signal: AbortSignal) =>
+            TasksApiService.findFeedPage(cursorParams, signal),
+        [],
+    );
+
+    const {
+        items: tasks,
+        isLoading,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    } = useCursorPagination(reloadKey, apiRequest);
 
     const loadNextPage = useCallback(() => {
         if (!hasNextPage || isFetchingNextPage || isLoading) return;

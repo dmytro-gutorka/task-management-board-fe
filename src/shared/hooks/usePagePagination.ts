@@ -1,19 +1,25 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { handleError } from '../../../../../../shared/infrastructure/errors/handle-error.ts';
-import type { Task } from '../../../../../../shared/modules/tasks/common/model/task.types.ts';
-import { TasksApiService } from '../tasks.api-service.ts';
+import { handleError } from '../infrastructure/errors/handle-error.ts';
+import type { PagePaginationResponse } from '../types/common.ts';
 
-const tasksDefaultPaginationState = {
+const defaultPagePaginationState = {
     page: 1,
     limit: 20,
     total: 0,
     totalPages: 0,
 };
 
-export function useGetTasksPage(queryString: string, reloadKey: number) {
-    const [tasks, setTasks] = useState<Task[]>([]);
-    const [pagination, setPagination] = useState(tasksDefaultPaginationState);
+export function usePagePagination<RequestData>(
+    queryString: string,
+    reloadKey: number,
+    apiRequest: (
+        queryString: string,
+        signal: AbortSignal,
+    ) => Promise<PagePaginationResponse<RequestData>>,
+) {
+    const [items, setItems] = useState<RequestData[]>([]);
+    const [pagination, setPagination] = useState(defaultPagePaginationState);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -23,11 +29,11 @@ export function useGetTasksPage(queryString: string, reloadKey: number) {
             try {
                 setIsLoading(true);
 
-                const page = await TasksApiService.findPage(queryString, controller.signal);
+                const page = await apiRequest(queryString, controller.signal);
 
                 if (controller.signal.aborted) return;
 
-                setTasks(page.items);
+                setItems(page.items);
                 setPagination({
                     page: page.page,
                     limit: page.limit,
@@ -45,11 +51,10 @@ export function useGetTasksPage(queryString: string, reloadKey: number) {
         void loadPage();
 
         return () => controller.abort();
-    }, [queryString, reloadKey]);
+    }, [queryString, reloadKey, apiRequest]);
 
     return {
-        tasks,
-        setTasks,
+        tasks: items,
         pagination,
         isLoading,
     };
