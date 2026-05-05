@@ -37,9 +37,9 @@ export function TasksPagination({ page, totalPages, onPageChange }: TasksPaginat
         if (canGoNext) onPageChange(page + 1);
     }
 
-    function handlePageClick(event: MouseEvent<HTMLAnchorElement>) {
+    function handlePageClick(event: MouseEvent<HTMLAnchorElement>, pageNumber: number) {
         event.preventDefault();
-        onPageChange(page);
+        onPageChange(pageNumber);
     }
 
     return (
@@ -69,7 +69,7 @@ export function TasksPagination({ page, totalPages, onPageChange }: TasksPaginat
                                 <PaginationLink
                                     href="#"
                                     isActive={pageNumber === page}
-                                    onClick={(event) => handlePageClick(event)}
+                                    onClick={(event) => handlePageClick(event, pageNumber)}
                                 >
                                     {pageNumber}
                                 </PaginationLink>
