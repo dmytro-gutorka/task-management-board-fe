@@ -21,8 +21,11 @@ export function usePagePagination<RequestData>(
 ) {
     const [pagination, setPagination] = useState(defaultPagePaginationState);
     const [isLoading, setIsLoading] = useState(false);
+    const [reloadKey, setReloadKey] = useState(0);
 
     useEffect(() => {
+        if (!enabled) return;
+
         const controller = new AbortController();
 
         async function loadPage() {
@@ -51,7 +54,11 @@ export function usePagePagination<RequestData>(
         void loadPage();
 
         return () => controller.abort();
-    }, [searchParams, apiRequest, setItems, enabled]);
+    }, [searchParams, apiRequest, setItems, enabled, reloadKey]);
 
-    return { pagination, isLoading };
+    function refetchPage() {
+        setReloadKey((prevKey) => prevKey + 1);
+    }
+
+    return { pagination, isLoading, refetchPage };
 }

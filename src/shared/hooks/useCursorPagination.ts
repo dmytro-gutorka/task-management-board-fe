@@ -41,19 +41,6 @@ export function useCursorPagination<
         return params;
     }, []);
 
-    const setUniqueTasks = useCallback(
-        (page: ResponseBody) => {
-            setItems((prevTasks) => {
-                const existingIds = new Set(prevTasks.map((task) => task.id));
-
-                const uniqueNewItems = page.items.filter((task) => !existingIds.has(task.id));
-
-                return [...prevTasks, ...uniqueNewItems];
-            });
-        },
-        [setItems],
-    );
-
     useEffect(() => {
         if (!enabled) return;
 
@@ -68,14 +55,14 @@ export function useCursorPagination<
             try {
                 setIsFirstPageLoading(true);
                 setIsFetchingNextPage(false);
-                setItems([]);
                 setNextCursor(null);
+                setItems([]);
 
                 const page = await apiRequest(buildParams(null), controller.signal);
 
                 if (controller.signal.aborted) return;
 
-                setUniqueTasks(page);
+                setItems((prevItems) => [...prevItems, ...page.items]);
                 setNextCursor(page.nextCursor);
             } catch (error) {
                 if (axios.isCancel(error)) return;
@@ -88,7 +75,7 @@ export function useCursorPagination<
         void loadFirstPage();
 
         return () => controller.abort();
-    }, [apiRequest, enabled, setItems, buildParams, setUniqueTasks]);
+    }, [apiRequest, enabled, setItems, buildParams]);
 
     const fetchNextPage = useCallback(async () => {
         if (!nextCursor || isFetchingNextPage || isFirstPageLoading) return;
@@ -105,7 +92,7 @@ export function useCursorPagination<
 
             if (controller.signal.aborted) return;
 
-            setUniqueTasks(page);
+            setItems((prevItems) => [...prevItems, ...page.items]);
             setNextCursor(page.nextCursor);
         } catch (error) {
             if (axios.isCancel(error)) return;
@@ -113,14 +100,7 @@ export function useCursorPagination<
         } finally {
             if (!controller.signal.aborted) setIsFetchingNextPage(false);
         }
-    }, [
-        nextCursor,
-        isFetchingNextPage,
-        isFirstPageLoading,
-        apiRequest,
-        buildParams,
-        setUniqueTasks,
-    ]);
+    }, [nextCursor, isFetchingNextPage, isFirstPageLoading, apiRequest, buildParams, setItems]);
 
     useEffect(() => {
         return () => {

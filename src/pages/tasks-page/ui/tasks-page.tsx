@@ -1,10 +1,10 @@
+import { TasksApiService } from '../model/common/api/tasks.api-service.ts';
 import { useCursorPagination } from '../../../shared/hooks/useCursorPagination.ts';
 import { useIntersectionObserver } from '../../../shared/hooks/useIntersectionObserver.ts';
 import { usePagePagination } from '../../../shared/hooks/usePagePagination.ts';
 import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
 import type { Nullable } from '../../../shared/types/common.ts';
-import { TasksApiService } from '../model/common/api/tasks.api-service.ts';
 import type { TasksCursorPaginatedResponse } from '../model/common/api/tasks.api-types.ts';
 import type {
     TaskPriorityFilter,
@@ -53,7 +53,7 @@ export function TasksPage() {
         [],
     );
 
-    const { isLoading, pagination } = usePagePagination(
+    const { isLoading, pagination, refetchPage } = usePagePagination(
         findPageRequest,
         setTasks,
         searchParams,
@@ -89,21 +89,18 @@ export function TasksPage() {
     const filter = { status, sortBy, priority };
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
-        const task = await createTask(values);
+        await createTask(values);
 
-        setTasks((prevTasks) => [task, ...prevTasks]);
-
+        refetchPage();
         createModal.closeModal();
     }
 
     async function handleSubmitEditForm(values: TaskFormValues) {
         if (!selectedTask) return;
 
-        const updatedTask = await updateTask(values, selectedTask.id);
+        await updateTask(values, selectedTask.id);
 
-        setTasks((prevTasks) =>
-            prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
-        );
+        refetchPage();
         setSelectedTask(null);
         editModal.closeModal();
     }
@@ -113,8 +110,7 @@ export function TasksPage() {
 
         await deleteTask(selectedTask.id);
 
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
-
+        refetchPage();
         setSelectedTask(null);
         deleteModal.closeModal();
     }

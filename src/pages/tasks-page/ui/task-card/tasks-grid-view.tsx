@@ -1,8 +1,8 @@
 import { PageLoader } from '../../../../shared/components/loader-page.tsx';
-import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
-import type { PaginationParams } from '../../../../shared/types/common.ts';
 import { TasksPagination } from '../common/tasks-pagination.tsx';
 import { TaskGridCard } from './tasks-card-grid.tsx';
+import type { PaginationParams } from '../../../../shared/types/common.ts';
+import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 
 interface TasksGridViewProps {
     onOpenEditModal: (task: Task) => void;
