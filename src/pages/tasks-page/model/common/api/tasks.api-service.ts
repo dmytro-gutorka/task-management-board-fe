@@ -1,3 +1,5 @@
+import type { CursorParams } from '../../../../../shared/types/common.ts';
+import type { TasksQueryState } from '../../tasks-query-state/tasks-query-state.types.ts';
 import { TASKS_API_ROUTES } from './tasks.api-constants.ts';
 import { httpClient } from '../../../../../shared/infrastructure/axios/httpClient.ts';
 import type {
@@ -12,7 +14,7 @@ import type {
 
 export const TasksApiService = {
     async findPage(
-        params: URLSearchParams,
+        params: Partial<TasksQueryState>,
         signal: AbortSignal,
     ): Promise<TasksPagePaginatedResponse> {
         const { data } = await httpClient.get<TasksPagePaginatedResponse>(
@@ -27,7 +29,7 @@ export const TasksApiService = {
     },
 
     async findFeedPage(
-        params: URLSearchParams,
+        params: CursorParams,
         signal: AbortSignal,
     ): Promise<TasksCursorPaginatedResponse> {
         const { data } = await httpClient.get<TasksCursorPaginatedResponse>(

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
     type Dispatch,
     type SetStateAction,
@@ -7,18 +6,20 @@ import {
     useRef,
     useState,
 } from 'react';
-import { GENERAL_QUERY_PARAMS } from '../constants/common.constants.ts';
+import axios from 'axios';
+import { buildCursorQueryParams } from '../helpers/buildCursorQueryParams.ts';
+import { mapCursorQueryParams } from '../helpers/mappers/mapQueryParams.ts';
 import { handleError } from '../infrastructure/errors/handle-error.ts';
-import { TASKS_PAGE_LIMIT } from '../../pages/tasks-page/model/common/tasks-page.constants.ts';
-import type { CursorPaginationResponse, CursorParam } from '../types/common.ts';
+import type { CursorPaginationResponse, CursorParam, CursorParams } from '../types/common.ts';
 
 export function useCursorPagination<
     RequestData extends { id: string },
     ResponseBody extends CursorPaginationResponse<RequestData>,
 >(
-    apiRequest: (cursorParams: URLSearchParams, signal: AbortSignal) => Promise<ResponseBody>,
+    apiRequest: (params: CursorParams, signal: AbortSignal) => Promise<ResponseBody>,
     setItems: Dispatch<SetStateAction<RequestData[]>>,
     enabled: boolean,
+    limit: number = 10,
 ) {
     const [nextCursor, setNextCursor] = useState<CursorParam>(null);
     const [isFirstPageLoading, setIsFirstPageLoading] = useState(false);
@@ -28,18 +29,6 @@ export function useCursorPagination<
     const nextPageControllerRef = useRef<AbortController | null>(null);
 
     const hasNextPage = nextCursor !== null;
-
-    const buildParams = useCallback((cursor?: string | null) => {
-        const params = new URLSearchParams();
-
-        params.set(GENERAL_QUERY_PARAMS.LIMIT, String(TASKS_PAGE_LIMIT));
-
-        if (cursor) {
-            params.set(GENERAL_QUERY_PARAMS.CURSOR, cursor);
-        }
-
-        return params;
-    }, []);
 
     useEffect(() => {
         if (!enabled) return;
@@ -58,7 +47,10 @@ export function useCursorPagination<
                 setNextCursor(null);
                 setItems([]);
 
-                const page = await apiRequest(buildParams(null), controller.signal);
+                const urlSearchParams = buildCursorQueryParams(null, limit);
+                const cursorParams = mapCursorQueryParams(urlSearchParams);
+
+                const page = await apiRequest(cursorParams, controller.signal);
 
                 if (controller.signal.aborted) return;
 
@@ -75,7 +67,7 @@ export function useCursorPagination<
         void loadFirstPage();
 
         return () => controller.abort();
-    }, [apiRequest, enabled, setItems, buildParams]);
+    }, [apiRequest, enabled, limit, setItems]);
 
     const fetchNextPage = useCallback(async () => {
         if (!nextCursor || isFetchingNextPage || isFirstPageLoading) return;
@@ -88,7 +80,10 @@ export function useCursorPagination<
         try {
             setIsFetchingNextPage(true);
 
-            const page = await apiRequest(buildParams(nextCursor), controller.signal);
+            const urlSearchParams = buildCursorQueryParams(nextCursor, limit);
+            const cursorParams = mapCursorQueryParams(urlSearchParams);
+
+            const page = await apiRequest(cursorParams, controller.signal);
 
             if (controller.signal.aborted) return;
 
@@ -100,7 +95,7 @@ export function useCursorPagination<
         } finally {
             if (!controller.signal.aborted) setIsFetchingNextPage(false);
         }
-    }, [nextCursor, isFetchingNextPage, isFirstPageLoading, apiRequest, buildParams, setItems]);
+    }, [nextCursor, isFetchingNextPage, isFirstPageLoading, limit, apiRequest, setItems]);
 
     useEffect(() => {
         return () => {

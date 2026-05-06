@@ -1,4 +1,5 @@
 import { PageLoader } from '../../../../shared/components/loader-page.tsx';
+import type { TasksQueryState } from '../../model/tasks-query-state/tasks-query-state.types.ts';
 import { TasksPagination } from '../common/tasks-pagination.tsx';
 import { TaskGridCard } from './tasks-card-grid.tsx';
 import type { PaginationParams } from '../../../../shared/types/common.ts';
@@ -7,7 +8,7 @@ import type { Task } from '../../../../shared/modules/tasks/common/model/task.ty
 interface TasksGridViewProps {
     onOpenEditModal: (task: Task) => void;
     onOpenDeleteModal: (task: Task) => void;
-    onPageChange: (page: number) => void;
+    onPageChange: (queryParam: Partial<TasksQueryState>, page?: string) => void;
     tasks: Task[];
     isLoading: boolean;
     pagination: PaginationParams;
@@ -38,7 +39,7 @@ export function TasksGridView({
                 <TasksPagination
                     page={pagination.page}
                     totalPages={pagination.totalPages}
-                    onPageChange={onPageChange}
+                    onPageChange={(page) => onPageChange({ page: String(page) })}
                 />
             </div>
         </>

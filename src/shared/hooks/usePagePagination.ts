@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
+import type { TasksQueryState } from '../../pages/tasks-page/model/tasks-query-state/tasks-query-state.types.ts';
+import { cleanQueryParams } from '../helpers/mappers/mapTaskQueryParams.ts';
 import { handleError } from '../infrastructure/errors/handle-error.ts';
 import type { PagePaginationResponse, PaginationParams } from '../types/common.ts';
 
@@ -10,13 +12,13 @@ const defaultPagePaginationState: PaginationParams = {
     totalPages: 0,
 };
 
-export function usePagePagination<RequestData>(
+export function usePagePagination<RequestData, RequestQuery extends object>(
     apiRequest: (
-        searchParams: URLSearchParams,
+        searchParams: Partial<TasksQueryState>,
         signal: AbortSignal,
     ) => Promise<PagePaginationResponse<RequestData>>,
     setItems: Dispatch<SetStateAction<RequestData[]>>,
-    searchParams: string,
+    queryParams: RequestQuery,
     enabled: boolean,
 ) {
     const [pagination, setPagination] = useState(defaultPagePaginationState);
@@ -32,7 +34,8 @@ export function usePagePagination<RequestData>(
             try {
                 setIsLoading(true);
 
-                const page = await apiRequest(new URLSearchParams(searchParams), controller.signal);
+                const params = cleanQueryParams<RequestQuery>(queryParams);
+                const page = await apiRequest(params, controller.signal);
 
                 if (controller.signal.aborted) return;
 
@@ -54,7 +57,7 @@ export function usePagePagination<RequestData>(
         void loadPage();
 
         return () => controller.abort();
-    }, [searchParams, apiRequest, setItems, enabled, reloadKey]);
+    }, [apiRequest, setItems, enabled, reloadKey, queryParams]);
 
     function refetchPage() {
         setReloadKey((prevKey) => prevKey + 1);

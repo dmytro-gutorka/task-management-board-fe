@@ -15,7 +15,7 @@ export function updateTasksQueryParam(
         return;
     }
 
-    if (key === TASKS_QUERY_PARAMS.Q) {
+    if (key === TASKS_QUERY_PARAMS.SEARCH) {
         nextSearchParams.delete(TASKS_QUERY_PARAMS.SEARCH_BY);
 
         const taskSearchParams = Object.values(TASKS_SEARCH_BY_PARAMS);

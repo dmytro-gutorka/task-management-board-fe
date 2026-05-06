@@ -7,14 +7,13 @@ import type {
 import { type TASKS_QUERY_PARAMS, TASKS_SEARCH_BY_PARAMS } from './tasks-query-state.constants.ts';
 
 type TasksSearchParam = ValueOf<typeof TASKS_SEARCH_BY_PARAMS>;
+export type TasksQueryParam = ValueOf<typeof TASKS_QUERY_PARAMS>;
 
-export type TasksQueryState = {
-    q: string;
+export interface TasksQueryState {
+    search: string;
     status: TaskStatusFilter;
     priority: TaskPriorityFilter;
     sortBy: TaskSortBy;
     searchBy: TasksSearchParam;
     page: string;
-};
-
-export type TasksQueryParam = ValueOf<typeof TASKS_QUERY_PARAMS>;
+}

@@ -4,25 +4,21 @@ import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
 import { SearchInput } from '../../../../shared/components/search-input.tsx';
 import { Button } from '../../../../shared/components/shadcn/ui/button.tsx';
 import { TooltipProvider } from '../../../../shared/components/shadcn/ui/tooltip.tsx';
+import type { TasksQueryState } from '../../model/tasks-query-state/tasks-query-state.types.ts';
 import { TasksFiltersMenu } from './tasks-filters-menu.tsx';
 import { TasksViewSwitcher } from './tasks-view-switcher.tsx';
 import type {
-    TaskPriorityFilter,
     TasksFiltersValue,
-    TaskSortBy,
-    TaskStatusFilter,
     TaskViewMode,
 } from '../../model/task-filters/tasks-filter.types.ts';
 
 interface HeaderProps {
-    taskViewMode: TaskViewMode;
+    onTaskQueryParamChange: (queryParam: Partial<TasksQueryState>) => void;
     onTaskViewChange: (viewMode: TaskViewMode) => void;
+    taskViewMode: TaskViewMode;
     filters: TasksFiltersValue;
     searchValue: string;
     setSearchValue: (value: string) => void;
-    onStatusChange: (status: TaskStatusFilter) => void;
-    onPriorityChange: (priority: TaskPriorityFilter) => void;
-    onSortByChange: (sortBy: TaskSortBy) => void;
     openCreateModal: () => void;
     openEditModal: () => void;
     tasksCounter: number;
@@ -34,9 +30,7 @@ export function TaskPageHeader({
     filters,
     setSearchValue,
     searchValue,
-    onStatusChange,
-    onPriorityChange,
-    onSortByChange,
+    onTaskQueryParamChange,
     openCreateModal,
     tasksCounter,
 }: HeaderProps) {
@@ -55,9 +49,7 @@ export function TaskPageHeader({
                         <SearchInput searchValue={searchValue} setSearchChange={setSearchValue} />
                         <TasksFiltersMenu
                             filters={filters}
-                            onStatusChange={onStatusChange}
-                            onPriorityChange={onPriorityChange}
-                            onSortByChange={onSortByChange}
+                            onTaskQueryParamChange={onTaskQueryParamChange}
                         />
                         <IconTooltip content={t('createTask', { ns: 'tasks' })}>
                             <Button

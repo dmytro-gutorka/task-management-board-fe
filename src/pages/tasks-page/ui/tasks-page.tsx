@@ -4,14 +4,10 @@ import { useIntersectionObserver } from '../../../shared/hooks/useIntersectionOb
 import { usePagePagination } from '../../../shared/hooks/usePagePagination.ts';
 import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
-import type { Nullable } from '../../../shared/types/common.ts';
+import type { CursorParams, Nullable } from '../../../shared/types/common.ts';
+import type { TasksQueryState } from '../model/tasks-query-state/tasks-query-state.types.ts';
 import type { TasksCursorPaginatedResponse } from '../model/common/api/tasks.api-types.ts';
-import type {
-    TaskPriorityFilter,
-    TaskSortBy,
-    TaskStatusFilter,
-    TaskViewMode,
-} from '../model/task-filters/tasks-filter.types.ts';
+import type { TaskViewMode } from '../model/task-filters/tasks-filter.types.ts';
 import { useCallback, useRef, useState } from 'react';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
@@ -35,28 +31,21 @@ export function TasksPage() {
     );
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    const {
-        state: { status, q, sortBy, priority },
-        searchParams,
-        setSearch,
-        updateParams,
-    } = useTasksQueryState();
+    const { queryParams, setSearch, updateParams } = useTasksQueryState();
 
     const findPageRequest = useCallback(
-        (searchParams: URLSearchParams, signal: AbortSignal) =>
-            TasksApiService.findPage(searchParams, signal),
+        (params: TasksQueryState, signal: AbortSignal) => TasksApiService.findPage(params, signal),
         [],
     );
     const findFeedPageRequest = useCallback(
-        (params: URLSearchParams, signal: AbortSignal) =>
-            TasksApiService.findFeedPage(params, signal),
+        (params: CursorParams, signal: AbortSignal) => TasksApiService.findFeedPage(params, signal),
         [],
     );
 
     const { isLoading, pagination, refetchPage } = usePagePagination(
         findPageRequest,
         setTasks,
-        searchParams,
+        queryParams,
         view === TASK_VIEW_MODE.GRID,
     );
     const { isFirstPageLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
@@ -86,7 +75,11 @@ export function TasksPage() {
     const createModal = useModalState();
     const editModal = useModalState();
 
-    const filter = { status, sortBy, priority };
+    const filter = {
+        status: queryParams.status,
+        sortBy: queryParams.sortBy,
+        priority: queryParams.priority,
+    };
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
         await createTask(values);
@@ -115,29 +108,6 @@ export function TasksPage() {
         deleteModal.closeModal();
     }
 
-    function handleTaskViewChange(taskViewMode: TaskViewMode) {
-        if (taskViewMode === TASK_VIEW_MODE.LIST || taskViewMode === TASK_VIEW_MODE.GRID) {
-            setView(taskViewMode);
-            setTasks([]);
-        }
-    }
-
-    function handleStatusChange(status: TaskStatusFilter) {
-        updateParams({ ...filter, status, page: '1' });
-    }
-
-    function handlePriorityChange(priority: TaskPriorityFilter) {
-        updateParams({ ...filter, priority, page: '1' });
-    }
-
-    function handleSortByChange(sortBy: TaskSortBy) {
-        updateParams({ ...filter, sortBy, page: '1' });
-    }
-
-    function handlePageChange(page: number) {
-        updateParams({ ...filter, page: String(page) });
-    }
-
     function handleOpenEditModal(task: Task) {
         setSelectedTask(task);
         editModal.openModal();
@@ -148,18 +118,26 @@ export function TasksPage() {
         deleteModal.openModal();
     }
 
+    function handleTaskViewChange(taskViewMode: TaskViewMode) {
+        if (taskViewMode === TASK_VIEW_MODE.LIST || taskViewMode === TASK_VIEW_MODE.GRID) {
+            setView(taskViewMode);
+            setTasks([]);
+        }
+    }
+    function handleTaskQueryParamChange(queryParamValue: Partial<TasksQueryState>) {
+        updateParams({ ...queryParamValue });
+    }
+
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
             <TaskPageHeader
                 tasksCounter={tasks.length}
-                onStatusChange={handleStatusChange}
-                onPriorityChange={handlePriorityChange}
-                onSortByChange={handleSortByChange}
+                onTaskQueryParamChange={handleTaskQueryParamChange}
                 onTaskViewChange={handleTaskViewChange}
                 openCreateModal={createModal.openModal}
                 openEditModal={editModal.openModal}
                 taskViewMode={view}
-                searchValue={q}
+                searchValue={queryParams.search}
                 filters={filter}
                 setSearchValue={setSearch}
             />
@@ -168,7 +146,7 @@ export function TasksPage() {
                 <TasksGridView
                     onOpenEditModal={handleOpenEditModal}
                     onOpenDeleteModal={handleOpenDeleteModal}
-                    onPageChange={handlePageChange}
+                    onPageChange={handleTaskQueryParamChange}
                     tasks={tasks}
                     isLoading={isLoading}
                     pagination={pagination}

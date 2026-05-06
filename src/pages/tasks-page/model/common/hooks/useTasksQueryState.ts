@@ -16,7 +16,7 @@ import { updateTasksQueryParam } from '../../tasks-query-state/utils/updateTasks
 export function useTasksQueryState() {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const state = useMemo(() => {
+    const queryParams = useMemo(() => {
         return parseTasksQueryState(searchParams);
     }, [searchParams]);
 
@@ -41,19 +41,25 @@ export function useTasksQueryState() {
     );
 
     const setStatus = useCallback(
-        (status: TaskStatusFilter) => updateParams({ status }),
+        (status: TaskStatusFilter) => updateParams({ status, page: '1' }),
         [updateParams],
     );
     const setPriority = useCallback(
-        (priority: TaskPriorityFilter) => updateParams({ priority }),
+        (priority: TaskPriorityFilter) => updateParams({ priority, page: '1' }),
         [updateParams],
     );
-    const setSortBy = useCallback((sortBy: TaskSortBy) => updateParams({ sortBy }), [updateParams]);
-    const setSearch = useCallback((q: string) => updateParams({ q }), [updateParams]);
+    const setSortBy = useCallback(
+        (sortBy: TaskSortBy) => updateParams({ sortBy, page: '1' }),
+        [updateParams],
+    );
+    const setSearch = useCallback(
+        (search: string) => updateParams({ search, page: '1' }),
+        [updateParams],
+    );
 
     return {
-        searchParams: searchParams.toString(),
-        state,
+        searchParams,
+        queryParams,
         setStatus,
         setPriority,
         setSortBy,

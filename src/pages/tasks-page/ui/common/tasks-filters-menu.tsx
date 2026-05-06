@@ -15,20 +15,14 @@ import {
 import type { TasksFiltersValue } from '../../model/task-filters/tasks-filter.types.ts';
 import { DropDownMenuBlock } from '../../../../shared/components/drop-down-menu-block.tsx';
 import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
+import type { TasksQueryState } from '../../model/tasks-query-state/tasks-query-state.types.ts';
 
 interface TasksFiltersMenuProps {
+    onTaskQueryParamChange: (queryParam: Partial<TasksQueryState>) => void;
     filters: TasksFiltersValue;
-    onStatusChange: (status: string) => void;
-    onPriorityChange: (priority: string) => void;
-    onSortByChange: (sortBy: string) => void;
 }
 
-export function TasksFiltersMenu({
-    filters,
-    onStatusChange,
-    onPriorityChange,
-    onSortByChange,
-}: TasksFiltersMenuProps) {
+export function TasksFiltersMenu({ filters, onTaskQueryParamChange }: TasksFiltersMenuProps) {
     const { t } = useTranslation(['common', 'tasks']);
 
     return (
@@ -45,7 +39,7 @@ export function TasksFiltersMenu({
                 <DropDownMenuBlock
                     title={t('filters.status', { ns: 'tasks' })}
                     value={filters.status}
-                    onChange={(status) => onStatusChange(status)}
+                    onChange={(status) => onTaskQueryParamChange({ status })}
                     options={getTaskFilterStatusOptions(t)}
                 />
 
@@ -54,7 +48,7 @@ export function TasksFiltersMenu({
                 <DropDownMenuBlock
                     title={t('filters.priority', { ns: 'tasks' })}
                     value={filters.priority}
-                    onChange={(priority) => onPriorityChange(priority)}
+                    onChange={(priority) => onTaskQueryParamChange({ priority })}
                     options={getTaskFilterPriorityOptions(t)}
                 />
 
@@ -63,7 +57,7 @@ export function TasksFiltersMenu({
                 <DropDownMenuBlock
                     title={t('filters.sortBy', { ns: 'tasks' })}
                     value={filters.sortBy}
-                    onChange={(sortBy) => onSortByChange(sortBy)}
+                    onChange={(sortBy) => onTaskQueryParamChange({ sortBy })}
                     options={getTaskFilterSortOptions(t)}
                 />
             </DropdownMenuContent>

@@ -6,12 +6,12 @@ export function parseTasksQueryState(searchParams: URLSearchParams): TasksQueryS
     const statusParam = searchParams.get(TASKS_QUERY_PARAMS.STATUS);
     const priorityParam = searchParams.get(TASKS_QUERY_PARAMS.PRIORITY);
     const sortByParam = searchParams.get(TASKS_QUERY_PARAMS.SORT_BY);
-    const qParam = searchParams.get(TASKS_QUERY_PARAMS.Q);
+    const searchParam = searchParams.get(TASKS_QUERY_PARAMS.SEARCH);
     const searchByParam = searchParams.get(TASKS_QUERY_PARAMS.SEARCH_BY);
     const page = searchParams.get(TASKS_QUERY_PARAMS.PAGE);
 
     return {
-        q: qParam ?? defaultTasksQueryState.q,
+        search: searchParam ?? defaultTasksQueryState.search,
         page: page ?? defaultTasksQueryState.page,
         searchBy: searchByParam ?? defaultTasksQueryState.searchBy,
         status:
