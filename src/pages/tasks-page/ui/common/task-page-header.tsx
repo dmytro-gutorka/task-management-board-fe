@@ -47,9 +47,9 @@ export function TaskPageHeader({
                     </div>
                     <div className="flex items-center space-x-2">
                         <SearchInput
-                            searchValue={searchValue}
-                            setSearchChange={setSearchValue}
-                            resultsFound={tasksCounter}
+                            value={searchValue}
+                            onChange={setSearchValue}
+                            resultsCount={tasksCount}
                         />
                         <TasksFiltersMenu
                             filters={filters}

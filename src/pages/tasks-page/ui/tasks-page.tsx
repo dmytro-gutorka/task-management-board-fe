@@ -1,14 +1,18 @@
-import { TasksApiService } from '../model/common/api/tasks.api-service.ts';
-import { useCursorPagination } from '../../../shared/hooks/useCursorPagination.ts';
-import { useIntersectionObserver } from '../../../shared/hooks/useIntersectionObserver.ts';
-import { usePagePagination } from '../../../shared/hooks/usePagePagination.ts';
+import { PageLoaderOverlay } from '../../../shared/components/overlay-loader-page.tsx';
+import { useDebounce } from '../../../shared/hooks/useDebounce.ts';
 import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
-import type { CursorParams, Nullable } from '../../../shared/types/common.ts';
-import type { TasksQueryState } from '../model/tasks-query-state/tasks-query-state.types.ts';
-import type { TasksCursorPaginatedResponse } from '../model/common/api/tasks.api-types.ts';
-import type { TaskViewMode } from '../model/task-filters/tasks-filter.types.ts';
-import { useCallback, useRef, useState } from 'react';
+import type { Nullable } from '../../../shared/types/common.ts';
+import { useIntersectionObserver } from '../model/common/hooks/useIntersectionObserver.ts';
+import type {
+    TaskPriorityFilter,
+    TaskSortBy,
+    TaskStatusFilter,
+    TaskViewMode,
+} from '../model/task-filters/tasks-filter.types.ts';
+import { useEffect, useState } from 'react';
+import { PageLoader } from '../../../shared/components/loader-page.tsx';
+import { Loader } from '../../../shared/components/loader.tsx';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
 import { useCreateTasks } from '../model/common/api/hooks/useCreateTasks.ts';
@@ -55,17 +59,12 @@ export function TasksPage() {
             view === TASK_VIEW_MODE.LIST,
         );
 
-    const loadNextPage = useCallback(() => {
-        if (!hasNextPage || isFetchingNextPage || isFirstPageLoading) return;
+    const [searchInputValue, setSearchInputValue] = useState(q);
+    const debouncedSearchValue = useDebounce(searchInputValue, 300);
 
-        void fetchNextPage();
-    }, [fetchNextPage, hasNextPage, isFetchingNextPage, isFirstPageLoading]);
-
-    useIntersectionObserver({
-        targetRef: loadMoreRef,
-        enabled: hasNextPage && !isFetchingNextPage && !isFirstPageLoading,
-        onIntersect: loadNextPage,
-    });
+    useEffect(() => {
+        setSearch(debouncedSearchValue);
+    }, [debouncedSearchValue, setSearch]);
 
     const { createTask, isLoading: isTaskCreating } = useCreateTasks();
     const { updateTask, isLoading: isTaskUpdating } = useUpdateTasks();
@@ -118,18 +117,16 @@ export function TasksPage() {
         deleteModal.openModal();
     }
 
-    function handleTaskViewChange(taskViewMode: TaskViewMode) {
-        if (taskViewMode === TASK_VIEW_MODE.LIST || taskViewMode === TASK_VIEW_MODE.GRID) {
-            setView(taskViewMode);
-            setTasks([]);
-        }
-    }
-    function handleTaskQueryParamChange(queryParamValue: Partial<TasksQueryState>) {
-        updateParams({ ...queryParamValue });
+    const isInitialLoading = isTasksGetting && tasks.length === 0;
+    const isOverlayLoading = isTasksGetting && tasks.length > 0;
+
+    if (isInitialLoading) {
+        return <PageLoader className="min-h-[320px]" />;
     }
 
     return (
-        <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
+        <div className="relative mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
+            {isOverlayLoading && <PageLoaderOverlay />}
             <TaskPageHeader
                 tasksCounter={pagination.total}
                 onTaskQueryParamChange={handleTaskQueryParamChange}
@@ -137,9 +134,9 @@ export function TasksPage() {
                 openCreateModal={createModal.openModal}
                 openEditModal={editModal.openModal}
                 taskViewMode={view}
-                searchValue={queryParams.search}
                 filters={filter}
-                setSearchValue={setSearch}
+                searchValue={searchInputValue}
+                setSearchValue={setSearchInputValue}
             />
 
             {view === TASK_VIEW_MODE.GRID ? (
