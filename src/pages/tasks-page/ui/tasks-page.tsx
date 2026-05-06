@@ -1,13 +1,18 @@
+import { useCursorPagination } from '../../../shared/hooks/useCursorPagination.ts';
+import { useIntersectionObserver } from '../../../shared/hooks/useIntersectionObserver.ts';
+import { usePagePagination } from '../../../shared/hooks/usePagePagination.ts';
 import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
 import type { Nullable } from '../../../shared/types/common.ts';
+import { TasksApiService } from '../model/common/api/tasks.api-service.ts';
+import type { TasksCursorPaginatedResponse } from '../model/common/api/tasks.api-types.ts';
 import type {
     TaskPriorityFilter,
     TaskSortBy,
     TaskStatusFilter,
     TaskViewMode,
 } from '../model/task-filters/tasks-filter.types.ts';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
 import { useCreateTasks } from '../model/common/api/hooks/useCreateTasks.ts';
@@ -24,11 +29,11 @@ import { TaskPageHeader } from './common/task-page-header.tsx';
 
 export function TasksPage() {
     const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
-    const [tasksReloadKey, setTasksReloadKey] = useState(0);
-
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [view, setView] = useState<TaskViewMode>(
         (localStorage.getItem(LS_KEY_TASKS_VIEW_MODE) as TaskViewMode) || TASK_VIEW_MODE.GRID,
     );
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
     const {
         state: { status, q, sortBy, priority },
@@ -36,6 +41,42 @@ export function TasksPage() {
         setSearch,
         updateParams,
     } = useTasksQueryState();
+
+    const findPageRequest = useCallback(
+        (searchParams: URLSearchParams, signal: AbortSignal) =>
+            TasksApiService.findPage(searchParams, signal),
+        [],
+    );
+    const findFeedPageRequest = useCallback(
+        (params: URLSearchParams, signal: AbortSignal) =>
+            TasksApiService.findFeedPage(params, signal),
+        [],
+    );
+
+    const { isLoading, pagination } = usePagePagination(
+        findPageRequest,
+        setTasks,
+        searchParams,
+        view === TASK_VIEW_MODE.GRID,
+    );
+    const { isFirstPageLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+        useCursorPagination<Task, TasksCursorPaginatedResponse>(
+            findFeedPageRequest,
+            setTasks,
+            view === TASK_VIEW_MODE.LIST,
+        );
+
+    const loadNextPage = useCallback(() => {
+        if (!hasNextPage || isFetchingNextPage || isFirstPageLoading) return;
+
+        void fetchNextPage();
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage, isFirstPageLoading]);
+
+    useIntersectionObserver({
+        targetRef: loadMoreRef,
+        enabled: hasNextPage && !isFetchingNextPage && !isFirstPageLoading,
+        onIntersect: loadNextPage,
+    });
 
     const { createTask, isLoading: isTaskCreating } = useCreateTasks();
     const { updateTask, isLoading: isTaskUpdating } = useUpdateTasks();
@@ -47,23 +88,22 @@ export function TasksPage() {
 
     const filter = { status, sortBy, priority };
 
-    function reloadTasks() {
-        setTasksReloadKey((prev) => prev + 1);
-    }
-
     async function handleSubmitCreateForm(values: TaskFormValues) {
-        await createTask(values);
+        const task = await createTask(values);
 
-        reloadTasks();
+        setTasks((prevTasks) => [task, ...prevTasks]);
+
         createModal.closeModal();
     }
 
     async function handleSubmitEditForm(values: TaskFormValues) {
         if (!selectedTask) return;
 
-        await updateTask(values, selectedTask.id);
+        const updatedTask = await updateTask(values, selectedTask.id);
 
-        reloadTasks();
+        setTasks((prevTasks) =>
+            prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+        );
         setSelectedTask(null);
         editModal.closeModal();
     }
@@ -73,13 +113,17 @@ export function TasksPage() {
 
         await deleteTask(selectedTask.id);
 
-        reloadTasks();
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
+
         setSelectedTask(null);
         deleteModal.closeModal();
     }
 
-    function handleTaskViewChange(value: TaskViewMode) {
-        if (value === TASK_VIEW_MODE.LIST || value === TASK_VIEW_MODE.GRID) setView(value);
+    function handleTaskViewChange(taskViewMode: TaskViewMode) {
+        if (taskViewMode === TASK_VIEW_MODE.LIST || taskViewMode === TASK_VIEW_MODE.GRID) {
+            setView(taskViewMode);
+            setTasks([]);
+        }
     }
 
     function handleStatusChange(status: TaskStatusFilter) {
@@ -111,6 +155,7 @@ export function TasksPage() {
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
             <TaskPageHeader
+                tasksCounter={tasks.length}
                 onStatusChange={handleStatusChange}
                 onPriorityChange={handlePriorityChange}
                 onSortByChange={handleSortByChange}
@@ -125,14 +170,21 @@ export function TasksPage() {
 
             {view === TASK_VIEW_MODE.GRID ? (
                 <TasksGridView
-                    searchParams={searchParams}
                     onOpenEditModal={handleOpenEditModal}
                     onOpenDeleteModal={handleOpenDeleteModal}
                     onPageChange={handlePageChange}
-                    reloadKey={tasksReloadKey}
+                    tasks={tasks}
+                    isLoading={isLoading}
+                    pagination={pagination}
                 />
             ) : (
-                <TasksListView reloadKey={tasksReloadKey} />
+                <TasksListView
+                    tasks={tasks}
+                    isFirstPageLoading={isFirstPageLoading}
+                    isFetchingNextPage={isFetchingNextPage}
+                    hasNextPage={hasNextPage}
+                    loadMoreRef={loadMoreRef}
+                />
             )}
             <CreateTaskModal
                 onSubmit={handleSubmitCreateForm}

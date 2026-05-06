@@ -16,12 +16,15 @@ export interface CursorParams {
     limit?: number;
 }
 
-export interface PagePaginationResponse<T> {
-    items: T[];
+export interface PaginationParams {
     page: number;
     limit: number;
     total: number;
     totalPages: number;
+}
+
+export interface PagePaginationResponse<T> extends PaginationParams {
+    items: T[];
 }
 
 export interface CursorPaginationResponse<T> {

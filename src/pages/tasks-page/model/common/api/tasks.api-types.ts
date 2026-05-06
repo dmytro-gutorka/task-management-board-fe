@@ -4,5 +4,5 @@ import type {
     PagePaginationResponse,
 } from '../../../../../shared/types/common.ts';
 
-export type TasksCursorPage = CursorPaginationResponse<Task>;
-export type TasksPaginatedPage = PagePaginationResponse<Task>;
+export type TasksCursorPaginatedResponse = CursorPaginationResponse<Task>;
+export type TasksPagePaginatedResponse = PagePaginationResponse<Task>;

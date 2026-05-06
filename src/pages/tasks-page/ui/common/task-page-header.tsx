@@ -25,6 +25,7 @@ interface HeaderProps {
     onSortByChange: (sortBy: TaskSortBy) => void;
     openCreateModal: () => void;
     openEditModal: () => void;
+    tasksCounter: number;
 }
 
 export function TaskPageHeader({
@@ -37,6 +38,7 @@ export function TaskPageHeader({
     onPriorityChange,
     onSortByChange,
     openCreateModal,
+    tasksCounter,
 }: HeaderProps) {
     const { t } = useTranslation(['common', 'tasks']);
 
@@ -44,7 +46,11 @@ export function TaskPageHeader({
         <>
             <TooltipProvider delayDuration={150}>
                 <div className="flex items-center justify-between p-4">
-                    <div className="space-y-1"></div>
+                    <div className="space-y-1">
+                        <h2 className="text-1xl font-semibold">
+                            {t('title', { ns: 'tasks' })} {tasksCounter}
+                        </h2>
+                    </div>
                     <div className="flex items-center space-x-2">
                         <SearchInput searchValue={searchValue} setSearchChange={setSearchValue} />
                         <TasksFiltersMenu

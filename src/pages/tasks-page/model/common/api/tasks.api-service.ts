@@ -1,5 +1,3 @@
-import { GENERAL_QUERY_PARAMS } from '../../../../../shared/constants/common.constants.ts';
-import type { CursorParams } from '../../../../../shared/types/common.ts';
 import { TASKS_API_ROUTES } from './tasks.api-constants.ts';
 import { httpClient } from '../../../../../shared/infrastructure/axios/httpClient.ts';
 import type {
@@ -7,33 +5,38 @@ import type {
     Task,
     UpdateTaskPayload,
 } from '../../../../../shared/modules/tasks/common/model/task.types.ts';
-import type { TasksCursorPage, TasksPaginatedPage } from './tasks.api-types.ts';
+import type {
+    TasksCursorPaginatedResponse,
+    TasksPagePaginatedResponse,
+} from './tasks.api-types.ts';
 
 export const TasksApiService = {
-    async findPage(queryString: string, signal: AbortSignal): Promise<TasksPaginatedPage> {
-        const params = new URLSearchParams(queryString);
-
-        const { data } = await httpClient.get<TasksPaginatedPage>(TASKS_API_ROUTES.FIND_ALL, {
-            params,
-            signal,
-        });
+    async findPage(
+        params: URLSearchParams,
+        signal: AbortSignal,
+    ): Promise<TasksPagePaginatedResponse> {
+        const { data } = await httpClient.get<TasksPagePaginatedResponse>(
+            TASKS_API_ROUTES.FIND_ALL,
+            {
+                params,
+                signal,
+            },
+        );
 
         return data;
     },
 
     async findFeedPage(
-        { cursor = null, limit = 20 }: CursorParams,
+        params: URLSearchParams,
         signal: AbortSignal,
-    ): Promise<TasksCursorPage> {
-        const params = new URLSearchParams();
-
-        params.set(GENERAL_QUERY_PARAMS.LIMIT, String(limit));
-        if (cursor) params.set(GENERAL_QUERY_PARAMS.CURSOR, cursor);
-
-        const { data } = await httpClient.get<TasksCursorPage>(TASKS_API_ROUTES.FIND_FEED, {
-            params,
-            signal,
-        });
+    ): Promise<TasksCursorPaginatedResponse> {
+        const { data } = await httpClient.get<TasksCursorPaginatedResponse>(
+            TASKS_API_ROUTES.FIND_FEED,
+            {
+                params,
+                signal,
+            },
+        );
 
         return data;
     },

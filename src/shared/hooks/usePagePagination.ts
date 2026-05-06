@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 import { handleError } from '../infrastructure/errors/handle-error.ts';
-import type { PagePaginationResponse } from '../types/common.ts';
+import type { PagePaginationResponse, PaginationParams } from '../types/common.ts';
 
-const defaultPagePaginationState = {
+const defaultPagePaginationState: PaginationParams = {
     page: 1,
     limit: 20,
     total: 0,
@@ -11,14 +11,14 @@ const defaultPagePaginationState = {
 };
 
 export function usePagePagination<RequestData>(
-    queryString: string,
-    reloadKey: number,
     apiRequest: (
-        queryString: string,
+        searchParams: URLSearchParams,
         signal: AbortSignal,
     ) => Promise<PagePaginationResponse<RequestData>>,
+    setItems: Dispatch<SetStateAction<RequestData[]>>,
+    searchParams: string,
+    enabled: boolean,
 ) {
-    const [items, setItems] = useState<RequestData[]>([]);
     const [pagination, setPagination] = useState(defaultPagePaginationState);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +29,7 @@ export function usePagePagination<RequestData>(
             try {
                 setIsLoading(true);
 
-                const page = await apiRequest(queryString, controller.signal);
+                const page = await apiRequest(new URLSearchParams(searchParams), controller.signal);
 
                 if (controller.signal.aborted) return;
 
@@ -51,11 +51,7 @@ export function usePagePagination<RequestData>(
         void loadPage();
 
         return () => controller.abort();
-    }, [queryString, reloadKey, apiRequest]);
+    }, [searchParams, apiRequest, setItems, enabled]);
 
-    return {
-        tasks: items,
-        pagination,
-        isLoading,
-    };
+    return { pagination, isLoading };
 }

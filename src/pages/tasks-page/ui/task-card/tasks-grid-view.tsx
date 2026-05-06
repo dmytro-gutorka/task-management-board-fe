@@ -1,8 +1,6 @@
-import { useCallback } from 'react';
 import { PageLoader } from '../../../../shared/components/loader-page.tsx';
 import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
-import { usePagePagination } from '../../../../shared/hooks/usePagePagination.ts';
-import { TasksApiService } from '../../model/common/api/tasks.api-service.ts';
+import type { PaginationParams } from '../../../../shared/types/common.ts';
 import { TasksPagination } from '../common/tasks-pagination.tsx';
 import { TaskGridCard } from './tasks-card-grid.tsx';
 
@@ -10,25 +8,19 @@ interface TasksGridViewProps {
     onOpenEditModal: (task: Task) => void;
     onOpenDeleteModal: (task: Task) => void;
     onPageChange: (page: number) => void;
-    searchParams: string;
-    reloadKey: number;
+    tasks: Task[];
+    isLoading: boolean;
+    pagination: PaginationParams;
 }
 
 export function TasksGridView({
     onOpenEditModal,
     onOpenDeleteModal,
     onPageChange,
-    searchParams,
-    reloadKey,
+    tasks,
+    isLoading,
+    pagination,
 }: TasksGridViewProps) {
-    const apiRequest = useCallback(
-        (queryString: string, signal: AbortSignal) => TasksApiService.findPage(queryString, signal),
-        [],
-    );
-
-    const { tasks, isLoading, pagination } = usePagePagination(searchParams, reloadKey, apiRequest);
-
-    // I do not have a new "fixed loader" in this branch, so I will replace PageLoader later when branches are merged
     return (
         <>
             <div>
