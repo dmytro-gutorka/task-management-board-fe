@@ -14,9 +14,10 @@ import { useSearch } from '../hooks/useSearch.ts';
 interface SearchInputProps {
     searchValue: string;
     setSearchChange: (value: string) => void;
+    resultsFound: number;
 }
 
-export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) {
+export function SearchInput({ searchValue, setSearchChange, resultsFound }: SearchInputProps) {
     const { t } = useTranslation(['common', 'tasks']);
     const {
         handleOpen,
@@ -62,9 +63,11 @@ export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) 
                     <Search />
                 </InputGroupAddon>
 
-                <InputGroupAddon align="inline-end">
-                    12 {t('results', { ns: 'common' })}
-                </InputGroupAddon>
+                {inputValue && (
+                    <InputGroupAddon align="inline-end">
+                        {resultsFound} {t('results', { ns: 'common' })}
+                    </InputGroupAddon>
+                )}
             </InputGroup>
         </div>
     );

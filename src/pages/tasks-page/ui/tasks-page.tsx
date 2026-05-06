@@ -83,8 +83,8 @@ export function TasksPage() {
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
         await createTask(values);
+        await refetchPage();
 
-        refetchPage();
         createModal.closeModal();
     }
 
@@ -92,8 +92,8 @@ export function TasksPage() {
         if (!selectedTask) return;
 
         await updateTask(values, selectedTask.id);
+        await refetchPage();
 
-        refetchPage();
         setSelectedTask(null);
         editModal.closeModal();
     }
@@ -102,8 +102,8 @@ export function TasksPage() {
         if (!selectedTask) return;
 
         await deleteTask(selectedTask.id);
+        await refetchPage();
 
-        refetchPage();
         setSelectedTask(null);
         deleteModal.closeModal();
     }
@@ -131,7 +131,7 @@ export function TasksPage() {
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
             <TaskPageHeader
-                tasksCounter={tasks.length}
+                tasksCounter={pagination.total}
                 onTaskQueryParamChange={handleTaskQueryParamChange}
                 onTaskViewChange={handleTaskViewChange}
                 openCreateModal={createModal.openModal}

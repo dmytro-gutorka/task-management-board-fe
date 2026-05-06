@@ -1,7 +1,14 @@
 import axios from 'axios';
-import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
+import {
+    type Dispatch,
+    type SetStateAction,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import type { TasksQueryState } from '../../pages/tasks-page/model/tasks-query-state/tasks-query-state.types.ts';
-import { cleanQueryParams } from '../helpers/mappers/mapTaskQueryParams.ts';
+import { maoQueryParams } from '../helpers/mapQueryParams.ts';
 import { handleError } from '../infrastructure/errors/handle-error.ts';
 import type { PagePaginationResponse, PaginationParams } from '../types/common.ts';
 
@@ -23,45 +30,45 @@ export function usePagePagination<RequestData, RequestQuery extends object>(
 ) {
     const [pagination, setPagination] = useState(defaultPagePaginationState);
     const [isLoading, setIsLoading] = useState(false);
-    const [reloadKey, setReloadKey] = useState(0);
+    const controllerRef = useRef<AbortController | null>(null);
+
+    const loadPage = useCallback(async () => {
+        controllerRef.current?.abort();
+
+        const controller = new AbortController();
+        controllerRef.current = controller;
+
+        try {
+            setIsLoading(true);
+
+            const params = maoQueryParams<RequestQuery>(queryParams);
+            const page = await apiRequest(params, controller.signal);
+
+            if (controller.signal.aborted) return;
+
+            setItems(page.items);
+            setPagination({
+                page: page.page,
+                limit: page.limit,
+                total: page.total,
+                totalPages: page.totalPages,
+            });
+        } catch (error) {
+            if (axios.isCancel(error)) return;
+
+            handleError(error);
+        } finally {
+            if (!controller.signal.aborted) setIsLoading(false);
+        }
+    }, [apiRequest, queryParams, setItems]);
 
     useEffect(() => {
         if (!enabled) return;
 
-        const controller = new AbortController();
+        queueMicrotask(() => void loadPage());
 
-        async function loadPage() {
-            try {
-                setIsLoading(true);
+        return () => controllerRef.current?.abort();
+    }, [enabled, loadPage]);
 
-                const params = cleanQueryParams<RequestQuery>(queryParams);
-                const page = await apiRequest(params, controller.signal);
-
-                if (controller.signal.aborted) return;
-
-                setItems(page.items);
-                setPagination({
-                    page: page.page,
-                    limit: page.limit,
-                    total: page.total,
-                    totalPages: page.totalPages,
-                });
-            } catch (error) {
-                if (axios.isCancel(error)) return;
-                handleError(error);
-            } finally {
-                if (!controller.signal.aborted) setIsLoading(false);
-            }
-        }
-
-        void loadPage();
-
-        return () => controller.abort();
-    }, [apiRequest, setItems, enabled, reloadKey, queryParams]);
-
-    function refetchPage() {
-        setReloadKey((prevKey) => prevKey + 1);
-    }
-
-    return { pagination, isLoading, refetchPage };
+    return { pagination, isLoading, refetchPage: loadPage };
 }

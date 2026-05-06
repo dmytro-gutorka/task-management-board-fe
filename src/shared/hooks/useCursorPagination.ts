@@ -7,13 +7,12 @@ import {
     useState,
 } from 'react';
 import axios from 'axios';
-import { buildCursorQueryParams } from '../helpers/buildCursorQueryParams.ts';
-import { mapCursorQueryParams } from '../helpers/mappers/mapQueryParams.ts';
+import { maoQueryParams } from '../helpers/mapQueryParams.ts';
 import { handleError } from '../infrastructure/errors/handle-error.ts';
 import type { CursorPaginationResponse, CursorParam, CursorParams } from '../types/common.ts';
 
 export function useCursorPagination<
-    RequestData extends { id: string },
+    RequestData,
     ResponseBody extends CursorPaginationResponse<RequestData>,
 >(
     apiRequest: (params: CursorParams, signal: AbortSignal) => Promise<ResponseBody>,
@@ -47,10 +46,8 @@ export function useCursorPagination<
                 setNextCursor(null);
                 setItems([]);
 
-                const urlSearchParams = buildCursorQueryParams(null, limit);
-                const cursorParams = mapCursorQueryParams(urlSearchParams);
-
-                const page = await apiRequest(cursorParams, controller.signal);
+                const params = maoQueryParams<CursorParams>({ cursor: null, limit });
+                const page = await apiRequest(params, controller.signal);
 
                 if (controller.signal.aborted) return;
 
@@ -80,10 +77,8 @@ export function useCursorPagination<
         try {
             setIsFetchingNextPage(true);
 
-            const urlSearchParams = buildCursorQueryParams(nextCursor, limit);
-            const cursorParams = mapCursorQueryParams(urlSearchParams);
-
-            const page = await apiRequest(cursorParams, controller.signal);
+            const params = maoQueryParams<CursorParams>({ cursor: nextCursor, limit });
+            const page = await apiRequest(params, controller.signal);
 
             if (controller.signal.aborted) return;
 
