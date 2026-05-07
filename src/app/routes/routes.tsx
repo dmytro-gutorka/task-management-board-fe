@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from '@/shared/components/layout';
 import { LoginPage } from '../../pages/login-page';
+import { ProfilePage } from '../../pages/profile-page/ui/profile-page.tsx';
 import { RegisterPage } from '../../pages/registration-page';
 import { ROUTES } from '../../shared/constants/routes.constants.ts';
 import { TasksPage } from '@/pages/tasks-page';
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
                     {
                         path: ROUTES.TASKS_DETAILS_PAGE,
                         element: <TasksDetailsPage />,
+                    },
+                    {
+                        path: ROUTES.PROFILE_PAGE,
+                        element: <ProfilePage />,
                     },
                 ],
             },
