@@ -49,7 +49,7 @@ export function TasksPage() {
         view === TASK_VIEW_MODE.GRID,
     );
     const { isFirstPageLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
-        useCursorPagination<Task, TasksCursorPaginatedResponse>(
+        useCursorPagination<Task, TasksCursorPaginatedResponse, CursorParams>(
             findFeedPageRequest,
             setTasks,
             view === TASK_VIEW_MODE.LIST,

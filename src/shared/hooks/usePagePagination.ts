@@ -8,7 +8,7 @@ import {
     useState,
 } from 'react';
 import type { TasksQueryState } from '../../pages/tasks-page/model/tasks-query-state/tasks-query-state.types.ts';
-import { maoQueryParams } from '../helpers/mapQueryParams.ts';
+import { mapQueryParams } from '../helpers/mapQueryParams.ts';
 import { handleError } from '../infrastructure/errors/handle-error.ts';
 import type { PagePaginationResponse, PaginationParams } from '../types/common.ts';
 
@@ -41,7 +41,7 @@ export function usePagePagination<RequestData, RequestQuery extends object>(
         try {
             setIsLoading(true);
 
-            const params = maoQueryParams<RequestQuery>(queryParams);
+            const params = mapQueryParams<RequestQuery>(queryParams);
             const page = await apiRequest(params, controller.signal);
 
             if (controller.signal.aborted) return;

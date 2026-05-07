@@ -7,15 +7,16 @@ import {
     useState,
 } from 'react';
 import axios from 'axios';
-import { maoQueryParams } from '../helpers/mapQueryParams.ts';
+import { mapQueryParams } from '../helpers/mapQueryParams.ts';
 import { handleError } from '../infrastructure/errors/handle-error.ts';
 import type { CursorPaginationResponse, CursorParam, CursorParams } from '../types/common.ts';
 
 export function useCursorPagination<
     RequestData,
     ResponseBody extends CursorPaginationResponse<RequestData>,
+    RequestQuery extends CursorParams,
 >(
-    apiRequest: (params: CursorParams, signal: AbortSignal) => Promise<ResponseBody>,
+    apiRequest: (params: Partial<RequestQuery>, signal: AbortSignal) => Promise<ResponseBody>,
     setItems: Dispatch<SetStateAction<RequestData[]>>,
     enabled: boolean,
     limit: number = 10,
@@ -46,7 +47,12 @@ export function useCursorPagination<
                 setNextCursor(null);
                 setItems([]);
 
-                const params = maoQueryParams<CursorParams>({ cursor: null, limit });
+                const params = mapQueryParams({
+                    cursor: nextCursor,
+                    limit,
+                } as Partial<RequestQuery>);
+                // TODO 1.1: is it okay to have "as" in this kind of case ?
+
                 const page = await apiRequest(params, controller.signal);
 
                 if (controller.signal.aborted) return;
@@ -64,7 +70,7 @@ export function useCursorPagination<
         void loadFirstPage();
 
         return () => controller.abort();
-    }, [apiRequest, enabled, limit, setItems]);
+    }, [apiRequest, enabled, limit, nextCursor, setItems]);
 
     const fetchNextPage = useCallback(async () => {
         if (!nextCursor || isFetchingNextPage || isFirstPageLoading) return;
@@ -77,7 +83,8 @@ export function useCursorPagination<
         try {
             setIsFetchingNextPage(true);
 
-            const params = maoQueryParams<CursorParams>({ cursor: nextCursor, limit });
+            const params = mapQueryParams({ cursor: nextCursor, limit } as Partial<RequestQuery>);
+            // TODO 1.2: is it okay to have "as" in this kind of case ?
             const page = await apiRequest(params, controller.signal);
 
             if (controller.signal.aborted) return;
