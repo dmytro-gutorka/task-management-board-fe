@@ -1,8 +1,9 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormFieldController } from '../../../shared/components/form-field-controller.tsx';
 import { Button } from '../../../shared/components/shadcn/ui/button.tsx';
+import { useForm } from 'react-hook-form';
 import {
     Card,
     CardContent,
@@ -11,17 +12,12 @@ import {
     CardHeader,
     CardTitle,
 } from '../../../shared/components/shadcn/ui/card.tsx';
-import {
-    Field,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-} from '../../../shared/components/shadcn/ui/field.tsx';
-import { Input } from '../../../shared/components/shadcn/ui/input.tsx';
+import { FieldGroup } from '../../../shared/components/shadcn/ui/field.tsx';
 import {
     type LoginFormValues,
     loginSchema,
 } from '../../../shared/infrastructure/auth/auth.schema.ts';
+import { loginFormDefaultValues } from '../model/login.constants.ts';
 
 interface LoginFormProps {
     isSubmitting: boolean;
@@ -33,10 +29,7 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: '',
-            password: '',
-        },
+        defaultValues: loginFormDefaultValues,
     });
 
     return (
@@ -56,56 +49,19 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
                     }}
                 >
                     <FieldGroup>
-                        <Controller
-                            name="email"
+                        <FormFieldController
                             control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="login-email">
-                                        {t('common.input-labels.email', { ns: 'auth' })}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="login-email"
-                                        type="email"
-                                        placeholder={t('common.placeholders.email', {
-                                            ns: 'auth',
-                                        })}
-                                        disabled={isSubmitting}
-                                        aria-invalid={fieldState.invalid}
-                                        aria-label="type"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
+                            name="email"
+                            label={t('common.input-labels.email', { ns: 'auth' })}
+                            placeholder={t('common.placeholders.email', { ns: 'auth' })}
                         />
 
-                        <Controller
-                            name="password"
+                        <FormFieldController
                             control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="login-password">
-                                        {t('common.input-labels.password', { ns: 'auth' })}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="login-password"
-                                        type="password"
-                                        aria-label="type"
-                                        placeholder={t('common.placeholders.password', {
-                                            ns: 'auth',
-                                        })}
-                                        disabled={isSubmitting}
-                                        aria-invalid={fieldState.invalid}
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
+                            name="password"
+                            type="password"
+                            label={t('common.input-labels.password', { ns: 'auth' })}
+                            placeholder={t('common.placeholders.password', { ns: 'auth' })}
                         />
                     </FieldGroup>
                 </form>

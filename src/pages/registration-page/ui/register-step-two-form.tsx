@@ -1,27 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { AuthFormCard } from '../../../shared/components/auth-form-card.tsx';
+import { FormFieldController } from '../../../shared/components/form-field-controller.tsx';
 import { Button } from '../../../shared/components/shadcn/ui/button.tsx';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from '../../../shared/components/shadcn/ui/card.tsx';
-import {
-    Field,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-} from '../../../shared/components/shadcn/ui/field.tsx';
-import { Input } from '../../../shared/components/shadcn/ui/input.tsx';
+import { CardFooter } from '../../../shared/components/shadcn/ui/card.tsx';
+import { FieldGroup } from '../../../shared/components/shadcn/ui/field.tsx';
 import {
     registerStepTwoSchema,
     type RegisterStepTwoValues,
 } from '../../../shared/infrastructure/auth/auth.schema.ts';
+import { registrationFormTwoOneDefaultValues } from '../model/registration.constants.ts';
 
 interface RegisterStepTwoFormProps {
     isSubmitting: boolean;
@@ -34,109 +24,51 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
 
     const form = useForm<RegisterStepTwoValues>({
         resolver: zodResolver(registerStepTwoSchema),
-        defaultValues: {
-            name: '',
-            surname: '',
-            birthday: '',
-        },
+        defaultValues: registrationFormTwoOneDefaultValues,
     });
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>
-                    {t('register.form-labels.second-step.form-header', {
-                        ns: 'auth',
-                    })}
-                </CardTitle>
-                <CardDescription>
-                    {t('register.form-labels.second-step.form-description', {
-                        ns: 'auth',
-                    })}
-                </CardDescription>
-            </CardHeader>
+        <AuthFormCard
+            title={t('register.form-labels.second-step.form-header', {
+                ns: 'auth',
+            })}
+            description={t('register.form-labels.second-step.form-description', {
+                ns: 'auth',
+            })}
+        >
+            <form
+                id="register-step-two-form"
+                onSubmit={(event) => {
+                    void form.handleSubmit(onSubmit)(event);
+                }}
+            >
+                <FieldGroup>
+                    <FormFieldController
+                        control={form.control}
+                        name="name"
+                        label={t('register.input-labels.second-step.name', {
+                            ns: 'auth',
+                        })}
+                    />
+                    <FormFieldController
+                        control={form.control}
+                        name="surname"
+                        label={t('register.input-labels.second-step.surname', {
+                            ns: 'auth',
+                        })}
+                    />
+                    <FormFieldController
+                        control={form.control}
+                        name="birthday"
+                        type="date"
+                        label={t('register.input-labels.second-step.birthday', {
+                            ns: 'auth',
+                        })}
+                    />
+                </FieldGroup>
+            </form>
 
-            <CardContent>
-                <form
-                    id="register-step-two-form"
-                    onSubmit={(event) => {
-                        void form.handleSubmit(onSubmit)(event);
-                    }}
-                >
-                    <FieldGroup>
-                        <Controller
-                            name="name"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-name">
-                                        {' '}
-                                        {t('register.input-labels.second-step.name', {
-                                            ns: 'auth',
-                                        })}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="register-name"
-                                        disabled={isSubmitting}
-                                        aria-label="type"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-                        <Controller
-                            name="surname"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-surname">
-                                        {' '}
-                                        {t('register.input-labels.second-step.surname', {
-                                            ns: 'auth',
-                                        })}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="register-surname"
-                                        disabled={isSubmitting}
-                                        aria-label="type"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-                        <Controller
-                            name="birthday"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-birthday">
-                                        {t('register.input-labels.second-step.birthday', {
-                                            ns: 'auth',
-                                        })}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="register-birthday"
-                                        type="date"
-                                        disabled={isSubmitting}
-                                        aria-label="type"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-                    </FieldGroup>
-                </form>
-            </CardContent>
-            <CardFooter className="gap-6 flex flex-col">
+            <CardFooter>
                 <Button
                     type="button"
                     disabled={isSubmitting}
@@ -160,6 +92,6 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                     })}
                 </Button>
             </CardFooter>
-        </Card>
+        </AuthFormCard>
     );
 }

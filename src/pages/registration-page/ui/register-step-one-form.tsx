@@ -1,27 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { AuthFormCard } from '../../../shared/components/auth-form-card.tsx';
+import { FormFieldController } from '../../../shared/components/form-field-controller.tsx';
 import { Button } from '../../../shared/components/shadcn/ui/button.tsx';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from '../../../shared/components/shadcn/ui/card.tsx';
-import {
-    Field,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-} from '../../../shared/components/shadcn/ui/field.tsx';
-import { Input } from '../../../shared/components/shadcn/ui/input.tsx';
+import { CardFooter } from '../../../shared/components/shadcn/ui/card.tsx';
+import { FieldGroup } from '../../../shared/components/shadcn/ui/field.tsx';
 import {
     registerStepOneSchema,
     type RegisterStepOneValues,
 } from '../../../shared/infrastructure/auth/auth.schema.ts';
+import { registrationFormStepOneDefaultValues } from '../model/registration.constants.ts';
 
 interface RegisterStepOneFormProps {
     isSubmitting: boolean;
@@ -33,107 +23,50 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
 
     const form = useForm<RegisterStepOneValues>({
         resolver: zodResolver(registerStepOneSchema),
-        defaultValues: {
-            email: '',
-            password: '',
-            confirmPassword: '',
-        },
+        defaultValues: registrationFormStepOneDefaultValues,
     });
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>
-                    {t('register.form-labels.first-step.form-header', { ns: 'auth' })}
-                </CardTitle>
-                <CardDescription>
-                    {t('register.form-labels.first-step.form-header', { ns: 'auth' })}
-                </CardDescription>
-            </CardHeader>
-
-            <CardContent>
-                <form
-                    id="register-step-one-form"
-                    onSubmit={(event) => {
-                        void form.handleSubmit(onSubmit)(event);
-                    }}
-                >
-                    <FieldGroup>
-                        <Controller
-                            name="email"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-email">
-                                        {t('common.input-labels.email', { ns: 'auth' })}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="register-email"
-                                        type="email"
-                                        disabled={isSubmitting}
-                                        aria-label="type"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-                        <Controller
-                            name="password"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-password">
-                                        {t('common.input-labels.password', { ns: 'auth' })}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="register-password"
-                                        type="password"
-                                        disabled={isSubmitting}
-                                        aria-label="type"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-                        <Controller
-                            name="confirmPassword"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="register-confirm-password">
-                                        {t('register.input-labels.first-step.confirm-password', {
-                                            ns: 'auth',
-                                        })}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="register-confirm-password"
-                                        type="password"
-                                        disabled={isSubmitting}
-                                        aria-label="type"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-                    </FieldGroup>
-                </form>
-            </CardContent>
+        <AuthFormCard
+            title={t('register.form-labels.first-step.form-header', { ns: 'auth' })}
+            description={t('register.form-labels.first-step.form-description', { ns: 'auth' })}
+        >
+            <form
+                id="register-step-one-form"
+                onSubmit={(event) => {
+                    void form.handleSubmit(onSubmit)(event);
+                }}
+            >
+                <FieldGroup>
+                    <FormFieldController
+                        control={form.control}
+                        name="email"
+                        type="email"
+                        label={t('common.input-labels.email', { ns: 'auth' })}
+                    />
+                    <FormFieldController
+                        control={form.control}
+                        name="password"
+                        type="password"
+                        label={t('common.input-labels.password', { ns: 'auth' })}
+                    />
+                    <FormFieldController
+                        control={form.control}
+                        name="confirmPassword"
+                        type="password"
+                        label={t('register.input-labels.first-step.confirm-password', {
+                            ns: 'auth',
+                        })}
+                    />
+                </FieldGroup>
+            </form>
 
             <CardFooter>
                 <Button
+                    className="w-full"
                     type="submit"
                     form="register-step-one-form"
                     disabled={isSubmitting}
-                    className="w-full"
                 >
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {t('common.buttons.continue', {
@@ -141,6 +74,6 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
                     })}
                 </Button>
             </CardFooter>
-        </Card>
+        </AuthFormCard>
     );
 }

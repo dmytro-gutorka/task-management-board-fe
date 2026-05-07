@@ -1,7 +1,7 @@
+import { FormFieldController } from '../../../components/form-field-controller.tsx';
 import {
     Field,
     FieldDescription,
-    FieldError,
     FieldGroup,
     FieldLabel,
 } from '../../../components/shadcn/ui/field.tsx';
@@ -9,10 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SelectInput } from '../../../components/select/select-input.tsx';
-import { Input } from '../../../components/shadcn/ui/input.tsx';
 import { Switch } from '../../../components/shadcn/ui/switch.tsx';
-import { Textarea } from '../../../components/shadcn/ui/textarea.tsx';
-import { formatIsoDateTime } from '../../../helpers/formatIsoDateTime.ts';
 import { buildTaskFormDefaultValues } from './helpers/buildTaskFormDefaultValues.ts';
 import {
     getTaskPrioritySelectConfig,
@@ -45,50 +42,19 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
             className="space-y-8"
         >
             <FieldGroup>
-                <Controller
+                <FormFieldController
+                    control={form.control}
                     name="title"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="task-form-title">
-                                {t('form.title', { ns: 'tasks' })}
-                            </FieldLabel>
-                            <Input
-                                {...field}
-                                id="task-form-title"
-                                placeholder={t('form.titlePlaceholder', { ns: 'tasks' })}
-                                aria-invalid={fieldState.invalid}
-                                aria-label="type"
-                            />
-                            <FieldDescription>
-                                {t('form.titleDescription', { ns: 'tasks' })}
-                            </FieldDescription>
-                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                        </Field>
-                    )}
+                    placeholder={t('form.titlePlaceholder', { ns: 'tasks' })}
+                    label={t('form.titleDescription', { ns: 'tasks' })}
+                    fieldDescription={t('form.titleDescription', { ns: 'tasks' })}
                 />
-                <Controller
-                    name="description"
+                <FormFieldController
                     control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="task-form-description">
-                                {t('form.description', { ns: 'tasks' })}
-                            </FieldLabel>
-                            <Textarea
-                                {...field}
-                                id="task-form-description"
-                                placeholder={t('form.descriptionPlaceholder', { ns: 'tasks' })}
-                                rows={5}
-                                aria-invalid={fieldState.invalid}
-                                aria-label="type"
-                            />
-                            <FieldDescription>
-                                {t('form.descriptionDescription', { ns: 'tasks' })}
-                            </FieldDescription>
-                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                        </Field>
-                    )}
+                    name="description"
+                    placeholder={t('form.descriptionPlaceholder', { ns: 'tasks' })}
+                    label={t('form.description', { ns: 'tasks' })}
+                    fieldDescription={t('form.descriptionDescription', { ns: 'tasks' })}
                 />
 
                 <div className="grid gap-4 md:grid-cols-2">
@@ -106,28 +72,13 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                    <Controller
-                        name="deadline"
+                    <FormFieldController
                         control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="task-form-deadline">
-                                    {t('form.deadline', { ns: 'tasks' })}
-                                </FieldLabel>
-                                <Input
-                                    {...field}
-                                    value={formatIsoDateTime(field?.value || '')}
-                                    id="task-form-deadline"
-                                    type="date"
-                                    aria-invalid={fieldState.invalid}
-                                    aria-label="type"
-                                />
-                                <FieldDescription>
-                                    {t('form.deadlineDescription', { ns: 'tasks' })}
-                                </FieldDescription>
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
+                        name="deadline"
+                        type="date"
+                        placeholder={t('form.descriptionPlaceholder', { ns: 'tasks' })}
+                        label={t('form.deadline', { ns: 'tasks' })}
+                        fieldDescription={t('form.deadlineDescription', { ns: 'tasks' })}
                     />
                 </div>
                 <Controller
