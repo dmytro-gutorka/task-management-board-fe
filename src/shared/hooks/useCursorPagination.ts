@@ -48,7 +48,7 @@ export function useCursorPagination<
                 setItems([]);
 
                 const params = mapQueryParams({
-                    cursor: nextCursor,
+                    cursor: null,
                     limit,
                 } as Partial<RequestQuery>);
                 // TODO 1.1: is it okay to have "as" in this kind of case ?
@@ -70,7 +70,7 @@ export function useCursorPagination<
         void loadFirstPage();
 
         return () => controller.abort();
-    }, [apiRequest, enabled, limit, nextCursor, setItems]);
+    }, [apiRequest, enabled, limit, setItems]);
 
     const fetchNextPage = useCallback(async () => {
         if (!nextCursor || isFetchingNextPage || isFirstPageLoading) return;

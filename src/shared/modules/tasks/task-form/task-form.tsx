@@ -12,6 +12,7 @@ import { SelectInput } from '../../../components/select/select-input.tsx';
 import { Input } from '../../../components/shadcn/ui/input.tsx';
 import { Switch } from '../../../components/shadcn/ui/switch.tsx';
 import { Textarea } from '../../../components/shadcn/ui/textarea.tsx';
+import { formatIsoDateTime } from '../../../helpers/formatIsoDateTime.ts';
 import { buildTaskFormDefaultValues } from './helpers/buildTaskFormDefaultValues.ts';
 import {
     getTaskPrioritySelectConfig,
@@ -115,7 +116,7 @@ export function TaskForm({ initialValues, onSubmit, formId }: TaskFormProps) {
                                 </FieldLabel>
                                 <Input
                                     {...field}
-                                    value={field.value ?? ''}
+                                    value={formatIsoDateTime(field?.value || '')}
                                     id="task-form-deadline"
                                     type="date"
                                     aria-invalid={fieldState.invalid}

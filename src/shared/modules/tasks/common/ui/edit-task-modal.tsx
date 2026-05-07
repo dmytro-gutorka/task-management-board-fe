@@ -1,4 +1,4 @@
-import { mapTaskTiInitialValues } from '../helpers/mapTaskTiInitialValues.ts';
+import { mapTaskTiInitialValues } from '../model/helpers/mapTaskTiInitialValues.ts';
 import { ActionModal } from '../../../../components/modal/ui/action-modal.tsx';
 import { Separator } from '../../../../components/shadcn/ui/separator.tsx';
 import { TaskForm } from '../../task-form/task-form.tsx';

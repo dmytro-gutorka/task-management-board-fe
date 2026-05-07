@@ -7,6 +7,6 @@ export function mapQueryParams<T extends object>(params: T): Partial<T> {
         return true;
     });
 
-    const objectParams = Object.fromEntries(Object.entries(entriesParams));
+    const objectParams = Object.fromEntries(entriesParams);
     return objectParams as Partial<T>;
 }

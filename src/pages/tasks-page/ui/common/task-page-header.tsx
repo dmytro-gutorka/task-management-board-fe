@@ -22,9 +22,11 @@ interface HeaderProps {
     openCreateModal: () => void;
     openEditModal: () => void;
     tasksCounter: number;
+    setQuerySearchValue: (value: string) => void;
 }
 
 export function TaskPageHeader({
+    setQuerySearchValue,
     taskViewMode,
     onTaskViewChange,
     filters,
@@ -48,8 +50,9 @@ export function TaskPageHeader({
                     <div className="flex items-center space-x-2">
                         <SearchInput
                             searchValue={searchValue}
-                            setSearchChange={setSearchValue}
+                            setSearchValue={setSearchValue}
                             resultsFound={tasksCounter}
+                            setQuerySearchValue={setQuerySearchValue}
                         />
                         <TasksFiltersMenu
                             filters={filters}

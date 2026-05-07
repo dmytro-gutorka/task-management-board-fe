@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import type { TaskFormValues } from '../../../../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
+import { handleError } from '../../../../../../infrastructure/errors/handle-error.ts';
+import type { TaskFormValues } from '../../../../task-form/model/tasks-form.types.ts';
 import { TasksApiService } from '../tasks.api-service.ts';
 
 export function useUpdateTasks() {
@@ -8,10 +9,10 @@ export function useUpdateTasks() {
     async function updateTask(values: TaskFormValues, taskId: string) {
         try {
             setIsLoading(true);
-            const updatedTask = await TasksApiService.update(values, taskId);
-
-            setIsLoading(false);
-            return updatedTask;
+            return await TasksApiService.update(values, taskId);
+        } catch (error: unknown) {
+            handleError(error);
+            return null;
         } finally {
             setIsLoading(false);
         }

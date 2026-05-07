@@ -6,7 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from '../../../../shared/components/shadcn/ui/card.tsx';
-import { formatDeadline } from '../../../../shared/modules/tasks/common/helpers/formatDeadline.ts';
+import { formatDeadline } from '../../../../shared/modules/tasks/common/model/helpers/formatDeadline.ts';
 import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 import {
     getTaskPriorityConfig,

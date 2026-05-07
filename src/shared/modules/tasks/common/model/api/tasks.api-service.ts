@@ -1,12 +1,8 @@
-import type { CursorParams } from '../../../../../shared/types/common.ts';
-import type { TasksQueryState } from '../../tasks-query-state/tasks-query-state.types.ts';
+import type { CursorParams } from '../../../../../types/common.ts';
+import type { TasksQueryState } from '../../../../../../pages/tasks-page/model/tasks-query-state/tasks-query-state.types.ts';
 import { TASKS_API_ROUTES } from './tasks.api-constants.ts';
-import { httpClient } from '../../../../../shared/infrastructure/axios/httpClient.ts';
-import type {
-    CreateTaskPayload,
-    Task,
-    UpdateTaskPayload,
-} from '../../../../../shared/modules/tasks/common/model/task.types.ts';
+import { httpClient } from '../../../../../infrastructure/axios/httpClient.ts';
+import type { CreateTaskPayload, Task, UpdateTaskPayload } from '../task.types.ts';
 import type {
     TasksCursorPaginatedResponse,
     TasksPagePaginatedResponse,
@@ -40,6 +36,11 @@ export const TasksApiService = {
             },
         );
 
+        return data;
+    },
+
+    async findById(taskId: string): Promise<Task> {
+        const { data } = await httpClient.get<Task>(TASKS_API_ROUTES.FIND_BY_ID(taskId));
         return data;
     },
 
