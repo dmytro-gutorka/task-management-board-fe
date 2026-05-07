@@ -1,10 +1,11 @@
+import type { TFunction } from 'i18next';
 import {
     TASK_PRIORITY_FILTER,
     TASK_SORT_BY_FILTER,
     TASK_STATUS_FILTER,
 } from './tasks-filter.constants.ts';
 
-export const getTaskFilterStatusOptions = (t: (key: string, obj: { ns: string }) => string) => [
+export const getTaskFilterStatusOptions = (t: TFunction) => [
     {
         value: TASK_STATUS_FILTER.ALL,
         title: t('filters.allStatuses', { ns: 'tasks' }),
@@ -17,7 +18,7 @@ export const getTaskFilterStatusOptions = (t: (key: string, obj: { ns: string })
     { value: TASK_STATUS_FILTER.DONE, title: t('filters.done', { ns: 'tasks' }) },
 ];
 
-export const getTaskFilterPriorityOptions = (t: (key: string, obj: { ns: string }) => string) => [
+export const getTaskFilterPriorityOptions = (t: TFunction) => [
     {
         value: TASK_PRIORITY_FILTER.ALL,
         title: t('filters.allPriorities', { ns: 'tasks' }),
@@ -33,7 +34,11 @@ export const getTaskFilterPriorityOptions = (t: (key: string, obj: { ns: string 
     { value: TASK_PRIORITY_FILTER.LOW, title: t('filters.low', { ns: 'tasks' }) },
 ];
 
-export const getTaskFilterSortOptions = (t: (key: string, obj: { ns: string }) => string) => [
+export const getTaskFilterSortOptions = (t: TFunction) => [
+    {
+        value: TASK_SORT_BY_FILTER.UPDATED_AT,
+        title: t('filters.updatedAt', { ns: 'tasks' }),
+    },
     {
         value: TASK_SORT_BY_FILTER.CREATED_AT,
         title: t('filters.createdAt', { ns: 'tasks' }),

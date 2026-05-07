@@ -21,7 +21,9 @@
     "high": "High",
     "medium": "Medium",
     "low": "Low",
-    "createdAt": "Date created",
+    "createdAt": "Created date",
+    "updatedAt": "Updated date",
+
     "deadline": "Deadline",
     "title": "Title"
   },
