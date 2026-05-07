@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,7 +21,7 @@ function mapUserToFormValues(user: User): ProfileFormValues {
     return {
         name: user.name ?? '',
         surname: user.surname ?? '',
-        birthday: user.birthday ? format(user.birthday, 'yyyy-MM-dd') : '',
+        birthday: user.birthday ?? '',
     };
 }
 

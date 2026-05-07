@@ -3,7 +3,7 @@ export interface User {
     email: string;
     name: string;
     surname: string;
-    birthday: Date | null;
+    birthday: string | null;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -11,5 +11,5 @@ export interface User {
 export interface UpdateMePayload {
     name?: string;
     surname?: string;
-    birthday?: Date | null;
+    birthday?: string | null;
 }
