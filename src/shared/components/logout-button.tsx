@@ -1,9 +1,9 @@
 import { Loader2, LogOut } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../constants/routes.constants.ts';
-import { Button } from '../../../../components/shadcn/ui/button.tsx';
-import { useAuth } from '../../../../providers/auth-provider/auth.provider.tsx';
+import { ROUTES } from '../constants/routes.constants.ts';
+import { Button } from './shadcn/ui/button.tsx';
+import { useAuth } from '../providers/auth-provider/auth.provider.tsx';
 
 export function LogoutButton() {
     const { t } = useTranslation(['auth']);

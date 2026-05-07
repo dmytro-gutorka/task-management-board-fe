@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../shared/constants/routes.constants.ts';
-import type { RegisterStepTwoValues } from '../../shared/infrastructure/auth/auth.schema.ts';
+import { ROUTES } from '../../../shared/constants/routes.constants.ts';
+import type { RegisterStepTwoValues } from '../../../shared/infrastructure/auth/auth.schema.ts';
 import {
     LOCAL_STORAGE_BOOLEANS,
     LOCAL_STORAGE_PROFILE_KEYS,
-} from '../../shared/infrastructure/local-storage/model/local-storage.constants.ts';
-import { useAuth } from '../../shared/providers/auth-provider/auth.provider.tsx';
-import { RegisterStepOneForm } from './ui/register-step-one-form.tsx';
-import { RegisterStepTwoForm } from './ui/register-step-two-form.tsx';
+} from '../../../shared/infrastructure/local-storage/model/local-storage.constants.ts';
+import { useAuth } from '../../../shared/providers/auth-provider/auth.provider.tsx';
+import { RegisterStepOneForm } from './common/register-step-one-form.tsx';
+import { RegisterStepTwoForm } from './common/register-step-two-form.tsx';
 
 export function RegisterPage() {
     const { t } = useTranslation(['auth']);

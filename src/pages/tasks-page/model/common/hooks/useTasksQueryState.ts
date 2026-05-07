@@ -52,7 +52,13 @@ export function useTasksQueryState() {
         (sortBy: TaskSortBy) => updateParams({ sortBy, page: '1' }),
         [updateParams],
     );
-    const setSearch = useCallback((search: string) => updateParams({ search }), [updateParams]);
+    const setSearch = useCallback(
+        (search: string) => {
+            if (search === queryParams.search) return;
+            updateParams({ search, page: '1' });
+        },
+        [updateParams, queryParams.search],
+    );
 
     return {
         searchParams,

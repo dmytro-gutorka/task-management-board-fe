@@ -1,17 +1,17 @@
 import { Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AuthFormCard } from '../../../shared/components/auth-form-card.tsx';
-import { FormFieldController } from '../../../shared/components/form-field-controller.tsx';
-import { Button } from '../../../shared/components/shadcn/ui/button.tsx';
+import { AuthFormCard } from '../../../../shared/components/auth-form-card.tsx';
+import { FormFieldController } from '../../../../shared/components/form-field-controller.tsx';
+import { Button } from '../../../../shared/components/shadcn/ui/button.tsx';
 import { useForm } from 'react-hook-form';
-import { CardFooter } from '../../../shared/components/shadcn/ui/card.tsx';
-import { FieldGroup } from '../../../shared/components/shadcn/ui/field.tsx';
+import { CardFooter } from '../../../../shared/components/shadcn/ui/card.tsx';
+import { FieldGroup } from '../../../../shared/components/shadcn/ui/field.tsx';
 import {
     type LoginFormValues,
     loginSchema,
-} from '../../../shared/infrastructure/auth/auth.schema.ts';
-import { loginFormDefaultValues } from '../model/login.constants.ts';
+} from '../../../../shared/infrastructure/auth/auth.schema.ts';
+import { loginFormDefaultValues } from '../../model/login.constants.ts';
 
 interface LoginFormProps {
     isSubmitting: boolean;

@@ -7,7 +7,6 @@ import {
     useRef,
     useState,
 } from 'react';
-import type { TasksQueryState } from '../../pages/tasks-page/model/tasks-query-state/tasks-query-state.types.ts';
 import { mapQueryParams } from '../helpers/mapQueryParams.ts';
 import { handleError } from '../infrastructure/errors/handle-error.ts';
 import type { PagePaginationResponse, PaginationParams } from '../types/common.ts';
@@ -21,7 +20,7 @@ const defaultPagePaginationState: PaginationParams = {
 
 export function usePagePagination<RequestData, RequestQuery extends object>(
     apiRequest: (
-        searchParams: Partial<TasksQueryState>,
+        searchParams: Partial<RequestQuery>,
         signal: AbortSignal,
     ) => Promise<PagePaginationResponse<RequestData>>,
     setItems: Dispatch<SetStateAction<RequestData[]>>,

@@ -2,16 +2,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { AuthFormCard } from '../../../shared/components/auth-form-card.tsx';
-import { FormFieldController } from '../../../shared/components/form-field-controller.tsx';
-import { Button } from '../../../shared/components/shadcn/ui/button.tsx';
-import { CardFooter } from '../../../shared/components/shadcn/ui/card.tsx';
-import { FieldGroup } from '../../../shared/components/shadcn/ui/field.tsx';
+import { AuthFormCard } from '../../../../shared/components/auth-form-card.tsx';
+import { FormFieldController } from '../../../../shared/components/form-field-controller.tsx';
+import { Button } from '../../../../shared/components/shadcn/ui/button.tsx';
+import { CardFooter } from '../../../../shared/components/shadcn/ui/card.tsx';
+import { FieldGroup } from '../../../../shared/components/shadcn/ui/field.tsx';
 import {
     registerStepTwoSchema,
     type RegisterStepTwoValues,
-} from '../../../shared/infrastructure/auth/auth.schema.ts';
-import { registrationFormTwoOneDefaultValues } from '../model/registration.constants.ts';
+} from '../../../../shared/infrastructure/auth/auth.schema.ts';
+import { registrationFormTwoOneDefaultValues } from '../../model/registration.constants.ts';
 
 interface RegisterStepTwoFormProps {
     isSubmitting: boolean;

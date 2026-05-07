@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from '@/shared/components/layout';
-import { RegisterPage } from '../../pages/registration-page/registration-page.tsx';
+import { LoginPage } from '../../pages/login-page';
+import { RegisterPage } from '../../pages/registration-page';
 import { ROUTES } from '../../shared/constants/routes.constants.ts';
 import { TasksPage } from '@/pages/tasks-page';
 import { TasksDetailsPage } from '@/pages/tasks-details-page';
-import { LoginPage } from '../../pages/login-page/login-page.tsx';
 import { ProtectedRoute } from './custom-routes/protected-route.tsx';
 import { PublicOnlyRoute } from './custom-routes/public-route.tsx';
 

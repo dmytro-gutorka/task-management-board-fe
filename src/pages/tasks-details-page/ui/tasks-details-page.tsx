@@ -33,9 +33,7 @@ export function TasksDetailsPage() {
         void navigate(ROUTES.TASKS_PAGE);
     }
 
-    if (!taskId) {
-        return <Navigate to={ROUTES.TASKS_PAGE} replace />;
-    }
+    if (!taskId) return <Navigate to={ROUTES.TASKS_PAGE} replace />;
 
     const shouldShowLoader = isTaskLoading && !task;
     const shouldShowEmptyState = !isTaskLoading && !task;

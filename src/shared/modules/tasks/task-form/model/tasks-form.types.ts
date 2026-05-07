@@ -7,7 +7,7 @@ export type TaskFormInitialValues = {
     description: string;
     status: TaskStatus;
     priority: TaskPriority;
-    deadline?: string | undefined | null;
+    deadline: string;
     isPrivate: boolean;
 };
 

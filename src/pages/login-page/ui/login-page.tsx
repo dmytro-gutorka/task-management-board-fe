@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import type { LoginFormValues } from '../../shared/infrastructure/auth/auth.schema.ts';
-import { useAuth } from '../../shared/providers/auth-provider/auth.provider.tsx';
+import type { LoginFormValues } from '../../../shared/infrastructure/auth/auth.schema.ts';
+import { useAuth } from '../../../shared/providers/auth-provider/auth.provider.tsx';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../shared/constants/routes.constants.ts';
-import type { FromPathLocationState } from '../../shared/types/common.ts';
-import { LoginForm } from './ui/login-form.tsx';
+import { ROUTES } from '../../../shared/constants/routes.constants.ts';
+import type { FromPathLocationState } from '../../../shared/types/common.ts';
+import { LoginForm } from './common/login-form.tsx';
 
 export function LoginPage() {
     const { t } = useTranslation(['auth']);

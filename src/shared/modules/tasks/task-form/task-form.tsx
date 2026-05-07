@@ -17,10 +17,10 @@ import {
 } from './model/tasks-form.configs.ts';
 import { getTaskPriorityOptions, getTaskStatusOptions } from './model/tasks-form.constants.ts';
 import { taskFormSchema } from './model/tasks-form.schema.ts';
-import type { TaskFormValues } from './model/tasks-form.types.ts';
+import type { TaskFormInitialValues, TaskFormValues } from './model/tasks-form.types.ts';
 
 interface TaskFormProps {
-    initialValues?: TaskFormValues;
+    initialValues?: Partial<TaskFormInitialValues>;
     onSubmit: (values: TaskFormValues) => void | Promise<void>;
     formId: string;
 }

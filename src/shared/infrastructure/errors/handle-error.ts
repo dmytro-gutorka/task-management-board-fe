@@ -7,14 +7,19 @@ import { AppErrorCodes } from './model/error.constants.ts';
 import { logger } from '../logger.ts';
 import { toast } from 'sonner';
 
-export const handleError = (error: unknown, options: HandleErrorOptions = {}): AppError => {
+export const handleError = (
+    error: unknown,
+    options: HandleErrorOptions = { redirectTo: ROUTES.TASKS_PAGE },
+): AppError => {
     const { showToast = true, log = true, logoutOnUnauthorized = false } = options;
 
     const appError = normalizeError(error);
 
     if (appError.code === AppErrorCodes.unauthorized && logoutOnUnauthorized) {
         removeAccessToken();
-        void router.navigate(ROUTES.LOGIN_PAGE, { replace: true });
+        void router.navigate(options.redirectTo, { replace: true });
+        // TODO: There is a problem with "router" import from "app" folder.
+        //  It is should not be imported this way, but I do not know how to fix it.
     }
 
     if (showToast) toast.error(appError.message);
