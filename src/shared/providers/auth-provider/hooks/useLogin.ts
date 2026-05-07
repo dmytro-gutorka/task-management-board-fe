@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { AuthApiService } from '../../../infrastructure/auth/auth-api.service.ts';
-import { setAccessToken } from '../../../infrastructure/auth/auth-token.helpers.ts';
+import { AuthApiService } from '../../../infrastructure/auth/auth.api-service.ts';
+import { setAccessToken } from '../../../infrastructure/auth/auth.token-helpers.ts';
 import type { LoginFormValues } from '../../../infrastructure/auth/auth.schema.ts';
+import { handleError } from '../../../infrastructure/errors/handle-error.ts';
 
 export function useLogin(setIsAuthenticated: (isAuthenticated: boolean) => void) {
     const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +17,8 @@ export function useLogin(setIsAuthenticated: (isAuthenticated: boolean) => void)
             setIsAuthenticated(true);
 
             return true;
-        } catch {
+        } catch (error: unknown) {
+            handleError(error);
             return false;
         } finally {
             setIsLoading(false);

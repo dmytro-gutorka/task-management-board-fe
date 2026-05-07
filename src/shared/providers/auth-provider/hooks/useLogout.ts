@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { AuthApiService } from '../../../infrastructure/auth/auth-api.service.ts';
-import { removeAccessToken } from '../../../infrastructure/auth/auth-token.helpers.ts';
+import { AuthApiService } from '../../../infrastructure/auth/auth.api-service.ts';
+import { removeAccessToken } from '../../../infrastructure/auth/auth.token-helpers.ts';
 import { LOCAL_STORAGE_PROFILE_KEYS } from '../../../infrastructure/local-storage/model/local-storage.constants.ts';
 import { PROFILE_TOAST_REMINDER_ID } from '../../../modules/profile-toast-reminder/model/profile-toast-reminder.constants.ts';
 

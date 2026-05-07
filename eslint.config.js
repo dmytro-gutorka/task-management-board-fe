@@ -83,7 +83,7 @@ export default defineConfig([
                         {
                             group: ['@/pages/*/**'],
                             message:
-                                'Inside the pages should be used relative imports, aliases are not allowed. Imports outside of the page are only allowed via public API (quety-client.ts)',
+                                'Inside the pages should be used relative imports, aliases are not allowed. Imports outside of the page are only allowed via public API (index.ts)',
                         },
                     ],
                 },

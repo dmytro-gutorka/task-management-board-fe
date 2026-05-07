@@ -7,10 +7,16 @@ import type { TaskFormValues } from '../../../../shared/modules/tasks/task-form/
 interface CreateTaskModalProps {
     isOpen: boolean;
     setOpen: (open: boolean) => void;
-    onSubmit: (values: TaskFormValues) => void;
+    onSubmit: (values: TaskFormValues) => Promise<void>;
+    isTaskCreating: boolean;
 }
 
-export function CreateTaskModal({ isOpen, setOpen, onSubmit }: CreateTaskModalProps) {
+export function CreateTaskModal({
+    isOpen,
+    setOpen,
+    onSubmit,
+    isTaskCreating,
+}: CreateTaskModalProps) {
     const { t } = useTranslation(['common', 'tasks']);
     const formId = 'create-task-form';
 
@@ -19,6 +25,7 @@ export function CreateTaskModal({ isOpen, setOpen, onSubmit }: CreateTaskModalPr
             <ActionModal
                 open={isOpen}
                 onOpenChange={setOpen}
+                isLoading={isTaskCreating}
                 title={t('createTask', { ns: 'tasks' })}
                 description={t('fillFields', { ns: 'tasks' })}
                 submitLabel={t('create', { ns: 'common' })}

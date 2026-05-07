@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../components/shadcn/ui/button.tsx';
 
 interface ProfileReminderToastProps {
@@ -6,20 +7,25 @@ interface ProfileReminderToastProps {
 }
 
 export function ProfileReminderToast({ onGoToProfile, onNeverShow }: ProfileReminderToastProps) {
+    const { t } = useTranslation('common');
+
     return (
         <div className="space-y-3 rounded-lg border bg-card text-card-foreground p-4 shadow-lg">
             <div>
-                <p className="font-medium">Fill in the profile</p>
-                <p className="text-sm text-muted-foreground">This will help us a lot</p>
+                <p className="font-medium">
+                    {t('toasts.profile-reminder.description', { ns: 'common' })}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                    {t('toasts.profile-reminder.title', { ns: 'common' })}
+                </p>
             </div>
 
             <div className="flex gap-2">
                 <Button size="sm" onClick={onGoToProfile}>
-                    Get to profile
+                    {t('toasts.profile-reminder.buttons.go-to-profile', { ns: 'common' })}
                 </Button>
-
                 <Button size="sm" variant="outline" onClick={onNeverShow}>
-                    Do not show anymore
+                    {t('toasts.profile-reminder.buttons.never-show', { ns: 'common' })}
                 </Button>
             </div>
         </div>

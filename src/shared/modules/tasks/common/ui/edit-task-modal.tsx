@@ -1,4 +1,4 @@
-import { mapTaskTiInitialValues } from '../helpers/mapTaskTiInitialValues.ts';
+import { mapTaskTiInitialValues } from '../model/helpers/mapTaskTiInitialValues.ts';
 import { ActionModal } from '../../../../components/modal/ui/action-modal.tsx';
 import { Separator } from '../../../../components/shadcn/ui/separator.tsx';
 import { TaskForm } from '../../task-form/task-form.tsx';
@@ -10,10 +10,17 @@ interface EditTaskModalProps {
     initialValues: Task;
     isOpen: boolean;
     setOpen: (open: boolean) => void;
-    onSubmit: (values: TaskFormValues) => void;
+    onSubmit: (values: TaskFormValues) => Promise<void>;
+    isTaskUpdating: boolean;
 }
 
-export function EditTaskModal({ initialValues, isOpen, setOpen, onSubmit }: EditTaskModalProps) {
+export function EditTaskModal({
+    initialValues,
+    isOpen,
+    setOpen,
+    onSubmit,
+    isTaskUpdating,
+}: EditTaskModalProps) {
     const { t } = useTranslation(['common', 'tasks']);
     const formInitialValues = mapTaskTiInitialValues(initialValues);
     const formId = 'edit-task-form';
@@ -27,6 +34,7 @@ export function EditTaskModal({ initialValues, isOpen, setOpen, onSubmit }: Edit
                 description={t('fillFields', { ns: 'tasks' })}
                 submitLabel={t('edit', { ns: 'tasks' })}
                 submitFormId={formId}
+                isLoading={isTaskUpdating}
             >
                 <Separator />
 

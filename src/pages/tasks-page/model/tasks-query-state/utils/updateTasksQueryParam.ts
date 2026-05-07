@@ -1,6 +1,6 @@
-import { defaultTasksQueryState } from '../tasks-query-state.constants.ts';
+import { TASKS_QUERY_PARAMS, TASKS_SEARCH_BY_PARAMS } from '../tasks-query-state.constants.ts';
 import type { TasksQueryParam, TasksQueryState } from '../tasks-query-state.types.ts';
-import { normalizeQueryValue } from './normalizeQueryValue';
+import { normalizeQueryValue } from './normalizeQueryValue.ts';
 
 export function updateTasksQueryParam(
     nextSearchParams: URLSearchParams,
@@ -9,9 +9,20 @@ export function updateTasksQueryParam(
 ) {
     const normalizedValue = normalizeQueryValue(key, nextQueryState[key]);
 
-    if (normalizedValue === defaultTasksQueryState[key] || normalizedValue === '') {
+    if (normalizedValue === '') {
         nextSearchParams.delete(key);
+
         return;
+    }
+
+    if (key === TASKS_QUERY_PARAMS.SEARCH) {
+        nextSearchParams.delete(TASKS_QUERY_PARAMS.SEARCH_BY);
+
+        const taskSearchParams = Object.values(TASKS_SEARCH_BY_PARAMS);
+
+        taskSearchParams.forEach((param) =>
+            nextSearchParams.append(TASKS_QUERY_PARAMS.SEARCH_BY, param),
+        );
     }
 
     nextSearchParams.set(key, normalizedValue);

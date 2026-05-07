@@ -14,9 +14,9 @@ export const TASK_PRIORITY_FILTER = {
 } as const;
 
 export const TASK_SORT_BY_FILTER = {
+    UPDATED_AT: 'updatedAt',
     CREATED_AT: 'createdAt',
     DEADLINE: 'deadline',
-    PRIORITY: 'priority',
     TITLE: 'title',
 } as const;
 

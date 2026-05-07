@@ -1,0 +1,22 @@
+import type { ReactNode } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './shadcn/ui/card.tsx';
+
+interface AuthFormCardProps {
+    title: string;
+    description?: string;
+    children: ReactNode;
+}
+
+export function AuthFormCard({ title, description, children }: AuthFormCardProps) {
+    return (
+        <Card className="w-full max-w-sm">
+            <CardHeader>
+                <CardTitle>{title}</CardTitle>
+
+                {description && <CardDescription>{description}</CardDescription>}
+            </CardHeader>
+
+            <CardContent>{children}</CardContent>
+        </Card>
+    );
+}

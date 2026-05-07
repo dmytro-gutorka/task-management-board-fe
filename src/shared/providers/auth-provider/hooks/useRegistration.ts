@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { AuthApiService } from '../../../infrastructure/auth/auth-api.service.ts';
-import { setAccessToken } from '../../../infrastructure/auth/auth-token.helpers.ts';
+import { AuthApiService } from '../../../infrastructure/auth/auth.api-service.ts';
+import { setAccessToken } from '../../../infrastructure/auth/auth.token-helpers.ts';
 import type {
     RegisterStepOneValues,
     RegisterStepTwoValues,
 } from '../../../infrastructure/auth/auth.schema.ts';
+import { handleError } from '../../../infrastructure/errors/handle-error.ts';
 import {
     LOCAL_STORAGE_BOOLEANS,
     LOCAL_STORAGE_PROFILE_KEYS,
@@ -27,6 +28,8 @@ export function useRegistration(setIsAuthenticated: (isAuthenticated: boolean) =
             setAccessToken(response.accessToken);
             setIsAuthenticated(true);
             setStep(2);
+        } catch (error: unknown) {
+            handleError(error);
         } finally {
             setIsLoading(false);
         }
@@ -55,7 +58,8 @@ export function useRegistration(setIsAuthenticated: (isAuthenticated: boolean) =
             await UserApiService.updateMe(payload);
 
             return true;
-        } catch {
+        } catch (error: unknown) {
+            handleError(error);
             return false;
         } finally {
             setStep(1);

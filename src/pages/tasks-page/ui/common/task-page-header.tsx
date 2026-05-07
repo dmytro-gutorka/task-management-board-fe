@@ -4,41 +4,37 @@ import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
 import { SearchInput } from '../../../../shared/components/search-input.tsx';
 import { Button } from '../../../../shared/components/shadcn/ui/button.tsx';
 import { TooltipProvider } from '../../../../shared/components/shadcn/ui/tooltip.tsx';
+import type { TasksQueryState } from '../../model/tasks-query-state/tasks-query-state.types.ts';
 import { TasksFiltersMenu } from './tasks-filters-menu.tsx';
 import { TasksViewSwitcher } from './tasks-view-switcher.tsx';
 import type {
-    TaskPriorityFilter,
     TasksFiltersValue,
-    TaskSortBy,
-    TaskStatusFilter,
     TaskViewMode,
 } from '../../model/task-filters/tasks-filter.types.ts';
 
 interface HeaderProps {
-    taskViewMode: TaskViewMode;
+    onTaskQueryParamChange: (queryParam: Partial<TasksQueryState>) => void;
     onTaskViewChange: (viewMode: TaskViewMode) => void;
+    taskViewMode: TaskViewMode;
     filters: TasksFiltersValue;
     searchValue: string;
     setSearchValue: (value: string) => void;
-    onStatusChange: (status: TaskStatusFilter) => void;
-    onPriorityChange: (priority: TaskPriorityFilter) => void;
-    onSortByChange: (sortBy: TaskSortBy) => void;
     openCreateModal: () => void;
     openEditModal: () => void;
-    tasksCount: number;
+    tasksCounter: number;
+    setQuerySearchValue: (value: string) => void;
 }
 
 export function TaskPageHeader({
+    setQuerySearchValue,
     taskViewMode,
     onTaskViewChange,
     filters,
     setSearchValue,
     searchValue,
-    onStatusChange,
-    onPriorityChange,
-    onSortByChange,
+    onTaskQueryParamChange,
     openCreateModal,
-    tasksCount,
+    tasksCounter,
 }: HeaderProps) {
     const { t } = useTranslation(['common', 'tasks']);
 
@@ -48,16 +44,19 @@ export function TaskPageHeader({
                 <div className="flex items-center justify-between p-4">
                     <div className="space-y-1">
                         <h2 className="text-1xl font-semibold">
-                            {t('title', { ns: 'tasks' })} {tasksCount}
+                            {t('title', { ns: 'tasks' })} {tasksCounter}
                         </h2>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <SearchInput searchValue={searchValue} setSearchChange={setSearchValue} />
+                        <SearchInput
+                            searchValue={searchValue}
+                            setSearchValue={setSearchValue}
+                            resultsFound={tasksCounter}
+                            setQuerySearchValue={setQuerySearchValue}
+                        />
                         <TasksFiltersMenu
                             filters={filters}
-                            onStatusChange={onStatusChange}
-                            onPriorityChange={onPriorityChange}
-                            onSortByChange={onSortByChange}
+                            onTaskQueryParamChange={onTaskQueryParamChange}
                         />
                         <IconTooltip content={t('createTask', { ns: 'tasks' })}>
                             <Button

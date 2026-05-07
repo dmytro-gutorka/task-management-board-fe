@@ -7,7 +7,14 @@ import { TASK_PRIORITY, TASK_STATUS } from '../../common/model/task.constants.ts
 const dateStringSchema = z
     .string()
     .trim()
-    .refine((value) => value === '' || !Number.isNaN(new Date(value).getTime()), 'Invalid date');
+    .nullish()
+    .refine((value) => {
+        if (!value) return true;
+
+        const date = new Date(value);
+
+        return !isNaN(date.getTime());
+    }, 'Invalid date format');
 
 export const taskFormSchema = z.object({
     title: z
@@ -23,8 +30,6 @@ export const taskFormSchema = z.object({
 
     status: z.enum([TASK_STATUS.TODO, TASK_STATUS.IN_PROGRESS, TASK_STATUS.DONE]),
     priority: z.enum([TASK_PRIORITY.LOW, TASK_PRIORITY.MEDIUM, TASK_PRIORITY.HIGH]),
-    deadline: dateStringSchema,
-    assigneeName: z.string().trim().max(120, 'Assignee name must be at most 120 characters'),
+    deadline: dateStringSchema.optional(),
     isPrivate: z.boolean(),
-    tags: z.array(z.string().trim().min(1).max(20)).max(5, 'Max 5 tags'),
 });

@@ -7,10 +7,8 @@ export type Task = {
     description: string;
     status: TaskStatus;
     priority: TaskPriority;
-    deadline: string;
-    assigneeName: string;
+    deadline?: string | null | undefined;
     isPrivate: boolean;
-    tags: string[];
     createdAt: string;
     updatedAt: string;
 };

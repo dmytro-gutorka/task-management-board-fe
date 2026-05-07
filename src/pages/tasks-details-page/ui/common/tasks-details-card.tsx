@@ -6,20 +6,13 @@ import {
     CardHeader,
     CardTitle,
 } from '../../../../shared/components/shadcn/ui/card.tsx';
-import { formatDeadline } from '../../../../shared/modules/tasks/common/helpers/formatDeadline.ts';
+import { formatDeadline } from '../../../../shared/modules/tasks/common/model/helpers/formatDeadline.ts';
 import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 import {
     getTaskPriorityConfig,
     getTaskStatusConfig,
 } from '../../../../shared/modules/tasks/task-card/model/task-card.configs.ts';
-import { getAvatarFallback } from '../../../tasks-page/helpers/getAvatarFallback.ts';
-import {
-    AvatarFallback,
-    AvatarImage,
-    Avatar,
-} from '../../../../shared/components/shadcn/ui/avatar.tsx';
 import { Badge } from '../../../../shared/components/shadcn/ui/badge.tsx';
-import { BadgeList } from '../../../../shared/components/badge-list.tsx';
 
 interface TasksDetailsCardProps {
     task: Task;
@@ -84,36 +77,8 @@ export function TasksDetailsCard({ task }: TasksDetailsCardProps) {
                             <User className="h-4 w-4" />
                             {t('form.assignee', { ns: 'tasks' })}
                         </div>
-
-                        <div className="flex items-center gap-3">
-                            <Avatar className="h-10 w-10">
-                                <AvatarImage src={undefined} alt="Assigned user avatar" />
-                                <AvatarFallback>
-                                    {getAvatarFallback(task.assigneeName)}
-                                </AvatarFallback>
-                            </Avatar>
-
-                            <div>
-                                <p className="text-sm font-medium">
-                                    {task.assigneeName || t('form.unassigned', { ns: 'tasks' })}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                    {t('form.taskOwner', { ns: 'tasks' })}
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
-
-                <section className="space-y-3">
-                    {task.tags?.length ? (
-                        <BadgeList badges={task.tags} variant="default" />
-                    ) : (
-                        <p className="text-sm text-muted-foreground">
-                            {t('form.noTags', { ns: 'tasks' })}
-                        </p>
-                    )}
-                </section>
             </CardContent>
         </Card>
     );

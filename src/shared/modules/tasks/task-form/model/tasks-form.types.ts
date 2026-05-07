@@ -8,9 +8,7 @@ export type TaskFormInitialValues = {
     status: TaskStatus;
     priority: TaskPriority;
     deadline: string;
-    assigneeName: string;
     isPrivate: boolean;
-    tags: string[];
 };
 
 export type TaskFormValues = z.infer<typeof taskFormSchema>;

@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { isAuthenticated } from '../../../shared/infrastructure/auth/auth-token.helpers.ts';
+import { isAuthenticated } from '../../../shared/infrastructure/auth/auth.token-helpers.ts';
 import { useProfileCompletionReminder } from '../../../shared/modules/profile-toast-reminder/model/hooks/useProfileCompletionReminder.tsx';
 import { ROUTES } from '../../../shared/constants/routes.constants.ts';
 

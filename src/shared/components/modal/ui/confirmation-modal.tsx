@@ -1,6 +1,7 @@
 import { AlertTriangle } from 'lucide-react';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { useTranslation } from 'react-i18next';
+import { Loader } from '../../loader.tsx';
 import { BaseModal } from './base-modal';
 import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
 
@@ -9,7 +10,7 @@ interface ConfirmationModalProps extends IBaseModal {
     cancelLabel?: string;
     confirmVariant?: 'default' | 'destructive';
     isLoading?: boolean;
-    onConfirm: () => void;
+    onConfirm: () => Promise<void> | void;
     onCancel?: () => void;
 }
 
@@ -52,7 +53,12 @@ export function ConfirmationModal({
                     {cancelLabel}
                 </Button>
 
-                <Button variant={confirmVariant} onClick={onConfirm} disabled={isLoading}>
+                <Button
+                    variant={confirmVariant}
+                    onClick={() => void onConfirm()}
+                    disabled={isLoading}
+                >
+                    {isLoading && <Loader />}
                     {confirmLabel}
                 </Button>
             </div>

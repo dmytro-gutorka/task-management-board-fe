@@ -1,47 +1,61 @@
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { PageLoaderOverlay } from '../../../shared/components/PageLoaderOverlay.tsx';
 import { ROUTES } from '../../../shared/constants/routes.constants.ts';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
-import { getTaskById, updateTask } from '../../../shared/modules/tasks/common/model/task.api.ts';
-import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
+import { useGetTaskById } from '../../../shared/modules/tasks/common/model/api/hooks/useGetTaskById.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
-import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
-import type { Nullable } from '../../../shared/types/common.ts';
+import { useUpdateTask } from '../../../shared/modules/tasks/common/model/api/hooks/useUpdateTask.ts';
 import { TasksDetailsCard } from './common/tasks-details-card.tsx';
 import { TasksDetailsHeader } from './common/tasks-details-header.tsx';
+import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
 
 export function TasksDetailsPage() {
     const { taskId = '' } = useParams<{ taskId: string }>();
+
     const { openModal, setOpen, open, closeModal } = useModalState();
+    const { updateTask, isLoading: isTaskUpdating } = useUpdateTask();
+    const { isTaskLoading, task, setTask } = useGetTaskById(taskId);
+
     const navigate = useNavigate();
 
-    const [task, setTask] = useState<Nullable<Task>>(getTaskById(taskId));
+    async function handleEditTask(values: TaskFormValues) {
+        if (!taskId) return;
 
-    if (!task) return null; // will be handled later, when backend will be ready
+        const updatedTask = await updateTask(values, taskId);
+
+        if (!updatedTask) return;
+
+        setTask(updatedTask);
+        closeModal();
+    }
 
     function handleBackToTasks() {
         void navigate(ROUTES.TASKS_PAGE);
     }
 
-    function handleSubmit(values: TaskFormValues) {
-        const updatedTask = updateTask(taskId, values);
-        setTask(updatedTask);
+    if (!taskId) return <Navigate to={ROUTES.TASKS_PAGE} replace />;
 
-        closeModal();
-    }
+    const shouldShowLoader = isTaskLoading && !task;
+    const shouldShowEmptyState = !isTaskLoading && !task;
+    const shouldShowTask = !isTaskLoading && task;
 
     return (
         <main className="min-h-svh bg-background">
             <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
                 <TasksDetailsHeader onClick={handleBackToTasks} openModal={openModal} />
-                <TasksDetailsCard task={task} />
+                {shouldShowEmptyState && <div>No available task</div>}
+                {shouldShowLoader && <PageLoaderOverlay />}
+                {shouldShowTask && <TasksDetailsCard task={task} />}
             </div>
-            <EditTaskModal
-                initialValues={task}
-                onSubmit={handleSubmit}
-                isOpen={open}
-                setOpen={setOpen}
-            />
+            {shouldShowTask && (
+                <EditTaskModal
+                    initialValues={task}
+                    onSubmit={handleEditTask}
+                    isOpen={open}
+                    setOpen={setOpen}
+                    isTaskUpdating={isTaskUpdating}
+                />
+            )}
         </main>
     );
 }

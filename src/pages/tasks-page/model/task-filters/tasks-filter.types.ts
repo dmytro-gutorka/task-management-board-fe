@@ -1,4 +1,4 @@
-import { type ValueOf } from '@/shared/types/common';
+import { type ValueOf } from '../../../../shared/types/common.ts';
 import {
     TASK_PRIORITY_FILTER,
     TASK_SORT_BY_FILTER,

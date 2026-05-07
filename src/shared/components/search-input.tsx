@@ -1,4 +1,4 @@
-import { type ChangeEvent } from 'react';
+import { type ChangeEvent, type KeyboardEvent, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search } from 'lucide-react';
 import { cn } from '../helpers/shadcn.utils.ts';
@@ -9,24 +9,35 @@ import {
     InputGroupInput,
 } from '@/shared/components/shadcn/ui/input-group';
 import { IconTooltip } from '@/shared/components/icon-tooltip';
-import { useSearch } from '../hooks/useSearch.ts';
 
 interface SearchInputProps {
     searchValue: string;
-    setSearchChange: (value: string) => void;
+    setSearchValue: (value: string) => void;
+    resultsFound: number;
+    setQuerySearchValue: (value: string) => void;
 }
 
-export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) {
+export function SearchInput({ setSearchValue, searchValue, resultsFound }: SearchInputProps) {
+    const [isOpen, setIsOpen] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const { t } = useTranslation(['common', 'tasks']);
-    const {
-        handleOpen,
-        handleClose,
-        handleEscapeDown,
-        setInputValue,
-        isOpen,
-        inputValue,
-        inputRef,
-    } = useSearch(searchValue, setSearchChange);
+
+    function handleOpen() {
+        setIsOpen(true);
+        requestAnimationFrame(() => inputRef.current?.focus());
+    }
+
+    function handleClose() {
+        if (!searchValue) setIsOpen(false);
+    }
+
+    function handleEscapeDown(e: KeyboardEvent<HTMLInputElement>) {
+        if (e.key === 'Escape') {
+            setSearchValue('');
+            setIsOpen(false);
+        }
+    }
 
     return (
         <div className="relative flex items-center">
@@ -46,25 +57,27 @@ export function SearchInput({ searchValue, setSearchChange }: SearchInputProps) 
             <InputGroup
                 className={cn(
                     'max-w-xs relative overflow-hidden',
-                    isOpen || inputValue ? 'w-[14rem] transition-all duration-500' : 'w-0',
+                    isOpen || searchValue ? 'w-[14rem] transition-all duration-500' : 'w-0',
                 )}
                 onKeyDown={handleEscapeDown}
                 onBlur={handleClose}
             >
                 <InputGroupInput
                     placeholder={`${t('search', { ns: 'common' })}...`}
-                    value={inputValue}
+                    value={searchValue}
                     ref={inputRef}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
                 />
 
                 <InputGroupAddon>
                     <Search />
                 </InputGroupAddon>
 
-                <InputGroupAddon align="inline-end">
-                    12 {t('results', { ns: 'common' })}
-                </InputGroupAddon>
+                {searchValue && (
+                    <InputGroupAddon align="inline-end">
+                        {resultsFound} {t('results', { ns: 'common' })}
+                    </InputGroupAddon>
+                )}
             </InputGroup>
         </div>
     );

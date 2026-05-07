@@ -1,167 +1,188 @@
-import { useMemo, useState } from 'react';
-import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
-import {
-    completeTask,
-    createTask,
-    deleteTask,
-    getTaskById,
-    getTasks,
-    updateTask,
-} from '../../../shared/modules/tasks/common/model/task.api.ts';
+import { TasksApiService } from '../../../shared/modules/tasks/common/model/api/tasks.api-service.ts';
+import { useCursorPagination } from '../../../shared/hooks/useCursorPagination.ts';
+import { useIntersectionObserver } from '../../../shared/hooks/useIntersectionObserver.ts';
+import { usePagePagination } from '../../../shared/hooks/usePagePagination.ts';
 import type { Task } from '../../../shared/modules/tasks/common/model/task.types.ts';
-import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
 import type { TaskFormValues } from '../../../shared/modules/tasks/task-form/model/tasks-form.types.ts';
+import type { CursorParams } from '../../../shared/types/common.ts';
+import { useTaskModals } from '../model/tasks-page/hooks/useTaskModals.ts';
+import { useTasksSearch } from '../model/tasks-page/hooks/useTasksSearch.ts';
+import { useTasksViewMode } from '../model/tasks-page/hooks/useTasksViewMode.ts';
+import type { TasksQueryState } from '../model/tasks-query-state/tasks-query-state.types.ts';
+import type { TasksCursorPaginatedResponse } from '../../../shared/modules/tasks/common/model/api/tasks.api-types.ts';
+import { useCallback, useRef, useState } from 'react';
+import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
+import { useCreateTask } from '../../../shared/modules/tasks/common/model/api/hooks/useCreateTask.ts';
+import { useDeleteTask } from '../../../shared/modules/tasks/common/model/api/hooks/useDeleteTask.ts';
+import { useUpdateTask } from '../../../shared/modules/tasks/common/model/api/hooks/useUpdateTask.ts';
+import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
 import { CreateTaskModal } from './task-modals/create-task-modal.tsx';
 import { DeleteTaskModal } from './task-modals/delete-task-modal.tsx';
-import type { Nullable } from '../../../shared/types/common.ts';
-import { getFilteredAndSortedTasks } from '../helpers/getFilteredAndSortedTasks.ts';
-import { useTasksQueryState } from '../hooks/useTasksQueryState.ts';
-import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
-import type {
-    TaskPriorityFilter,
-    TaskSortBy,
-    TaskStatusFilter,
-    TaskViewMode,
-} from '../model/task-filters/tasks-filter.types.ts';
+import { useTasksQueryState } from '../model/common/hooks/useTasksQueryState.ts';
 import { TasksGridView } from './task-card/tasks-grid-view.tsx';
 import { TasksListView } from './task-card/tasks-list-view.tsx';
 import { TaskPageHeader } from './common/task-page-header.tsx';
 
-// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
-// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
-// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
-// ВОТ ТУТ СЕЙЧАС КАША ИЗ ХЕНДЛЕРОВ И СТЕЙТОВ, Я ПОДУМАЮ ПОЗЖЕ КАК ЭТО МОЖНО КРАСИВО РАЗДЕЛИТЬ/РАЗНЕСТИ ПО ХУКАМ
-
 export function TasksPage() {
-    const [tasks, setTasks] = useState<Task[]>(getTasks());
-    const [selectedTask, setSelectedTask] = useState<Nullable<Task>>(null);
+    const [tasks, setTasks] = useState<Task[]>([]);
 
-    const deleteModal = useModalState();
-    const createModal = useModalState();
-    const editModal = useModalState();
+    const { queryParams, setSearch, updateParams } = useTasksQueryState();
+    const { view, changeView } = useTasksViewMode();
+    const { searchInputValue, setSearchInputValue } = useTasksSearch(queryParams.search, setSearch);
+
+    const { createTask, isLoading: isTaskCreating } = useCreateTask();
+    const { updateTask, isLoading: isTaskUpdating } = useUpdateTask();
+    const { deleteTask, isLoading: isTaskDeleting } = useDeleteTask();
 
     const {
-        state: { view, status, search, sortBy, priority },
-        setSearch,
-        setView,
-        updateParams,
-    } = useTasksQueryState();
+        selectedTask,
+        setSelectedTask,
+        createModal,
+        editModal,
+        deleteModal,
+        openEditModal,
+        openDeleteModal,
+        closeEditModal,
+        closeDeleteModal,
+    } = useTaskModals();
 
-    const filter = { status, sortBy, priority };
-    const filteredTasks = useMemo(() => {
-        return getFilteredAndSortedTasks(tasks ?? [], { status, sortBy, priority }, search);
-    }, [tasks, status, sortBy, priority, search]);
+    const findPageRequest = useCallback(
+        (params: TasksQueryState, signal: AbortSignal) => TasksApiService.findPage(params, signal),
+        [],
+    );
+    const findFeedPageRequest = useCallback(
+        (params: CursorParams, signal: AbortSignal) => TasksApiService.findFeedPage(params, signal),
+        [],
+    );
 
-    function handleSubmitCreateForm(values: TaskFormValues) {
-        const tasks = createTask(values);
+    const { isLoading, pagination, refetchPage } = usePagePagination(
+        findPageRequest,
+        setTasks,
+        queryParams,
+        view === TASK_VIEW_MODE.GRID,
+    );
+    const { isFirstPageLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+        useCursorPagination<Task, TasksCursorPaginatedResponse, CursorParams>(
+            findFeedPageRequest,
+            setTasks,
+            view === TASK_VIEW_MODE.LIST,
+        );
 
-        setTasks((prevTasks) => [...prevTasks, tasks]);
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+    const loadNextPage = useCallback(() => {
+        if (!hasNextPage || isFetchingNextPage || isFirstPageLoading) return;
+
+        void fetchNextPage();
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage, isFirstPageLoading]);
+
+    useIntersectionObserver({
+        targetRef: loadMoreRef,
+        enabled: hasNextPage && !isFetchingNextPage && !isFirstPageLoading,
+        onIntersect: loadNextPage,
+    });
+
+    const filters = {
+        status: queryParams.status,
+        sortBy: queryParams.sortBy,
+        priority: queryParams.priority,
+    };
+
+    async function handleSubmitCreateForm(values: TaskFormValues) {
+        const createdTask = await createTask(values);
+
+        if (!createdTask) return;
+
+        await refetchPage();
+
         createModal.closeModal();
     }
 
-    function handleCompleteTask(taskId: string) {
-        completeTask(taskId);
+    async function handleSubmitEditForm(values: TaskFormValues) {
+        if (!selectedTask) return;
 
-        const updatedTask = getTaskById(taskId);
+        const updatedTask = await updateTask(values, selectedTask.id);
+
         if (!updatedTask) return;
 
-        setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? updatedTask : task)));
-    }
-
-    function handleTaskViewChange(value: TaskViewMode) {
-        if (value === TASK_VIEW_MODE.LIST || value === TASK_VIEW_MODE.GRID) setView(value);
-    }
-
-    function handleStatusChange(status: TaskStatusFilter) {
-        updateParams({ ...filter, status: status });
-    }
-
-    function handlePriorityChange(priority: TaskPriorityFilter) {
-        updateParams({ ...filter, priority: priority });
-    }
-
-    function handleSortByChange(sortBy: TaskSortBy) {
-        updateParams({ ...filter, sortBy: sortBy });
-    }
-
-    function handleOpenEditModal(task: Task) {
-        setSelectedTask(task);
-
-        editModal.openModal();
-    }
-
-    function handleSubmitEditForm(values: TaskFormValues) {
-        if (!selectedTask) return;
-
-        const updatedTask = updateTask(selectedTask.id, values);
-
-        setTasks((prevTasks) =>
-            prevTasks.map((task) => (task.id === selectedTask.id ? updatedTask : task)),
-        );
+        await refetchPage();
 
         setSelectedTask(null);
-        editModal.closeModal();
+        closeEditModal();
     }
 
-    function handleOpenDeleteModal(task: Task) {
-        setSelectedTask(task);
-        deleteModal.openModal();
-    }
-
-    function handleDeleteTask() {
+    async function handleDeleteTask() {
         if (!selectedTask) return;
 
-        deleteTask(selectedTask.id);
-
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== selectedTask.id));
+        await deleteTask(selectedTask.id);
+        await refetchPage();
 
         setSelectedTask(null);
-        deleteModal.closeModal();
+        closeDeleteModal();
+    }
+
+    function handleTaskQueryParamChange(queryParamValue: Partial<TasksQueryState>) {
+        updateParams({ ...queryParamValue });
     }
 
     return (
         <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 my-4">
             <TaskPageHeader
-                tasksCount={tasks.length}
-                onStatusChange={handleStatusChange}
-                onPriorityChange={handlePriorityChange}
-                onSortByChange={handleSortByChange}
-                onTaskViewChange={handleTaskViewChange}
+                tasksCounter={pagination.total}
+                onTaskQueryParamChange={handleTaskQueryParamChange}
+                onTaskViewChange={changeView}
                 openCreateModal={createModal.openModal}
                 openEditModal={editModal.openModal}
                 taskViewMode={view}
-                searchValue={search}
-                filters={filter}
-                setSearchValue={setSearch}
+                filters={filters}
+                setQuerySearchValue={setSearch}
+                searchValue={searchInputValue}
+                setSearchValue={setSearchInputValue}
             />
-            {view === 'grid' ? (
+
+            {view === TASK_VIEW_MODE.GRID ? (
                 <TasksGridView
-                    tasks={filteredTasks}
-                    onCompleteTask={handleCompleteTask}
-                    onOpenEditModal={handleOpenEditModal}
-                    onOpenDeleteModal={handleOpenDeleteModal}
+                    onOpenEditModal={openEditModal}
+                    onOpenDeleteModal={openDeleteModal}
+                    onPageChange={handleTaskQueryParamChange}
+                    tasks={tasks}
+                    isLoading={isLoading}
+                    pagination={pagination}
                 />
             ) : (
-                <TasksListView tasks={filteredTasks} />
+                <TasksListView
+                    tasks={tasks}
+                    isFirstPageLoading={isFirstPageLoading}
+                    isFetchingNextPage={isFetchingNextPage}
+                    hasNextPage={hasNextPage}
+                    loadMoreRef={loadMoreRef}
+                />
             )}
             <CreateTaskModal
                 onSubmit={handleSubmitCreateForm}
                 setOpen={createModal.setOpen}
                 isOpen={createModal.open}
+                isTaskCreating={isTaskCreating}
             />
+
             {selectedTask && (
                 <EditTaskModal
                     onSubmit={handleSubmitEditForm}
                     initialValues={selectedTask}
                     setOpen={editModal.setOpen}
                     isOpen={editModal.open}
+                    isTaskUpdating={isTaskUpdating}
                 />
             )}
-            <DeleteTaskModal
-                onDelete={handleDeleteTask}
-                setOpen={deleteModal.setOpen}
-                isOpen={deleteModal.open}
-            />
+
+            {selectedTask && (
+                <DeleteTaskModal
+                    onDelete={handleDeleteTask}
+                    setOpen={deleteModal.setOpen}
+                    isOpen={deleteModal.open}
+                    isTaskDeleting={isTaskDeleting}
+                />
+            )}
         </div>
     );
 }
