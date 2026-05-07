@@ -1,20 +1,10 @@
-import { useState } from 'react';
-import { handleError } from '../../../../../../infrastructure/errors/handle-error.ts';
+import { useAsyncAction } from '../../../../../../hooks/useAsyncAction.ts';
 import { TasksApiService } from '../tasks.api-service.ts';
 
 export function useDeleteTask() {
-    const [isLoading, setIsLoading] = useState(false);
+    const deleteTaskRequest = (taskId: string) => TasksApiService.delete(taskId);
 
-    async function deleteTask(taskId: string) {
-        try {
-            setIsLoading(true);
-            await TasksApiService.delete(taskId);
-        } catch (error: unknown) {
-            handleError(error);
-        } finally {
-            setIsLoading(false);
-        }
-    }
+    const { isLoading, execute } = useAsyncAction(deleteTaskRequest);
 
-    return { deleteTask, isLoading };
+    return { deleteTask: execute, isLoading };
 }

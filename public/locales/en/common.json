@@ -22,5 +22,14 @@
     "list": "list",
     "grid": "grid"
   },
-  "inputs": {}
+  "toasts": {
+ "profile-reminder" : {
+   "title": "Fill in the profile to get more out of the app",
+   "description": "This will help us a lot",
+   "buttons": {
+     "never-show": "Do not show again",
+     "go-to-profile": "Get to profile"
+   }
+ }
+  }
 }

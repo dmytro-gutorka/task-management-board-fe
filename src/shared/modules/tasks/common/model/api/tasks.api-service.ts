@@ -39,8 +39,10 @@ export const TasksApiService = {
         return data;
     },
 
-    async findById(taskId: string): Promise<Task> {
-        const { data } = await httpClient.get<Task>(TASKS_API_ROUTES.FIND_BY_ID(taskId));
+    async findById(taskId: string, signal: AbortSignal): Promise<Task> {
+        const { data } = await httpClient.get<Task>(TASKS_API_ROUTES.FIND_BY_ID(taskId), {
+            signal,
+        });
         return data;
     },
 

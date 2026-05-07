@@ -9,12 +9,12 @@ import type { CursorParams, Nullable } from '../../../shared/types/common.ts';
 import type { TasksQueryState } from '../model/tasks-query-state/tasks-query-state.types.ts';
 import type { TasksCursorPaginatedResponse } from '../../../shared/modules/tasks/common/model/api/tasks.api-types.ts';
 import type { TaskViewMode } from '../model/task-filters/tasks-filter.types.ts';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
-import { useCreateTasks } from '../../../shared/modules/tasks/common/model/api/hooks/useCreateTasks.ts';
+import { useCreateTask } from '../../../shared/modules/tasks/common/model/api/hooks/useCreateTask.ts';
 import { useDeleteTask } from '../../../shared/modules/tasks/common/model/api/hooks/useDeleteTask.ts';
-import { useUpdateTasks } from '../../../shared/modules/tasks/common/model/api/hooks/useUpdateTasks.ts';
+import { useUpdateTask } from '../../../shared/modules/tasks/common/model/api/hooks/useUpdateTask.ts';
 import { LS_KEY_TASKS_VIEW_MODE } from '../model/common/tasks-page.constants.ts';
 import { TASK_VIEW_MODE } from '../model/task-filters/tasks-filter.constants.ts';
 import { CreateTaskModal } from './task-modals/create-task-modal.tsx';
@@ -69,19 +69,22 @@ export function TasksPage() {
         onIntersect: loadNextPage,
     });
 
-    const { createTask, isLoading: isTaskCreating } = useCreateTasks();
-    const { updateTask, isLoading: isTaskUpdating } = useUpdateTasks();
+    const { createTask, isLoading: isTaskCreating } = useCreateTask();
+    const { updateTask, isLoading: isTaskUpdating } = useUpdateTask();
     const { deleteTask, isLoading: isTaskDeleting } = useDeleteTask();
 
     const deleteModal = useModalState();
     const createModal = useModalState();
     const editModal = useModalState();
 
-    const filter = {
-        status: queryParams.status,
-        sortBy: queryParams.sortBy,
-        priority: queryParams.priority,
-    };
+    const memoFilters = useMemo(
+        () => ({
+            status: queryParams.status,
+            sortBy: queryParams.sortBy,
+            priority: queryParams.priority,
+        }),
+        [queryParams.status, queryParams.sortBy, queryParams.priority],
+    );
 
     async function handleSubmitCreateForm(values: TaskFormValues) {
         await createTask(values);
@@ -147,7 +150,7 @@ export function TasksPage() {
                 openCreateModal={createModal.openModal}
                 openEditModal={editModal.openModal}
                 taskViewMode={view}
-                filters={filter}
+                filters={memoFilters}
                 setQuerySearchValue={setSearch}
                 searchValue={searchInputValue}
                 setSearchValue={setSearchInputValue}

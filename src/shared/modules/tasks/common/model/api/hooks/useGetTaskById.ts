@@ -1,28 +1,35 @@
-import { useState } from 'react';
-import { handleError } from '../../../../../../infrastructure/errors/handle-error.ts';
+import { useCallback, useEffect, useState } from 'react';
+import { useAsyncAction } from '../../../../../../hooks/useAsyncAction.ts';
 import type { Nullable } from '../../../../../../types/common.ts';
 import type { Task } from '../../task.types.ts';
 import { TasksApiService } from '../tasks.api-service.ts';
 
-export function useGetTaskById() {
-    const [isLoading, setIsLoading] = useState(false);
+export function useGetTaskById(taskId: string | null) {
     const [task, setTask] = useState<Nullable<Task>>(null);
 
-    async function getTaskById(taskId: string) {
-        try {
-            setIsLoading(true);
-            const task = await TasksApiService.findById(taskId);
+    const getTaskByIdRequest = useCallback(
+        (taskId: string, signal: AbortSignal) => TasksApiService.findById(taskId, signal),
+        [],
+    );
+
+    const { isLoading, execute: getTaskById } = useAsyncAction(getTaskByIdRequest);
+
+    useEffect(() => {
+        if (!taskId) return;
+        const controller = new AbortController();
+
+        async function fetchTask() {
+            const task = await getTaskById(taskId!, controller.signal);
+
+            if (!task || controller.signal.aborted) return;
 
             setTask(task);
-            return task;
-        } catch (error: unknown) {
-            handleError(error);
-            setTask(null);
-            return null;
-        } finally {
-            setIsLoading(false);
         }
-    }
 
-    return { getTaskById, isLoading, task, setTask };
+        void fetchTask();
+
+        return () => controller.abort();
+    }, [getTaskById, setTask, taskId]);
+
+    return { isTaskLoading: isLoading, task, setTask };
 }
