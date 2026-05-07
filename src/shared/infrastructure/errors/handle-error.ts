@@ -18,8 +18,6 @@ export const handleError = (
     if (appError.code === AppErrorCodes.unauthorized && logoutOnUnauthorized) {
         removeAccessToken();
         void router.navigate(options.redirectTo, { replace: true });
-        // TODO: There is a problem with "router" import from "app" folder.
-        //  It is should not be imported this way, but I do not know how to fix it.
     }
 
     if (showToast) toast.error(appError.message);

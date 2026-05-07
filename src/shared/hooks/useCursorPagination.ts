@@ -14,9 +14,8 @@ import type { CursorPaginationResponse, CursorParam, CursorParams } from '../typ
 export function useCursorPagination<
     RequestData,
     ResponseBody extends CursorPaginationResponse<RequestData>,
-    RequestQuery extends CursorParams,
 >(
-    apiRequest: (params: Partial<RequestQuery>, signal: AbortSignal) => Promise<ResponseBody>,
+    apiRequest: (params: Partial<CursorParams>, signal: AbortSignal) => Promise<ResponseBody>,
     setItems: Dispatch<SetStateAction<RequestData[]>>,
     enabled: boolean,
     limit: number = 10,
@@ -47,12 +46,7 @@ export function useCursorPagination<
                 setNextCursor(null);
                 setItems([]);
 
-                const params = mapQueryParams({
-                    cursor: null,
-                    limit,
-                } as Partial<RequestQuery>);
-                // TODO 1.1: is it okay to have "as" in this kind of case ?
-
+                const params = mapQueryParams({ cursor: null, limit });
                 const page = await apiRequest(params, controller.signal);
 
                 if (controller.signal.aborted) return;
@@ -83,8 +77,7 @@ export function useCursorPagination<
         try {
             setIsFetchingNextPage(true);
 
-            const params = mapQueryParams({ cursor: nextCursor, limit } as Partial<RequestQuery>);
-            // TODO 1.2: is it okay to have "as" in this kind of case ?
+            const params = mapQueryParams({ cursor: nextCursor, limit });
             const page = await apiRequest(params, controller.signal);
 
             if (controller.signal.aborted) return;
