@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -14,8 +15,16 @@ import {
     CardTitle,
 } from '../../../../shared/components/shadcn/ui/card.tsx';
 import { FieldGroup } from '../../../../shared/components/shadcn/ui/field.tsx';
-import type { User } from '../../../../shared/modules/users/user-api.types.ts';
+import type { User } from '../../../../shared/modules/users/user-api.types-domain.ts';
 import { profileFormSchema, type ProfileFormValues } from '../../model/profile.schema.ts';
+
+function mapUserToFormValues(user: User): ProfileFormValues {
+    return {
+        name: user.name ?? '',
+        surname: user.surname ?? '',
+        birthday: user.birthday ? format(user.birthday, 'yyyy-MM-dd') : '',
+    };
+}
 
 interface ProfileFormProps {
     user: User;
@@ -23,14 +32,6 @@ interface ProfileFormProps {
     submitError: string | null;
     isSubmitSuccess: boolean;
     onSubmit: (values: ProfileFormValues) => Promise<void>;
-}
-
-function mapUserToFormValues(user: User): ProfileFormValues {
-    return {
-        name: user.name ?? '',
-        surname: user.surname ?? '',
-        birthday: user.birthday ?? '',
-    };
 }
 
 export function ProfileForm({

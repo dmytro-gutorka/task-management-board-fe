@@ -1,4 +1,4 @@
-export interface User {
+export interface UserDto {
     id: number;
     email: string;
     name: string | null;
@@ -8,11 +8,8 @@ export interface User {
     updatedAt: string;
 }
 
-export interface UpdateMePayload {
+export interface UpdateMeDto {
     name?: string;
     surname?: string;
     birthday?: string | null;
 }
-
-export type UpdateMeResponse = User;
-export type GetMeResponse = User;
