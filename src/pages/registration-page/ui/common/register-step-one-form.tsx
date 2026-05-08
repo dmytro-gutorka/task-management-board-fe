@@ -61,7 +61,7 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
                 </FieldGroup>
             </form>
 
-            <CardFooter>
+            <CardFooter className="bg-transparent border-y-transparent px-0">
                 <Button
                     className="w-full"
                     type="submit"

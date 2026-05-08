@@ -1,6 +1,6 @@
 import { UserRound } from 'lucide-react';
-import { TabsTrigger } from '../../../../../shared/components/shadcn/ui/tabs.tsx';
-import type { ProfileTab } from '../../../model/profile-page.types.ts';
+import { TabsTrigger } from '../../../../shared/components/shadcn/ui/tabs.tsx';
+import type { ProfileTab } from '../../model/profile-page.types.ts';
 
 interface ProfileTabTriggerProps {
     title: string;
