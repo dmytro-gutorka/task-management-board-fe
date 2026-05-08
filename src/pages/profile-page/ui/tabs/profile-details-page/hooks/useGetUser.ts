@@ -1,7 +1,7 @@
 import { type Dispatch, type SetStateAction, useCallback, useEffect } from 'react';
-import { useAsyncAction } from '../../../../shared/hooks/useAsyncAction.ts';
-import { UserApiService } from '../../../../shared/modules/users/user-api.service.ts';
-import type { User } from '../../../../shared/modules/users/user-api.types-domain.ts';
+import { useAsyncAction } from '../../../../../../shared/hooks/useAsyncAction.ts';
+import { UserApiService } from '../../../../../../shared/modules/users/user-api.service.ts';
+import type { User } from '../../../../../../shared/modules/users/user-api.types-domain.ts';
 
 export function useGetUser(setUser: Dispatch<SetStateAction<User>>) {
     const getUserRequest = useCallback((signal: AbortSignal) => UserApiService.getMe(signal), []);

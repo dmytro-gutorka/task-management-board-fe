@@ -2,19 +2,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormFieldController } from '../../../../../shared/components/form-field-controller.tsx';
-import { Alert, AlertDescription } from '../../../../../shared/components/shadcn/ui/alert.tsx';
-import { Button } from '../../../../../shared/components/shadcn/ui/button.tsx';
+import { FormFieldController } from '../../../../../../shared/components/form-field-controller.tsx';
+import { Alert, AlertDescription } from '../../../../../../shared/components/shadcn/ui/alert.tsx';
+import { Button } from '../../../../../../shared/components/shadcn/ui/button.tsx';
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from '../../../../../shared/components/shadcn/ui/card.tsx';
-import { FieldGroup } from '../../../../../shared/components/shadcn/ui/field.tsx';
-import type { User } from '../../../../../shared/modules/users/user-api.types-domain.ts';
-import { profileFormSchema, type ProfileFormValues } from '../../../model/profile.schema.ts';
+} from '../../../../../../shared/components/shadcn/ui/card.tsx';
+import { FieldGroup } from '../../../../../../shared/components/shadcn/ui/field.tsx';
+import type { User } from '../../../../../../shared/modules/users/user-api.types-domain.ts';
+import { profileFormSchema, type ProfileFormValues } from '../../../../model/profile.schema.ts';
 
 function mapUserToFormValues(user: User): ProfileFormValues {
     return {

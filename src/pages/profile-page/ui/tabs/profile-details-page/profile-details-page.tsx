@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { PageLoaderOverlay } from '../../../../../shared/components/PageLoaderOverlay.tsx';
-import { useGetUser } from '../../../model/hooks/useGetUser.ts';
-import { useUpdateUser } from '../../../model/hooks/useUpdateUser.ts';
-import { ProfileForm } from '../../common/ui/profile-form.tsx';
+import { useGetUser } from './hooks/useGetUser.ts';
+import { useUpdateUserProfile } from './hooks/useUpdateUserProfile.ts';
+import { ProfileForm } from './ui/profile-form.tsx';
 import type { User } from '../../../../../shared/modules/users/user-api.types-domain.ts';
 
 export function ProfileDetailsPage() {
     const [user, setUser] = useState<User | null>(null);
 
     const { isUserLoading } = useGetUser(setUser);
-    const { isUserUpdating, isSubmitSuccess, handleSubmit } = useUpdateUser(setUser);
+    const { isUserUpdating, isSubmitSuccess, handleSubmit } = useUpdateUserProfile(setUser);
 
     return (
         <>
