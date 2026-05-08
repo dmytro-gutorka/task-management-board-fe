@@ -4,6 +4,7 @@ export interface UserDto {
     name: string | null;
     surname: string | null;
     birthday: string | null;
+    lastLoginAt: string;
     createdAt: string;
     updatedAt: string;
 }
