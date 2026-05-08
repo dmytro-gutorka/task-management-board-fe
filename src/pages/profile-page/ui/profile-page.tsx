@@ -13,8 +13,8 @@ import type { ProfileTab } from '../model/profile-page.types.ts';
 import { ProfileTabTrigger } from './tabs/ui/profile-tab-trigger.tsx';
 
 export function ProfilePage() {
-    const location = useLocation();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const activeTab = getActiveTab(location.pathname);
 

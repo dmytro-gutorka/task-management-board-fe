@@ -2,20 +2,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { FormFieldController } from '../../../../shared/components/form-field-controller.tsx';
-import { Alert, AlertDescription } from '../../../../shared/components/shadcn/ui/alert.tsx';
-import { Button } from '../../../../shared/components/shadcn/ui/button.tsx';
+import { FormFieldController } from '../../../../../shared/components/form-field-controller.tsx';
+import { Alert, AlertDescription } from '../../../../../shared/components/shadcn/ui/alert.tsx';
+import { Button } from '../../../../../shared/components/shadcn/ui/button.tsx';
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from '../../../../shared/components/shadcn/ui/card.tsx';
-import { FieldGroup } from '../../../../shared/components/shadcn/ui/field.tsx';
-import type { User } from '../../../../shared/modules/users/user-api.types-domain.ts';
-import { profileFormSchema, type ProfileFormValues } from '../../model/profile.schema.ts';
+} from '../../../../../shared/components/shadcn/ui/card.tsx';
+import { FieldGroup } from '../../../../../shared/components/shadcn/ui/field.tsx';
+import type { User } from '../../../../../shared/modules/users/user-api.types-domain.ts';
+import { profileFormSchema, type ProfileFormValues } from '../../../model/profile.schema.ts';
 
 function mapUserToFormValues(user: User): ProfileFormValues {
     return {
@@ -28,18 +27,11 @@ function mapUserToFormValues(user: User): ProfileFormValues {
 interface ProfileFormProps {
     user: User;
     isSubmitting: boolean;
-    submitError: string | null;
     isSubmitSuccess: boolean;
     onSubmit: (values: ProfileFormValues) => Promise<void>;
 }
 
-export function ProfileForm({
-    user,
-    isSubmitting,
-    submitError,
-    isSubmitSuccess,
-    onSubmit,
-}: ProfileFormProps) {
+export function ProfileForm({ user, isSubmitting, isSubmitSuccess, onSubmit }: ProfileFormProps) {
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
         defaultValues: mapUserToFormValues(user),
@@ -74,12 +66,6 @@ export function ProfileForm({
                 {isSubmitSuccess && !isDirty && (
                     <Alert>
                         <AlertDescription>Profile was successfully updated.</AlertDescription>
-                    </Alert>
-                )}
-
-                {submitError && (
-                    <Alert variant="destructive">
-                        <AlertDescription>{submitError}</AlertDescription>
                     </Alert>
                 )}
 
