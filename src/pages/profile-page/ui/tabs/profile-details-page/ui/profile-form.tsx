@@ -16,12 +16,13 @@ import { FieldGroup } from '../../../../../../shared/components/shadcn/ui/field.
 import type { User } from '../../../../../../shared/modules/users/user-api.types-domain.ts';
 import { profileFormSchema, type ProfileFormValues } from '../../../../model/profile.schema.ts';
 import { mapUserToFormValues } from '../helpers/mapUserToFormValues.ts';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileFormProps {
     user: User;
     isSubmitting: boolean;
     isSubmitSuccess: boolean;
-    onSubmit: (values: ProfileFormValues) => Promise<void>;
+    onSubmit: (values: ProfileFormValues) => string;
 }
 
 export function ProfileForm({ user, isSubmitting, isSubmitSuccess, onSubmit }: ProfileFormProps) {
@@ -30,6 +31,8 @@ export function ProfileForm({ user, isSubmitting, isSubmitSuccess, onSubmit }: P
         defaultValues: mapUserToFormValues(user),
         mode: 'onChange',
     });
+
+    const data = '';
 
     const isDirty = form.formState.isDirty;
     const isValid = form.formState.isValid;
