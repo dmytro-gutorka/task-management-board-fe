@@ -1,7 +1,7 @@
+import { TASKS_ROUTES } from '../../../../shared/constants/routes/tasks.routes.ts';
 import { cn } from '../../../../shared/helpers/shadcn.utils.ts';
 import { useTranslation } from 'react-i18next';
 import { generatePath, Link } from 'react-router-dom';
-import { GENERAL_ROUTES } from '../../../../shared/constants/routes/general.routes.ts';
 import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 import { getTaskStatusConfig } from '../../../../shared/modules/tasks/task-card/model/task-card.configs.ts';
 
@@ -13,7 +13,7 @@ export function TaskListCard({ task }: TaskListItemProps) {
     const { t } = useTranslation();
 
     const TaskStatusIcon = getTaskStatusConfig(t)[task.status].icon;
-    const taskDetailsPagePath = generatePath(GENERAL_ROUTES.TASKS_DETAILS_PAGE, {
+    const taskDetailsPagePath = generatePath(TASKS_ROUTES.TASKS_DETAILS_PAGE, {
         taskId: task.id,
     });
 

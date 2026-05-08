@@ -1,4 +1,4 @@
-import { Shield, SlidersHorizontal, UserRound } from 'lucide-react';
+import { PROFILE_TABS, tabRoutes } from '../model/profile-page.constants.ts';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
     Card,
@@ -7,10 +7,10 @@ import {
     CardHeader,
     CardTitle,
 } from '../../../shared/components/shadcn/ui/card.tsx';
-import { Tabs, TabsList, TabsTrigger } from '../../../shared/components/shadcn/ui/tabs.tsx';
-import type { ProfileTab } from '../model/profile-page.types.ts';
+import { Tabs, TabsList } from '../../../shared/components/shadcn/ui/tabs.tsx';
 import { getActiveTab } from '../model/helpers/getActiveTab.ts';
-import { getTabPath } from '../model/helpers/getTabPath.ts';
+import type { ProfileTab } from '../model/profile-page.types.ts';
+import { ProfileTabTrigger } from './tabs/ui/profile-tab-trigger.tsx';
 
 export function ProfilePage() {
     const location = useLocation();
@@ -19,7 +19,7 @@ export function ProfilePage() {
     const activeTab = getActiveTab(location.pathname);
 
     function handleTabChange(tab: ProfileTab) {
-        void navigate(getTabPath(tab));
+        void navigate(tabRoutes[tab]);
     }
 
     return (
@@ -39,48 +39,22 @@ export function ProfilePage() {
                     </CardHeader>
 
                     <CardContent className="pb-8">
-                        <TabsList className="grid h-auto w-full grid-cols-1 items-stretch gap-2 p-1 md:grid-cols-3">
-                            <TabsTrigger
-                                value="details"
-                                className="flex h-full min-h-16 items-center justify-start gap-3 whitespace-normal rounded-md px-3 py-3 text-left"
-                            >
-                                <UserRound className="size-4 shrink-0" />
-
-                                <span className="flex min-w-0 flex-col items-start">
-                                    <span className="font-medium">Profile</span>
-                                    <span className="text-wrap text-xs font-normal text-muted-foreground">
-                                        Basic user information
-                                    </span>
-                                </span>
-                            </TabsTrigger>
-
-                            <TabsTrigger
-                                value="preferences"
-                                className="flex h-full min-h-16 items-center justify-start gap-3 whitespace-normal rounded-md px-3 py-3 text-left"
-                            >
-                                <SlidersHorizontal className="size-4 shrink-0" />
-
-                                <span className="flex min-w-0 flex-col items-start">
-                                    <span className="font-medium">Preferences</span>
-                                    <span className="text-wrap text-xs font-normal text-muted-foreground">
-                                        Application settings
-                                    </span>
-                                </span>
-                            </TabsTrigger>
-
-                            <TabsTrigger
-                                value="security"
-                                className="flex h-full min-h-16 items-center justify-start gap-3 whitespace-normal rounded-md px-3 py-3 text-left"
-                            >
-                                <Shield className="size-4 shrink-0" />
-
-                                <span className="flex min-w-0 flex-col items-start">
-                                    <span className="font-medium">Security</span>
-                                    <span className="text-wrap text-xs font-normal text-muted-foreground">
-                                        Account security actions
-                                    </span>
-                                </span>
-                            </TabsTrigger>
+                        <TabsList className="grid h-auto w-full grid-cols-1 items-stretch gap-2 p-1 md:grid-cols-3 bg-transparent">
+                            <ProfileTabTrigger
+                                tab={PROFILE_TABS.DETAILS}
+                                title="Profile"
+                                description="Basic user information"
+                            />
+                            <ProfileTabTrigger
+                                tab={PROFILE_TABS.PREFERENCES}
+                                title="Preferences"
+                                description="Application settings"
+                            />
+                            <ProfileTabTrigger
+                                tab={PROFILE_TABS.SECURITY}
+                                title="Security"
+                                description="Acount security actions"
+                            />
                         </TabsList>
                     </CardContent>
                 </Card>

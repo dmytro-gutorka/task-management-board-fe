@@ -23,5 +23,5 @@ export type HandleErrorOptions = {
     log?: boolean;
     logoutOnUnauthorized?: boolean;
     fallbackMessage?: string;
-    redirectTo: string;
+    redirectTo?: string;
 };

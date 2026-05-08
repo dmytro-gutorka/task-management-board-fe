@@ -7,7 +7,7 @@ export function mapTaskTiInitialValues(task: Task): TaskFormInitialValues {
         description: task.description,
         status: task.status,
         priority: task.priority,
-        deadline: task.deadline,
+        deadline: task.deadline || '',
         isPrivate: task.isPrivate,
     };
 }
