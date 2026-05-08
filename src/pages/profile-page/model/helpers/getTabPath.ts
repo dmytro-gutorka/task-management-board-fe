@@ -1,5 +1,5 @@
-import { PROFILE_ROUTES } from '../../../../../../shared/constants/routes/profile.routes.ts';
-import type { ProfileTab } from '../../../../model/profile-page.types.ts';
+import { PROFILE_ROUTES } from '../../../../shared/constants/routes/profile.routes.ts';
+import type { ProfileTab } from '../profile-page.types.ts';
 
 export function getTabPath(tab: ProfileTab) {
     const tabRoutes: Record<ProfileTab, string> = {

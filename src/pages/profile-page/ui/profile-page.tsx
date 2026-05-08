@@ -9,8 +9,8 @@ import {
 } from '../../../shared/components/shadcn/ui/card.tsx';
 import { Tabs, TabsList, TabsTrigger } from '../../../shared/components/shadcn/ui/tabs.tsx';
 import type { ProfileTab } from '../model/profile-page.types.ts';
-import { getActiveTab } from './tabs/model/helpers/getActiveTab.ts';
-import { getTabPath } from './tabs/model/helpers/getTabPath.ts';
+import { getActiveTab } from '../model/helpers/getActiveTab.ts';
+import { getTabPath } from '../model/helpers/getTabPath.ts';
 
 export function ProfilePage() {
     const location = useLocation();

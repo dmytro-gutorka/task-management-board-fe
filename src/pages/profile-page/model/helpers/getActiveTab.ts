@@ -1,5 +1,5 @@
-import { PROFILE_TABS } from '../../../../model/profile-page.constants.ts';
-import type { ProfileTab } from '../../../../model/profile-page.types.ts';
+import { PROFILE_TABS } from '../profile-page.constants.ts';
+import type { ProfileTab } from '../profile-page.types.ts';
 
 export function getActiveTab(pathname: string): ProfileTab {
     const profileTabs = Object.values(PROFILE_TABS);
