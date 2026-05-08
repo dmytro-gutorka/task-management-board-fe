@@ -15,7 +15,10 @@ import {
 import { FieldGroup } from '../../../../../../shared/components/shadcn/ui/field.tsx';
 import type { User } from '../../../../../../shared/modules/users/user-api.types-domain.ts';
 import { profileFormSchema, type ProfileFormValues } from '../../../../model/profile.schema.ts';
+import { calculateProfileCompleteness } from '../helpers/calculateProfileCompleteness.ts';
 import { mapUserToFormValues } from '../helpers/mapUserToFormValues.ts';
+import { useWatch } from 'react-hook-form';
+import { ProfileCompletenessCard } from './profile-completeness-card.tsx';
 
 interface ProfileFormProps {
     user: User;
@@ -31,6 +34,12 @@ export function ProfileForm({ user, isSubmitting, isSubmitSuccess, onSubmit }: P
         defaultValues: mapUserToFormValues(user),
         mode: 'onChange',
     });
+    const formValues = useWatch({ control: form.control });
+
+    const completeness = calculateProfileCompleteness({
+        user,
+        formValues,
+    });
 
     const isDirty = form.formState.isDirty;
     const isValid = form.formState.isValid;
@@ -44,75 +53,78 @@ export function ProfileForm({ user, isSubmitting, isSubmitSuccess, onSubmit }: P
     }
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Personal information</CardTitle>
-                <CardDescription>Update your basic profile information.</CardDescription>
-            </CardHeader>
+        <>
+            <ProfileCompletenessCard value={completeness} />
+            <Card>
+                <CardHeader>
+                    <CardTitle>Personal information</CardTitle>
+                    <CardDescription>Update your basic profile information.</CardDescription>
+                </CardHeader>
 
-            <CardContent className="space-y-4">
-                {isDirty && (
-                    <Alert>
-                        <AlertDescription>You have unsaved changes.</AlertDescription>
-                    </Alert>
-                )}
+                <CardContent className="space-y-4">
+                    {isDirty && (
+                        <Alert>
+                            <AlertDescription>You have unsaved changes.</AlertDescription>
+                        </Alert>
+                    )}
 
-                {isSubmitSuccess && !isDirty && (
-                    <Alert>
-                        <AlertDescription>Profile was successfully updated.</AlertDescription>
-                    </Alert>
-                )}
+                    {isSubmitSuccess && !isDirty && (
+                        <Alert>
+                            <AlertDescription>Profile was successfully updated.</AlertDescription>
+                        </Alert>
+                    )}
 
-                <form
-                    id="profile-form"
-                    onSubmit={(event) => {
-                        void form.handleSubmit(onSubmit)(event);
-                    }}
-                >
-                    <FieldGroup>
-                        <FormFieldController
-                            control={form.control}
-                            name="name"
-                            label="Name"
-                            placeholder="Enter your name"
-                        />
-
-                        <FormFieldController
-                            control={form.control}
-                            name="surname"
-                            label="Surname"
-                            placeholder="Enter your surname"
-                        />
-
-                        <FormFieldController
-                            control={form.control}
-                            name="birthday"
-                            type="date"
-                            label="Birthday"
-                        />
-                    </FieldGroup>
-                </form>
-
-                <div className="flex justify-end gap-2">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        disabled={!isDirty || isSubmitting}
-                        onClick={handleCancel}
+                    <form
+                        id="profile-form"
+                        onSubmit={(event) => {
+                            void form.handleSubmit(onSubmit)(event);
+                        }}
                     >
-                        Cancel
-                    </Button>
+                        <FieldGroup>
+                            <FormFieldController
+                                control={form.control}
+                                name="name"
+                                label="Name"
+                                placeholder="Enter your name"
+                            />
 
-                    <Button
-                        type="submit"
-                        form="profile-form"
-                        disabled={!isDirty || !isValid || isSubmitting}
-                    >
-                        {isSubmitting && <Loader2 className="mr-2 size-4 animate-spin" />}
-                        Save changes
-                    </Button>
-                </div>
-            </CardContent>
-        </Card>
+                            <FormFieldController
+                                control={form.control}
+                                name="surname"
+                                label="Surname"
+                                placeholder="Enter your surname"
+                            />
+
+                            <FormFieldController
+                                control={form.control}
+                                name="birthday"
+                                type="date"
+                                label="Birthday"
+                            />
+                        </FieldGroup>
+                    </form>
+
+                    <div className="flex justify-end gap-2">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            disabled={!isDirty || isSubmitting}
+                            onClick={handleCancel}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            type="submit"
+                            form="profile-form"
+                            disabled={!isDirty || !isValid || isSubmitting}
+                        >
+                            {isSubmitting && <Loader2 className="mr-2 size-4 animate-spin" />}
+                            Save changes
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+        </>
     );
 }

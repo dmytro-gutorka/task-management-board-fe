@@ -9,7 +9,8 @@ export function mapUserDtoToUser(dto: UserDto): User {
         name: dto.name ?? '',
         surname: dto.surname ?? '',
         birthday: dto.birthday ? format(new Date(dto.birthday), 'yyyy-MM-dd') : null,
-        lastLoginAt: new Date(dto.lastLoginAt),
+        avatarUrl: dto.avatarUrl ?? null,
+        lastLoginAt: dto.lastLoginAt ? new Date(dto.lastLoginAt) : null,
         createdAt: new Date(dto.createdAt),
         updatedAt: new Date(dto.updatedAt),
     };
