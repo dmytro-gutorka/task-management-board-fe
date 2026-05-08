@@ -24,5 +24,5 @@ export function useGetUser(setUser: Dispatch<SetStateAction<User>>) {
         return () => controller.abort();
     }, [execute, setUser]);
 
-    return { getUser: execute, isUserLoading: isLoading };
+    return { isUserLoading: isLoading };
 }
