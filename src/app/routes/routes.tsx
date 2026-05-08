@@ -1,28 +1,39 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { Layout } from '@/shared/components/layout';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { Layout } from '../../shared/components/layout.tsx';
 import { LoginPage } from '../../pages/login-page';
-import { ProfilePage } from '../../pages/profile-page/ui/profile-page.tsx';
+import {
+    ProfileDetailsPage,
+    ProfilePage,
+    ProfilePreferencesPage,
+    ProfileSecurityPage,
+} from '../../pages/profile-page';
+
 import { RegisterPage } from '../../pages/registration-page';
-import { ROUTES } from '../../shared/constants/routes.constants.ts';
-import { TasksPage } from '@/pages/tasks-page';
-import { TasksDetailsPage } from '@/pages/tasks-details-page';
+import { GENERAL_ROUTES } from '../../shared/constants/routes/general.routes.ts';
+import { TasksPage } from '../../pages/tasks-page';
+import { TasksDetailsPage } from '../../pages/tasks-details-page';
+import {
+    PROFILE_ROUTE_SEGMENTS,
+    PROFILE_ROUTES,
+} from '../../shared/constants/routes/profile.routes.ts';
+import { TASKS_ROUTES } from '../../shared/constants/routes/tasks.routes.ts';
 import { ProtectedRoute } from './custom-routes/protected-route.tsx';
 import { PublicOnlyRoute } from './custom-routes/public-route.tsx';
 
 export const router = createBrowserRouter([
     {
-        path: ROUTES.HOME,
+        path: GENERAL_ROUTES.HOME,
         element: <Layout />,
         children: [
             {
                 element: <PublicOnlyRoute />,
                 children: [
                     {
-                        path: ROUTES.LOGIN_PAGE,
+                        path: GENERAL_ROUTES.LOGIN_PAGE,
                         element: <LoginPage />,
                     },
                     {
-                        path: ROUTES.REGISTRATION_PAGE,
+                        path: GENERAL_ROUTES.REGISTRATION_PAGE,
                         element: <RegisterPage />,
                     },
                 ],
@@ -35,16 +46,34 @@ export const router = createBrowserRouter([
                         element: <TasksPage />,
                     },
                     {
-                        path: ROUTES.TASKS_PAGE,
+                        path: TASKS_ROUTES.TASKS_PAGE,
                         element: <TasksPage />,
                     },
                     {
-                        path: ROUTES.TASKS_DETAILS_PAGE,
+                        path: TASKS_ROUTES.TASKS_DETAILS_PAGE,
                         element: <TasksDetailsPage />,
                     },
                     {
-                        path: ROUTES.PROFILE_PAGE,
+                        path: PROFILE_ROUTES.PROFILE_PAGE,
                         element: <ProfilePage />,
+                        children: [
+                            {
+                                index: true,
+                                element: <Navigate to={PROFILE_ROUTE_SEGMENTS.DETAILS} replace />,
+                            },
+                            {
+                                path: PROFILE_ROUTE_SEGMENTS.DETAILS,
+                                element: <ProfileDetailsPage />,
+                            },
+                            {
+                                path: PROFILE_ROUTE_SEGMENTS.PREFERENCES,
+                                element: <ProfilePreferencesPage />,
+                            },
+                            {
+                                path: PROFILE_ROUTE_SEGMENTS.SECURITY,
+                                element: <ProfileSecurityPage />,
+                            },
+                        ],
                     },
                 ],
             },

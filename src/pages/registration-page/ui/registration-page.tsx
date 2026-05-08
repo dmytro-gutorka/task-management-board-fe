@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../shared/constants/routes.constants.ts';
+import { GENERAL_ROUTES } from '../../../shared/constants/routes/general.routes.ts';
 import type { RegisterStepTwoValues } from '../../../shared/infrastructure/auth/auth.schema.ts';
 import {
     LOCAL_STORAGE_BOOLEANS,
@@ -23,7 +23,7 @@ export function RegisterPage() {
         if (!isSuccess) return;
         setStep(1);
 
-        void navigate(ROUTES.HOME, { replace: true });
+        void navigate(GENERAL_ROUTES.HOME, { replace: true });
     }
 
     function handleSkip() {
@@ -34,7 +34,7 @@ export function RegisterPage() {
             LOCAL_STORAGE_BOOLEANS.TRUE,
         );
 
-        void navigate(ROUTES.HOME, { replace: true });
+        void navigate(GENERAL_ROUTES.HOME, { replace: true });
     }
 
     return (
@@ -54,7 +54,10 @@ export function RegisterPage() {
                 )}
                 <p className="text-center text-sm text-muted-foreground">
                     {t('register.form-labels.common.have-account', { ns: 'auth' })}
-                    <Link to={ROUTES.LOGIN_PAGE} className="pl-[1ch] font-medium text-primary">
+                    <Link
+                        to={GENERAL_ROUTES.LOGIN_PAGE}
+                        className="pl-[1ch] font-medium text-primary"
+                    >
                         {t('register.form-labels.common.login-link', { ns: 'auth' })}
                     </Link>
                 </p>

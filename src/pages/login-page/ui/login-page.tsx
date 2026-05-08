@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import { TASKS_ROUTES } from '../../../shared/constants/routes/tasks.routes.ts';
 import type { LoginFormValues } from '../../../shared/infrastructure/auth/auth.schema.ts';
 import { useAuth } from '../../../shared/providers/auth-provider/auth.provider.tsx';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../shared/constants/routes.constants.ts';
+import { GENERAL_ROUTES } from '../../../shared/constants/routes/general.routes.ts';
 import type { FromPathLocationState } from '../../../shared/types/common.ts';
 import { LoginForm } from './common/login-form.tsx';
 
@@ -19,7 +20,7 @@ export function LoginPage() {
         if (!isSuccess) return;
 
         const state = location.state as FromPathLocationState | null;
-        const from = state?.from?.pathname ?? ROUTES.TASKS_PAGE;
+        const from = state?.from?.pathname ?? TASKS_ROUTES.TASKS_PAGE;
 
         void navigate(from, { replace: true });
     }
@@ -32,7 +33,7 @@ export function LoginPage() {
                 <p className="text-center text-sm text-muted-foreground">
                     {t('login.form-labels.have-account', { ns: 'auth' })}
                     <Link
-                        to={ROUTES.REGISTRATION_PAGE}
+                        to={GENERAL_ROUTES.REGISTRATION_PAGE}
                         className="pl-[1ch] font-medium text-primary"
                     >
                         {t('login.form-labels.register-link', { ns: 'auth' })}

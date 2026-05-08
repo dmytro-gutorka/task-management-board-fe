@@ -1,7 +1,7 @@
 import { Loader2, LogOut } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../constants/routes.constants.ts';
+import { GENERAL_ROUTES } from '../constants/routes/general.routes.ts';
 import { Button } from './shadcn/ui/button.tsx';
 import { useAuth } from '../providers/auth-provider/auth.provider.tsx';
 
@@ -13,7 +13,7 @@ export function LogoutButton() {
 
     async function handleLogout() {
         await logout();
-        void navigate(ROUTES.LOGIN_PAGE, { replace: true });
+        void navigate(GENERAL_ROUTES.LOGIN_PAGE, { replace: true });
     }
 
     if (!isAuthenticated) return null;

@@ -11,7 +11,7 @@ import {
 } from '@/shared/components/shadcn/ui/card';
 import { Badge } from '@/shared/components/shadcn/ui/badge';
 import { Button } from '@/shared/components/shadcn/ui/button';
-import { ROUTES } from '../../../../shared/constants/routes.constants.ts';
+import { TASKS_ROUTES } from '../../../../shared/constants/routes/tasks.routes.ts';
 import { formatDeadline } from '../../../../shared/modules/tasks/common/model/helpers/formatDeadline.ts';
 import type { Task } from '../../../../shared/modules/tasks/common/model/task.types.ts';
 import {
@@ -31,7 +31,7 @@ export function TaskGridCard({ task, onOpenEditModal, onOpenDeleteModal }: TaskG
     const statusConfig = getTaskStatusConfig(t)[task.status];
     const priorityConfig = getTaskPriorityConfig(t)[task.priority];
 
-    const taskDetailsPagePath = generatePath(ROUTES.TASKS_DETAILS_PAGE, {
+    const taskDetailsPagePath = generatePath(TASKS_ROUTES.TASKS_DETAILS_PAGE, {
         taskId: task.id,
     });
 

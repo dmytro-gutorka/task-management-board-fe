@@ -3,7 +3,8 @@ import { TooltipProvider } from '@/shared/components/shadcn/ui/tooltip';
 import { NotebookText } from 'lucide-react';
 import { ThemeToggle } from '@/shared/components/theme-toggle';
 import { Link } from 'react-router-dom';
-import { ROUTES } from '../constants/routes.constants.ts';
+import { PROFILE_ROUTES } from '../constants/routes/profile.routes.ts';
+import { TASKS_ROUTES } from '../constants/routes/tasks.routes.ts';
 import { LogoutButton } from './logout-button.tsx';
 import { LanguageSwitcher } from './language-switcher.tsx';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +18,7 @@ export function Header() {
         <>
             <TooltipProvider delayDuration={150}>
                 <div className="flex justify-between p-4">
-                    <Link to={ROUTES.TASKS_PAGE}>
+                    <Link to={TASKS_ROUTES.TASKS_PAGE}>
                         <div className="flex items-center space-x-2">
                             <NotebookText className="h-6 w-6" />
                             <h2 className="text-1xl font-semibold">
@@ -29,11 +30,11 @@ export function Header() {
                         <ThemeToggle />
                         <LanguageSwitcher />
                         <LogoutButton />
-                        <Button variant="outline">
-                            <Link to={ROUTES.PROFILE_PAGE}>
+                        <Link to={PROFILE_ROUTES.PROFILE_PAGE}>
+                            <Button variant="outline">
                                 <CircleUser />
-                            </Link>
-                        </Button>
+                            </Button>
+                        </Link>
                     </div>
                 </div>
                 <Separator />

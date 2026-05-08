@@ -1,5 +1,5 @@
 import { router } from '../../../app/routes/routes.tsx';
-import { ROUTES } from '../../constants/routes.constants.ts';
+import { TASKS_ROUTES } from '../../constants/routes/tasks.routes.ts';
 import type { AppError, HandleErrorOptions } from './model/error.types.ts';
 import { removeAccessToken } from '../auth/auth.token-helpers.ts';
 import { normalizeError } from './model/helpers/normalize-error.ts';
@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 export const handleError = (
     error: unknown,
-    options: HandleErrorOptions = { redirectTo: ROUTES.TASKS_PAGE },
+    options: HandleErrorOptions = { redirectTo: TASKS_ROUTES.TASKS_PAGE },
 ): AppError => {
     const { showToast = true, log = true, logoutOnUnauthorized = false } = options;
 
