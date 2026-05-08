@@ -11,7 +11,8 @@
     "all:check": "npm run typecheck && npm run lint:fix",
     "dev:ts": "tsc --noEmit --watch --project tsconfig.app.json & vite",
     "typecheck": "tsc --noEmit --project tsconfig.app.json",
-    "build": "tsc -b && vite build"
+    "build": "tsc -b && vite build",
+    "check:types": "tsc --noEmit --project tsconfig.app.json"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
