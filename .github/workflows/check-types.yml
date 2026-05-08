@@ -28,4 +28,4 @@ jobs:
         run: npm ci
 
       - name: Check types
-        run: npm run check:types
+        run: npm run all:check
