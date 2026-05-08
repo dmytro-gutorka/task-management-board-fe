@@ -6,6 +6,6 @@ export function mapUpdateMePayloadToDto(payload: UpdateMePayload): UpdateMeDto {
     return {
         name: payload.name?.trim(),
         surname: payload.surname?.trim(),
-        birthday: payload.birthday ? format(payload.birthday, 'yyyy-MM-dd') : null,
+        birthday: payload.birthday ? format(new Date(payload.birthday), 'yyyy-MM-dd') : null,
     };
 }
