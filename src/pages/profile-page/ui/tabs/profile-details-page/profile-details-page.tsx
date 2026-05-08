@@ -22,7 +22,7 @@ export function ProfileDetailsPage() {
                     onSubmit={handleSubmit}
                 />
             )}
-            {!user && (
+            {!user && !isUserLoading && (
                 <div className="rounded-lg border border-dashed p-6 text-sm text-muted-foreground">
                     Failed to load profile.
                 </div>
