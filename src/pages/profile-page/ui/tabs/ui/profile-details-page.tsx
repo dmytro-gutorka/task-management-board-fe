@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { PageLoaderOverlay } from '../../../../../shared/components/PageLoaderOverlay.tsx';
 import { useGetUser } from '../../../model/hooks/useGetUser.ts';
 import { useUpdateUser } from '../../../model/hooks/useUpdateUser.ts';
-import { ProfileForm } from '../../common/ui/profile-form.tsx';
+import { ProfileForm } from '../profile-details-page/ui/profile-form.tsx';
 import type { User } from '../../../../../shared/modules/users/user-api.types-domain.ts';
 
 export function ProfileDetailsPage() {
