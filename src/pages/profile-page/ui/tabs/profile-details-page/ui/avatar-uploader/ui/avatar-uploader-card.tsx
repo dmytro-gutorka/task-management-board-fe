@@ -17,6 +17,7 @@ import {
     CardHeader,
     CardTitle,
 } from '../../../../../../../../shared/components/shadcn/ui/card.tsx';
+import { Input } from '../../../../../../../../shared/components/shadcn/ui/input.tsx';
 import type { User } from '../../../../../../../../shared/modules/users/user-api.types-domain.ts';
 import type { Nullable } from '../../../../../../../../shared/types/common.ts';
 import { AVATAR_UPLOAD_ALLOWED_EXTENSIONS_LABEL } from '../model/avatar-uploader.constants.ts';
@@ -74,7 +75,7 @@ export function AvatarUploaderCard({
                             </p>
                         </div>
 
-                        <input
+                        <Input
                             ref={inputRef}
                             type="file"
                             accept="image/jpeg,image/png,image/webp"
@@ -84,6 +85,7 @@ export function AvatarUploaderCard({
                                 event.currentTarget.value = '';
                             }}
                             onChange={onFileChange}
+                            aria-label="Upload profile photo"
                         />
 
                         <div className="flex flex-wrap gap-2">
