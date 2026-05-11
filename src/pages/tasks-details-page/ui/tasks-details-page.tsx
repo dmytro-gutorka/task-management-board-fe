@@ -1,7 +1,7 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { PageLoaderOverlay } from '../../../shared/components/PageLoaderOverlay.tsx';
-import { ROUTES } from '../../../shared/constants/routes.constants.ts';
 import { useModalState } from '../../../shared/components/modal/model/hooks/useStateModal.ts';
+import { TASKS_ROUTES } from '../../../shared/constants/routes/tasks.routes.ts';
 import { useGetTaskById } from '../../../shared/modules/tasks/common/model/api/hooks/useGetTaskById.ts';
 import { EditTaskModal } from '../../../shared/modules/tasks/common/ui/edit-task-modal.tsx';
 import { useUpdateTask } from '../../../shared/modules/tasks/common/model/api/hooks/useUpdateTask.ts';
@@ -30,10 +30,10 @@ export function TasksDetailsPage() {
     }
 
     function handleBackToTasks() {
-        void navigate(ROUTES.TASKS_PAGE);
+        void navigate(TASKS_ROUTES.TASKS_PAGE);
     }
 
-    if (!taskId) return <Navigate to={ROUTES.TASKS_PAGE} replace />;
+    if (!taskId) return <Navigate to={TASKS_ROUTES.TASKS_PAGE} replace />;
 
     const shouldShowLoader = isTaskLoading && !task;
     const shouldShowEmptyState = !isTaskLoading && !task;

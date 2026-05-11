@@ -68,7 +68,7 @@ export function RegisterStepTwoForm({ isSubmitting, onSubmit, onSkip }: Register
                 </FieldGroup>
             </form>
 
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-2 bg-transparent border-y-transparent px-0">
                 <Button
                     type="button"
                     disabled={isSubmitting}

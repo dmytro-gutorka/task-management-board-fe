@@ -1,34 +1,42 @@
 import { Separator } from '@/shared/components/shadcn/ui/separator';
 import { TooltipProvider } from '@/shared/components/shadcn/ui/tooltip';
-import { NotebookText } from 'lucide-react';
 import { ThemeToggle } from '@/shared/components/theme-toggle';
-import { httpClient } from '../infrastructure/axios/httpClient.ts';
-import { logger } from '../infrastructure/logger.ts';
+import { useNavigate } from 'react-router-dom';
+import { GENERAL_ROUTES } from '../constants/routes/general.routes.ts';
+import { useAuth } from '../providers/auth-provider/auth.provider.tsx';
+import { AppLogo } from './app-logo.tsx';
 import { LogoutButton } from './logout-button.tsx';
 import { LanguageSwitcher } from './language-switcher.tsx';
-import { useTranslation } from 'react-i18next';
+import { UserProfileButton } from './user-profile-button.tsx';
 
 export function Header() {
-    const { t } = useTranslation(['common', 'tasks']);
+    const { isLogoutLoading, logout, isAuthenticated } = useAuth();
 
-    async function getMe() {
-        const data = await httpClient.get('/users/me');
-        logger.debug(data);
+    const navigate = useNavigate();
+
+    async function handleLogout() {
+        await logout();
+
+        void navigate(GENERAL_ROUTES.LOGIN_PAGE, { replace: true });
     }
 
     return (
         <>
             <TooltipProvider delayDuration={150}>
                 <div className="flex justify-between p-4">
-                    <div className="flex items-center space-x-2">
-                        <NotebookText className="h-6 w-6" />
-                        <h2 className="text-1xl font-semibold">{t('title', { ns: 'tasks' })}</h2>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <ThemeToggle />
-                        <LanguageSwitcher />
-                        <LogoutButton />
-                        <button onClick={() => void getMe()}>Get me</button>
+                    <AppLogo />
+                    <div className="flex items-center space-x-2 gap-8">
+                        <div className="flex items-center space-x-2">
+                            <ThemeToggle />
+                            <LanguageSwitcher />
+                            {isAuthenticated && <UserProfileButton />}
+                        </div>
+                        {isAuthenticated && (
+                            <LogoutButton
+                                isLogoutLoading={isLogoutLoading}
+                                handleLogout={handleLogout}
+                            />
+                        )}
                     </div>
                 </div>
                 <Separator />

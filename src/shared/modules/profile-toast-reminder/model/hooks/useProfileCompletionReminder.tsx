@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { ROUTES } from '../../../../constants/routes.constants.ts';
+import { PROFILE_ROUTES } from '../../../../constants/routes/profile.routes.ts';
 import { ProfileReminderToast } from '../../profile-reminder-toast.tsx';
 import {
     LOCAL_STORAGE_BOOLEANS,
@@ -26,7 +26,7 @@ export function useProfileCompletionReminder() {
     const shownRef = useRef(false);
 
     function handleGoToProfile(t: string | number) {
-        void navigate(ROUTES.PROFILE_PAGE);
+        void navigate(PROFILE_ROUTES.PROFILE_PAGE);
         toast.dismiss(t);
     }
 

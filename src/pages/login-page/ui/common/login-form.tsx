@@ -55,7 +55,7 @@ export function LoginForm({ isSubmitting, onSubmit }: LoginFormProps) {
                 </FieldGroup>
             </form>
 
-            <CardFooter>
+            <CardFooter className="bg-transparent border-y-transparent px-0">
                 <Button type="submit" form="login-form" disabled={isSubmitting} className="w-full">
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {t('common.buttons.sign-in', { ns: 'auth' })}
