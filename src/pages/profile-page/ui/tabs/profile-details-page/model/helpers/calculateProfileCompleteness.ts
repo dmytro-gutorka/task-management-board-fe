@@ -1,10 +1,12 @@
+import type { Nullable } from '../../../../../../../shared/types/common.ts';
+
 type ProfileCompletenessField = keyof ProfileCompletenessValues;
 
 interface ProfileCompletenessValues {
-    avatarUrl?: string | null;
-    name?: string | null;
-    surname?: string | null;
-    birthday?: string | Date | null;
+    avatarUrl?: Nullable<string>;
+    name?: Nullable<string>;
+    surname?: Nullable<string>;
+    birthday?: Nullable<string | Date>;
 }
 
 interface CalculateProfileCompletenessParams {

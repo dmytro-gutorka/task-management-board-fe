@@ -1,15 +1,19 @@
 import type { ReactNode } from 'react';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { Loader } from '../../loader.tsx';
-import { BaseModal } from './base-modal';
+import { BaseModal } from '../base-modal.tsx';
 import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
 
 interface ActionModalProps extends IBaseModal {
     children: ReactNode;
-    submitLabel?: string;
-    cancelLabel?: string;
     isLoading?: boolean;
     submitFormId?: string;
+    isSubmitDisabled?: boolean;
+    isCancelDisabled?: boolean;
+    submitLabel?: string | ReactNode;
+    cancelLabel?: string | ReactNode;
+    onSubmit?: () => unknown;
+    onCancel?: () => void;
 }
 
 export function ActionModal({
@@ -18,11 +22,20 @@ export function ActionModal({
     title,
     description,
     children,
+    submitFormId,
+    isLoading = false,
+    isSubmitDisabled = false,
+    isCancelDisabled = false,
     submitLabel = 'Submit',
     cancelLabel = 'Cancel',
-    isLoading = false,
-    submitFormId,
+    onSubmit,
+    onCancel,
 }: ActionModalProps) {
+    function handleCancel() {
+        onCancel?.();
+        onOpenChange(false);
+    }
+
     return (
         <BaseModal
             open={open}
@@ -34,11 +47,16 @@ export function ActionModal({
             <div className="space-y-4">{children}</div>
 
             <div className="mt-6 flex justify-end gap-2">
-                <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
+                <Button variant="outline" onClick={handleCancel} disabled={isCancelDisabled}>
                     {cancelLabel}
                 </Button>
 
-                <Button variant="default" form={submitFormId} disabled={isLoading}>
+                <Button
+                    variant="default"
+                    form={submitFormId}
+                    disabled={isSubmitDisabled}
+                    onClick={() => onSubmit?.()}
+                >
                     {isLoading && <Loader />}
                     {submitLabel}
                 </Button>

@@ -19,4 +19,14 @@ export const UserApiService = {
 
         return mapUserDtoToUser(data);
     },
+
+    async uploadAvatar(formData: FormData): Promise<User> {
+        const { data } = await httpClient.post<UserDto>(USER_ROUTES.ME_AVATAR, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        return mapUserDtoToUser(data);
+    },
 };

@@ -15,8 +15,8 @@ import {
 import { FieldGroup } from '../../../../../../shared/components/shadcn/ui/field.tsx';
 import type { User } from '../../../../../../shared/modules/users/user-api.types-domain.ts';
 import { profileFormSchema, type ProfileFormValues } from '../../../../model/profile.schema.ts';
-import { calculateProfileCompleteness } from '../helpers/calculateProfileCompleteness.ts';
-import { mapUserToFormValues } from '../helpers/mapUserToFormValues.ts';
+import { calculateProfileCompleteness } from '../model/helpers/calculateProfileCompleteness.ts';
+import { mapUserToFormValues } from '../model/helpers/mapUserToFormValues.ts';
 import { useWatch } from 'react-hook-form';
 import { ProfileCompletenessCard } from './profile-completeness-card.tsx';
 

@@ -2,7 +2,7 @@ import { AlertTriangle } from 'lucide-react';
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../../loader.tsx';
-import { BaseModal } from './base-modal';
+import { BaseModal } from '../base-modal.tsx';
 import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
 
 interface ConfirmationModalProps extends IBaseModal {

@@ -4,8 +4,8 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-} from '@/shared/components/shadcn/ui/dialog';
-import { type IBaseModal } from '@/shared/components/modal/model/modal.types';
+} from '../shadcn/ui/dialog.tsx';
+import { type IBaseModal } from './model/modal.types.ts';
 import type { ReactNode } from 'react';
 
 interface BaseModalProps extends IBaseModal {
