@@ -87,14 +87,12 @@ export function ProfileForm({ user, isSubmitting, isSubmitSuccess, onSubmit }: P
                                 label="Name"
                                 placeholder="Enter your name"
                             />
-
                             <FormFieldController
                                 control={form.control}
                                 name="surname"
                                 label="Surname"
                                 placeholder="Enter your surname"
                             />
-
                             <FormFieldController
                                 control={form.control}
                                 name="birthday"
@@ -113,7 +111,6 @@ export function ProfileForm({ user, isSubmitting, isSubmitSuccess, onSubmit }: P
                         >
                             Cancel
                         </Button>
-
                         <Button
                             type="submit"
                             form="profile-form"

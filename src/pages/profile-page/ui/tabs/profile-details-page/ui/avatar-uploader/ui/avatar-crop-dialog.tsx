@@ -29,6 +29,8 @@ export function AvatarCropDialog({
 
     return (
         <ActionModal
+            title="Crop avatar"
+            description="Select the area of the image you want to use as your avatar."
             open={isOpen}
             onOpenChange={(open) => !open && onCancel()}
             onSubmit={onApply}
