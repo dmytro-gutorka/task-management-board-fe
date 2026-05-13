@@ -19,11 +19,11 @@ export function useGetTaskById(taskId: string | null) {
         const controller = new AbortController();
 
         async function fetchTask() {
-            const task = await getTaskById(taskId!, controller.signal);
+            const result = await getTaskById(taskId!, controller.signal);
 
-            if (!task || controller.signal.aborted) return;
+            if (!result.ok || controller.signal.aborted) return;
 
-            setTask(task);
+            setTask(result.data);
         }
 
         void fetchTask();

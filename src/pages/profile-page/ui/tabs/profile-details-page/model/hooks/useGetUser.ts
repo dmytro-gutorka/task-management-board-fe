@@ -12,11 +12,11 @@ export function useGetUser(setUser: Dispatch<SetStateAction<User>>) {
         const controller = new AbortController();
 
         async function getUser() {
-            const user = await execute(controller.signal);
+            const result = await execute(controller.signal);
 
-            if (!user || controller.signal.aborted) return;
+            if (!result.ok || controller.signal.aborted) return;
 
-            setUser(user);
+            setUser(result.data);
         }
 
         void getUser();

@@ -21,11 +21,11 @@ export function TasksDetailsPage() {
     async function handleEditTask(values: TaskFormValues) {
         if (!taskId) return;
 
-        const updatedTask = await updateTask(values, taskId);
+        const result = await updateTask(values, taskId);
 
-        if (!updatedTask) return;
+        if (!result.ok) return;
 
-        setTask(updatedTask);
+        setTask(result.data);
         closeModal();
     }
 

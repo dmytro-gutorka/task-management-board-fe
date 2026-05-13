@@ -1,7 +1,14 @@
 import { authClient } from '../axios/authClient.ts';
 import { httpClient } from '../axios/httpClient.ts';
 import { AUTH_API_ROUTES } from './auth.api-constants.ts';
-import type { AuthResponse, SignInPayload, SignUpPayload } from './auth.api-types.ts';
+import type {
+    AuthResponse,
+    ConfirmPasswordResetPayload,
+    PasswordResetConfirmResponse,
+    PasswordResetRequestResponse,
+    SignInPayload,
+    SignUpPayload,
+} from './auth.api-types.ts';
 
 export const AuthApiService = {
     async signIn(payload: SignInPayload) {
@@ -20,6 +27,24 @@ export const AuthApiService = {
 
     async refresh() {
         const { data } = await authClient.get<AuthResponse>(AUTH_API_ROUTES.REFRESH);
+        return data;
+    },
+
+    async requestPasswordReset() {
+        const { data } = await httpClient.post<PasswordResetRequestResponse>(
+            AUTH_API_ROUTES.PASSWORD_RESET_REQUEST,
+            {},
+        );
+
+        return data;
+    },
+
+    async confirmPasswordReset(payload: ConfirmPasswordResetPayload) {
+        const { data } = await httpClient.post<PasswordResetConfirmResponse>(
+            AUTH_API_ROUTES.PASSWORD_RESET_CONFIRM,
+            payload,
+        );
+
         return data;
     },
 };

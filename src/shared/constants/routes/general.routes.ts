@@ -3,4 +3,5 @@ export const GENERAL_ROUTES = {
 
     LOGIN_PAGE: '/login',
     REGISTRATION_PAGE: '/registration',
+    RESET_PASSWORD_PAGE: '/reset-password',
 } as const;

@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { ResetPasswordPage } from '../../pages/reset-password-page';
 import { Layout } from '../../shared/components/layout.tsx';
 import { LoginPage } from '../../pages/login-page';
 import {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
         path: GENERAL_ROUTES.HOME,
         element: <Layout />,
         children: [
+            {
+                path: GENERAL_ROUTES.RESET_PASSWORD_PAGE,
+                element: <ResetPasswordPage />,
+            },
             {
                 element: <PublicOnlyRoute />,
                 children: [

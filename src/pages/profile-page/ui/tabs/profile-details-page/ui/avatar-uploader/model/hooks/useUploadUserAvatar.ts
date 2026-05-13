@@ -15,10 +15,11 @@ export function useUploadUserAvatar(setUser: Dispatch<SetStateAction<User | null
         const formData = new FormData();
         formData.append('avatar', file);
 
-        const updatedUser = await execute(formData);
+        const result = await execute(formData);
 
-        if (!updatedUser) return;
-        setUser(updatedUser);
+        if (!result.ok) return;
+
+        setUser(result.data);
     }
 
     return {
