@@ -14,8 +14,6 @@ export interface AuthResponse {
 
 export interface PasswordResetRequestResponse {
     message: string;
-    resetToken?: string;
-    resetUrl?: string;
 }
 
 export interface ConfirmPasswordResetPayload {

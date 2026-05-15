@@ -1,5 +1,4 @@
-import { KeyRound, Loader2, MailCheck } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { CheckCircle2, KeyRound, Loader2 } from 'lucide-react';
 import {
     Alert,
     AlertDescription,
@@ -16,7 +15,7 @@ import {
 import { useRequestPasswordReset } from './model/hooks/useRequestPasswordReset.ts';
 
 export function ProfileSecurityPage() {
-    const { isRequesting, response, requestPasswordReset } = useRequestPasswordReset();
+    const { isRequesting, requestPasswordReset, isSuccess } = useRequestPasswordReset();
 
     return (
         <Card>
@@ -24,6 +23,18 @@ export function ProfileSecurityPage() {
                 <CardTitle>Security</CardTitle>
                 <CardDescription>Manage account security actions.</CardDescription>
             </CardHeader>
+
+            <div className="mt-4 px-4">
+                {isSuccess && (
+                    <Alert>
+                        <CheckCircle2 className="size-4" />
+                        <AlertTitle>Check your email</AlertTitle>
+                        <AlertDescription>
+                            We sent a password reset link to your email address.
+                        </AlertDescription>
+                    </Alert>
+                )}
+            </div>
 
             <CardContent className="space-y-4">
                 <div className="rounded-lg border p-4">
@@ -38,7 +49,7 @@ export function ProfileSecurityPage() {
 
                         <Button
                             type="button"
-                            disabled={isRequesting || Boolean(response)}
+                            disabled={isRequesting || isSuccess}
                             onClick={() => void requestPasswordReset()}
                         >
                             {isRequesting ? (
@@ -50,27 +61,6 @@ export function ProfileSecurityPage() {
                         </Button>
                     </div>
                 </div>
-
-                {response && (
-                    <Alert>
-                        <MailCheck className="size-4" />
-                        <AlertTitle>Password reset link generated</AlertTitle>
-                        <AlertDescription>
-                            <div className="space-y-2">
-                                <p>
-                                    Password reset flow was started successfully. Email system is
-                                    not connected so far, this is just for testing purposes
-                                </p>
-
-                                {response.resetUrl && (
-                                    <Button asChild variant="outline" size="sm">
-                                        <Link to={response.resetUrl}>Open reset password page</Link>
-                                    </Button>
-                                )}
-                            </div>
-                        </AlertDescription>
-                    </Alert>
-                )}
             </CardContent>
         </Card>
     );
