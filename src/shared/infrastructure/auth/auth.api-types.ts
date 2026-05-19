@@ -11,3 +11,17 @@ export interface SignInPayload {
 export interface AuthResponse {
     accessToken: string;
 }
+
+export interface PasswordResetRequestResponse {
+    message: string;
+}
+
+export interface ConfirmPasswordResetPayload {
+    token: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+
+export interface PasswordResetConfirmResponse {
+    message: string;
+}
