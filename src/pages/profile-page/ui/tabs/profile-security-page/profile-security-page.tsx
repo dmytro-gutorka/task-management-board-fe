@@ -1,11 +1,6 @@
-import { CheckCircle2, KeyRound, Link2, Loader2 } from 'lucide-react';
+import { KeyRound, Link2, Loader2 } from 'lucide-react';
 import { GoogleAuthButton } from '../../../../../shared/components/google-auth-button.tsx';
 import { Button } from '../../../../../shared/components/shadcn/ui/button.tsx';
-import {
-    Alert,
-    AlertDescription,
-    AlertTitle,
-} from '../../../../../shared/components/shadcn/ui/alert.tsx';
 import {
     Card,
     CardContent,
@@ -18,6 +13,7 @@ import { usePrimaryEmailOptions } from './model/hooks/usePrimaryEmailOptions.ts'
 import { useRequestPasswordReset } from './model/hooks/useRequestPasswordReset.ts';
 import { useSetLocalPassword } from './model/hooks/useSetLocalPassword.ts';
 import { PrimaryEmailSelector } from './ui/primary-email-selector.tsx';
+import { SecurityPageAlert } from './ui/security-page-alert.tsx';
 import { SetLocalPasswordForm } from './ui/set-local-password-form.tsx';
 
 export function ProfileSecurityPage() {
@@ -47,35 +43,21 @@ export function ProfileSecurityPage() {
             </CardHeader>
 
             <div className="mt-4 space-y-3 px-4">
-                {isPasswordResetRequestSuccess && (
-                    <Alert>
-                        <CheckCircle2 className="size-4" />
-                        <AlertTitle>Check your email</AlertTitle>
-                        <AlertDescription>
-                            We sent a password reset link to your email address.
-                        </AlertDescription>
-                    </Alert>
-                )}
-
-                {isGoogleLinkSuccess && (
-                    <Alert>
-                        <CheckCircle2 className="size-4" />
-                        <AlertTitle>Google account linked</AlertTitle>
-                        <AlertDescription>
-                            You can now sign in to this account with Google.
-                        </AlertDescription>
-                    </Alert>
-                )}
-
-                {isSetPasswordSuccess && (
-                    <Alert>
-                        <CheckCircle2 className="size-4" />
-                        <AlertTitle>Password set</AlertTitle>
-                        <AlertDescription>
-                            You can now sign in to this account with email and password.
-                        </AlertDescription>
-                    </Alert>
-                )}
+                <SecurityPageAlert
+                    isSuccess={isPasswordResetRequestSuccess}
+                    title="Check your email"
+                    description="We sent a password reset link to your email address."
+                />
+                <SecurityPageAlert
+                    isSuccess={isGoogleLinkSuccess}
+                    title="Google account linked"
+                    description="You can now sign in to this account with Google."
+                />
+                <SecurityPageAlert
+                    isSuccess={isSetPasswordSuccess}
+                    title="Password set"
+                    description="You can now sign in to this account with email and password."
+                />
             </div>
 
             <CardContent className="space-y-4">
@@ -86,14 +68,14 @@ export function ProfileSecurityPage() {
                     onUpdate={updatePrimaryEmail}
                 />
 
-                <div className="rounded-lg border p-4">
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <Card>
+                    <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="space-y-1">
-                            <h3 className="text-sm font-medium">Change password</h3>
-                            <p className="text-sm text-muted-foreground">
+                            <CardTitle className="text-sm font-medium">Change password</CardTitle>
+                            <CardDescription>
                                 Generate a password reset link for your account. The link can be
                                 used once and expires automatically.
-                            </p>
+                            </CardDescription>
                         </div>
 
                         <Button
@@ -108,20 +90,20 @@ export function ProfileSecurityPage() {
                             )}
                             Change password
                         </Button>
-                    </div>
-                </div>
+                    </CardHeader>
+                </Card>
 
-                <div className="rounded-lg border p-4">
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <Card>
+                    <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="space-y-1">
-                            <h3 className="flex items-center gap-2 text-sm font-medium">
+                            <CardTitle className="flex items-center gap-2 text-sm font-medium">
                                 <Link2 className="size-4" />
                                 Link Google account
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
+                            </CardTitle>
+                            <CardDescription>
                                 Connect a Google account to this profile. The Google email may be
                                 different because you are already signed in to this account.
-                            </p>
+                            </CardDescription>
                         </div>
 
                         <div className="w-full md:max-w-64">
@@ -130,26 +112,26 @@ export function ProfileSecurityPage() {
                                 onCredential={linkGoogleAccount}
                             />
                         </div>
-                    </div>
-                </div>
+                    </CardHeader>
+                </Card>
 
-                <div className="rounded-lg border p-4">
-                    <div className="space-y-4">
-                        <div className="space-y-1">
-                            <h3 className="text-sm font-medium">Set local password</h3>
-                            <p className="text-sm text-muted-foreground">
-                                Use this if your account was created with Google and you want to
-                                also sign in with email and password.
-                            </p>
-                        </div>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-sm font-medium">Set local password</CardTitle>
+                        <CardDescription>
+                            Use this if your account was created with Google and you want to also
+                            sign in with email and password.
+                        </CardDescription>
+                    </CardHeader>
 
+                    <CardContent>
                         <SetLocalPasswordForm
                             isSubmitting={isSettingPassword}
                             isSuccess={isSetPasswordSuccess}
                             onSubmit={setLocalPassword}
                         />
-                    </div>
-                </div>
+                    </CardContent>
+                </Card>
             </CardContent>
         </Card>
     );

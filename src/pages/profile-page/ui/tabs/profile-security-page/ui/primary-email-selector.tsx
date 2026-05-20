@@ -1,7 +1,14 @@
 import { CheckCircle2, Loader2, Mail } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Badge } from '../../../../../../shared/components/shadcn/ui/badge.tsx';
 import { Button } from '../../../../../../shared/components/shadcn/ui/button.tsx';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '../../../../../../shared/components/shadcn/ui/card.tsx';
 import {
     Select,
     SelectContent,
@@ -27,12 +34,9 @@ export function PrimaryEmailSelector({
     const [selectedEmail, setSelectedEmail] = useState('');
 
     const currentSelectedEmail = selectedEmail || options?.primaryEmail || '';
-
-    const selectedEmailOption = useMemo(
-        () => options?.emails.find((emailOption) => emailOption.email === currentSelectedEmail),
-        [currentSelectedEmail, options?.emails],
+    const selectedEmailOption = options?.emails.find(
+        (emailOption) => emailOption.email === currentSelectedEmail,
     );
-
     const hasEmailOptions = Boolean(options?.emails.length);
     const isPrimarySelected = currentSelectedEmail === options?.primaryEmail;
     const isSubmitDisabled = isLoading || isUpdating || !currentSelectedEmail || isPrimarySelected;
@@ -44,19 +48,19 @@ export function PrimaryEmailSelector({
     }
 
     return (
-        <div className="rounded-lg border p-4">
-            <div className="space-y-4">
-                <div className="space-y-1">
-                    <h3 className="flex items-center gap-2 text-sm font-medium">
-                        <Mail className="size-4" />
-                        Primary email
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                        Choose which linked email should be displayed in the app and used as your
-                        main contact email.
-                    </p>
-                </div>
+        <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-sm font-medium">
+                    <Mail className="size-4" />
+                    Primary email
+                </CardTitle>
+                <CardDescription>
+                    Choose which linked email should be displayed in the app and used as your main
+                    contact email.
+                </CardDescription>
+            </CardHeader>
 
+            <CardContent>
                 {isLoading && (
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Loader2 className="size-4 animate-spin" />
@@ -122,7 +126,7 @@ export function PrimaryEmailSelector({
                         )}
                     </div>
                 )}
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     );
 }

@@ -75,9 +75,10 @@ export const AuthApiService = {
         return data;
     },
 
-    async getPrimaryEmailOptions() {
+    async getPrimaryEmailOptions(signal?: AbortSignal) {
         const { data } = await httpClient.get<PrimaryEmailOptionsResponse>(
             AUTH_API_ROUTES.PRIMARY_EMAIL_OPTIONS,
+            { signal },
         );
 
         return data;

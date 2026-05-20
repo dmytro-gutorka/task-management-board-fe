@@ -9,7 +9,7 @@ export function usePrimaryEmailOptions() {
         useState<PrimaryEmailOptionsResponse | null>(null);
 
     const getPrimaryEmailOptionsRequest = useCallback(
-        async () => await AuthApiService.getPrimaryEmailOptions(),
+        async (signal?: AbortSignal) => await AuthApiService.getPrimaryEmailOptions(signal),
         [],
     );
 
@@ -53,8 +53,10 @@ export function usePrimaryEmailOptions() {
     }
 
     useEffect(() => {
+        const controller = new AbortController();
+
         async function loadPrimaryEmailOptions() {
-            const result = await fetchPrimaryEmailOptions();
+            const result = await fetchPrimaryEmailOptions(controller.signal);
 
             if (!result.ok) return;
 
@@ -62,6 +64,8 @@ export function usePrimaryEmailOptions() {
         }
 
         void loadPrimaryEmailOptions();
+
+        return () => controller.abort();
     }, [fetchPrimaryEmailOptions]);
 
     return {
