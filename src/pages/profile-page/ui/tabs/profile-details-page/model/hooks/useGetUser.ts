@@ -16,7 +16,8 @@ export function useGetUser(setUser: Dispatch<SetStateAction<User>>) {
 
             if (!result.ok || controller.signal.aborted) return;
 
-            setUser(result.data);
+            const user = result.data;
+            setUser(user);
         }
 
         void getUser();
