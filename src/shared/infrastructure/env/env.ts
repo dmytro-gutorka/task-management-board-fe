@@ -11,4 +11,5 @@ export const env = {
     appName: parsedEnv.data.VITE_APP_NAME,
     serverTimeout: parsedEnv.data.VITE_SERVER_TIMEOUT,
     enableConsoleLogs: parsedEnv.data.VITE_ENABLE_CONSOLE_LOGS,
+    googleClientId: parsedEnv.data.VITE_GOOGLE_CLIENT_ID,
 } as const;

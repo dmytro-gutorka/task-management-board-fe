@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleAuthButton } from '../../../shared/components/google-auth-button.tsx';
 import { GENERAL_ROUTES } from '../../../shared/constants/routes/general.routes.ts';
+import { TASKS_ROUTES } from '../../../shared/constants/routes/tasks.routes.ts';
 import type { RegisterStepTwoValues } from '../../../shared/infrastructure/auth/auth.schema.ts';
 import {
     LOCAL_STORAGE_BOOLEANS,
@@ -12,8 +14,14 @@ import { RegisterStepTwoForm } from './common/register-step-two-form.tsx';
 
 export function RegisterPage() {
     const { t } = useTranslation(['auth']);
-    const { step, setStep, registrationStepOne, registrationStepTwo, isRegistrationLoading } =
-        useAuth();
+    const {
+        step,
+        setStep,
+        registrationStepOne,
+        registrationStepTwo,
+        isRegistrationLoading,
+        loginWithGoogle,
+    } = useAuth();
 
     const navigate = useNavigate();
 
@@ -37,9 +45,17 @@ export function RegisterPage() {
         void navigate(GENERAL_ROUTES.HOME, { replace: true });
     }
 
+    async function handleGoogleCredential(credential: string) {
+        const isSuccess = await loginWithGoogle(credential);
+
+        if (!isSuccess) return;
+
+        void navigate(TASKS_ROUTES.TASKS_PAGE, { replace: true });
+    }
+
     return (
         <main className="flex min-h-svh items-center justify-center px-4">
-            <div className="w-full max-w-md space-y-4">
+            <div className="max-w-full min-w-1/4 space-y-4">
                 {step === 1 ? (
                     <RegisterStepOneForm
                         isSubmitting={isRegistrationLoading}
@@ -61,6 +77,10 @@ export function RegisterPage() {
                         {t('register.form-labels.common.login-link', { ns: 'auth' })}
                     </Link>
                 </p>
+
+                <div className="flex justify-center">
+                    <GoogleAuthButton onCredential={handleGoogleCredential} text="signup_with" />
+                </div>
             </div>
         </main>
     );

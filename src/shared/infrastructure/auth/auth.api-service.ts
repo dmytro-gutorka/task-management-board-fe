@@ -4,10 +4,16 @@ import { AUTH_API_ROUTES } from './auth.api-constants.ts';
 import type {
     AuthResponse,
     ConfirmPasswordResetPayload,
+    MessageResponse,
     PasswordResetConfirmResponse,
     PasswordResetRequestResponse,
+    SetLocalPasswordPayload,
     SignInPayload,
     SignUpPayload,
+    GoogleAuthPayload,
+    PrimaryEmailOptionsResponse,
+    UpdatePrimaryEmailPayload,
+    UpdatePrimaryEmailResponse,
 } from './auth.api-types.ts';
 
 export const AuthApiService = {
@@ -42,6 +48,45 @@ export const AuthApiService = {
     async confirmPasswordReset(payload: ConfirmPasswordResetPayload) {
         const { data } = await httpClient.post<PasswordResetConfirmResponse>(
             AUTH_API_ROUTES.PASSWORD_RESET_CONFIRM,
+            payload,
+        );
+
+        return data;
+    },
+
+    async signInWithGoogle(payload: GoogleAuthPayload) {
+        const { data } = await httpClient.post<AuthResponse>(AUTH_API_ROUTES.GOOGLE_LOGIN, payload);
+        return data;
+    },
+
+    async linkGoogleAccount(payload: GoogleAuthPayload) {
+        const { data } = await httpClient.post<MessageResponse>(
+            AUTH_API_ROUTES.GOOGLE_LINK,
+            payload,
+        );
+        return data;
+    },
+
+    async setLocalPassword(payload: SetLocalPasswordPayload) {
+        const { data } = await httpClient.post<MessageResponse>(
+            AUTH_API_ROUTES.SET_LOCAL_PASSWORD,
+            payload,
+        );
+        return data;
+    },
+
+    async getPrimaryEmailOptions(signal?: AbortSignal) {
+        const { data } = await httpClient.get<PrimaryEmailOptionsResponse>(
+            AUTH_API_ROUTES.PRIMARY_EMAIL_OPTIONS,
+            { signal },
+        );
+
+        return data;
+    },
+
+    async updatePrimaryEmail(payload: UpdatePrimaryEmailPayload) {
+        const { data } = await httpClient.patch<UpdatePrimaryEmailResponse>(
+            AUTH_API_ROUTES.PRIMARY_EMAIL,
             payload,
         );
 

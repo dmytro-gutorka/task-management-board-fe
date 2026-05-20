@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { GoogleAuthButton } from '../../../shared/components/google-auth-button.tsx';
 import { TASKS_ROUTES } from '../../../shared/constants/routes/tasks.routes.ts';
 import type { LoginFormValues } from '../../../shared/infrastructure/auth/auth.schema.ts';
 import { useAuth } from '../../../shared/providers/auth-provider/auth.provider.tsx';
@@ -9,7 +10,7 @@ import { LoginForm } from './common/login-form.tsx';
 
 export function LoginPage() {
     const { t } = useTranslation(['auth']);
-    const { isLoginLoading, login } = useAuth();
+    const { isLoginLoading, login, loginWithGoogle } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,9 +26,17 @@ export function LoginPage() {
         void navigate(from, { replace: true });
     }
 
+    async function handleGoogleCredential(credential: string) {
+        const isSuccess = await loginWithGoogle(credential);
+
+        if (!isSuccess) return;
+
+        void navigate(TASKS_ROUTES.TASKS_PAGE, { replace: true });
+    }
+
     return (
         <main className="flex min-h-svh items-center justify-center px-4">
-            <div className="w-full max-w-md space-y-4">
+            <div className="max-w-full min-w-1/4 space-y-4">
                 <LoginForm isSubmitting={isLoginLoading} onSubmit={handleSubmit} />
 
                 <p className="text-center text-sm text-muted-foreground">
@@ -39,6 +48,10 @@ export function LoginPage() {
                         {t('login.form-labels.register-link', { ns: 'auth' })}
                     </Link>
                 </p>
+
+                <div className="flex justify-center">
+                    <GoogleAuthButton onCredential={handleGoogleCredential} text="signin_with" />
+                </div>
             </div>
         </main>
     );

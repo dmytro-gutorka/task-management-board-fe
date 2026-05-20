@@ -9,7 +9,7 @@ interface AuthFormCardProps {
 
 export function AuthFormCard({ title, description, children }: AuthFormCardProps) {
     return (
-        <Card className="w-full max-w-sm">
+        <Card className="w-full">
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
 
