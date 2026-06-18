@@ -7,6 +7,7 @@ import type {
     TasksCursorPaginatedResponse,
     TasksPagePaginatedResponse,
 } from './tasks.api-types.ts';
+import { normalizeTasksQueryParams } from '../helpers/normalizeTasksQueryParams.ts';
 
 export const TasksApiService = {
     async findPage(
@@ -16,7 +17,7 @@ export const TasksApiService = {
         const { data } = await httpClient.get<TasksPagePaginatedResponse>(
             TASKS_API_ROUTES.FIND_ALL,
             {
-                params,
+                params: normalizeTasksQueryParams(params),
                 signal,
             },
         );
