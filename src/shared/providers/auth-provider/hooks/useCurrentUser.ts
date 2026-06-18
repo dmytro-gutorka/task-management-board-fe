@@ -25,7 +25,7 @@ export function useCurrentUser(setIsAuthenticated: (isAuthenticated: boolean) =>
         } finally {
             setIsUserLoading(false);
         }
-    }, []);
+    }, [setIsAuthenticated]);
 
     useEffect(() => {
         if (!getAccessToken()) {
