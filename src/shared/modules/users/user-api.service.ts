@@ -6,8 +6,10 @@ import { mapUpdateMePayloadToDto } from './user-api.mappers-dto.ts';
 import type { UpdateMePayload, User } from './user-api.types-domain.ts';
 
 export const UserApiService = {
-    async getMe(signal: AbortSignal): Promise<User> {
-        const { data } = await httpClient.get<UserDto>(USER_ROUTES.ME, { signal });
+    async getMe(signal?: AbortSignal): Promise<User> {
+        const { data } = await httpClient.get<UserDto>(USER_ROUTES.ME, {
+            signal,
+        });
 
         return mapUserDtoToUser(data);
     },

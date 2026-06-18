@@ -11,6 +11,8 @@ import type {
     RegisterStepTwoValues,
 } from '../../infrastructure/auth/auth.schema.ts';
 import { useRegistration } from './hooks/useRegistration.ts';
+import type { User } from '../../modules/users/user-api.types-domain.ts';
+import { useCurrentUser } from './hooks/useCurrentUser.ts';
 
 interface AuthContextType {
     login: (values: LoginFormValues) => Promise<boolean>;
@@ -24,6 +26,11 @@ interface AuthContextType {
     isLoginLoading: boolean;
     isGoogleLoginLoading: boolean;
 
+    user: Nullable<User>;
+    isUserLoading: boolean;
+    fetchCurrentUser: () => Promise<Nullable<User>>;
+    setUser: (user: Nullable<User>) => void;
+
     setStep: (step: 1 | 2) => void;
     step: number;
 }
@@ -33,9 +40,13 @@ const AuthContext = createContext<Nullable<AuthContextType>>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(getAccessToken()));
 
-    const { isLoading: isLoginLoading, login } = useLogin(setIsAuthenticated);
-    const { isLoading: isLogoutLoading, logout } = useLogout(setIsAuthenticated);
-    const { isLoading: isGoogleLoginLoading, loginWithGoogle } = useGoogleLogin(setIsAuthenticated);
+    const { user, isUserLoading, fetchCurrentUser, setUser } = useCurrentUser(setIsAuthenticated);
+    const { isLoading: isLoginLoading, login } = useLogin(setIsAuthenticated, fetchCurrentUser);
+    const { isLoading: isLogoutLoading, logout } = useLogout(setIsAuthenticated, setUser);
+    const { isLoading: isGoogleLoginLoading, loginWithGoogle } = useGoogleLogin(
+        setIsAuthenticated,
+        fetchCurrentUser,
+    );
 
     const {
         step,
@@ -43,11 +54,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading: isRegistrationLoading,
         registrationStepOne,
         registrationStepTwo,
-    } = useRegistration(setIsAuthenticated);
+    } = useRegistration(setIsAuthenticated, fetchCurrentUser);
 
     return (
         <AuthContext.Provider
             value={{
+                user,
+                isUserLoading,
+                fetchCurrentUser,
+                setUser,
                 login,
                 loginWithGoogle,
                 logout,

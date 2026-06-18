@@ -1,4 +1,5 @@
 import type { Nullable } from '../../types/common.ts';
+import type { PermissionKey } from '../permissions/model/permissions.types.ts';
 
 export interface UserDto {
     id: number;
@@ -10,6 +11,7 @@ export interface UserDto {
     lastLoginAt: Nullable<string>;
     createdAt: string;
     updatedAt: string;
+    permissions: PermissionKey[];
 }
 
 export interface UpdateMeDto {
