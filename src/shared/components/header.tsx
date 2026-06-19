@@ -8,6 +8,7 @@ import { AppLogo } from './app-logo.tsx';
 import { LogoutButton } from './logout-button.tsx';
 import { LanguageSwitcher } from './language-switcher.tsx';
 import { UserProfileButton } from './user-profile-button.tsx';
+import AdminDashboardLink from './shadcn/admin-dashboard-link.tsx';
 
 export function Header() {
     const { isLogoutLoading, logout, isAuthenticated } = useAuth();
@@ -39,6 +40,7 @@ export function Header() {
                         )}
                     </div>
                 </div>
+                <AdminDashboardLink />
                 <Separator />
             </TooltipProvider>
         </>

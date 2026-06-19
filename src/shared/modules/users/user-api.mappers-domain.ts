@@ -13,5 +13,6 @@ export function mapUserDtoToUser(dto: UserDto): User {
         lastLoginAt: dto.lastLoginAt ? new Date(dto.lastLoginAt) : null,
         createdAt: new Date(dto.createdAt),
         updatedAt: new Date(dto.updatedAt),
+        permissions: dto.permissions ?? [],
     };
 }

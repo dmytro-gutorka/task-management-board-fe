@@ -4,8 +4,13 @@ import { AuthApiService } from '../../../infrastructure/auth/auth.api-service.ts
 import { removeAccessToken } from '../../../infrastructure/auth/auth.token-helpers.ts';
 import { LOCAL_STORAGE_PROFILE_KEYS } from '../../../infrastructure/local-storage/model/local-storage.constants.ts';
 import { PROFILE_TOAST_REMINDER_ID } from '../../../modules/profile-toast-reminder/model/profile-toast-reminder.constants.ts';
+import type { Nullable } from '../../../types/common.ts';
+import type { User } from '../../../modules/users/user-api.types-domain.ts';
 
-export function useLogout(setIsAuthenticated: (isAuthenticated: boolean) => void) {
+export function useLogout(
+    setIsAuthenticated: (isAuthenticated: boolean) => void,
+    setUser: (user: Nullable<User>) => void,
+) {
     const [isLoading, setIsLoading] = useState(false);
 
     async function logout() {
@@ -18,6 +23,7 @@ export function useLogout(setIsAuthenticated: (isAuthenticated: boolean) => void
             localStorage.removeItem(LOCAL_STORAGE_PROFILE_KEYS.PROFILE_COMPLETION_NEVER_SHOW);
 
             removeAccessToken();
+            setUser(null);
             setIsAuthenticated(false);
             setIsLoading(false);
 

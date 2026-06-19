@@ -20,6 +20,9 @@ import {
 import { TASKS_ROUTES } from '../../shared/constants/routes/tasks.routes.ts';
 import { ProtectedRoute } from './custom-routes/protected-route.tsx';
 import { PublicOnlyRoute } from './custom-routes/public-route.tsx';
+import { PermissionRoute } from './custom-routes/permission-route.tsx';
+import { PERMISSIONS } from '../../shared/modules/permissions/model/permissions.map.ts';
+import AdminDashboardPage from '../../pages/admin-dashboard/ui/admin-dashboard-page.tsx';
 
 export const router = createBrowserRouter([
     {
@@ -79,6 +82,15 @@ export const router = createBrowserRouter([
                                 element: <ProfileSecurityPage />,
                             },
                         ],
+                    },
+                ],
+            },
+            {
+                element: <PermissionRoute permission={[PERMISSIONS.USERS.READ]} />,
+                children: [
+                    {
+                        path: '/admin',
+                        element: <AdminDashboardPage />,
                     },
                 ],
             },

@@ -11,8 +11,13 @@ import {
     LOCAL_STORAGE_PROFILE_KEYS,
 } from '../../../infrastructure/local-storage/model/local-storage.constants.ts';
 import { UserApiService } from '../../../modules/users/user-api.service.ts';
+import type { Nullable } from '../../../types/common.ts';
+import type { User } from '../../../modules/users/user-api.types-domain.ts';
 
-export function useRegistration(setIsAuthenticated: (isAuthenticated: boolean) => void) {
+export function useRegistration(
+    setIsAuthenticated: (isAuthenticated: boolean) => void,
+    fetchCurrentUser: () => Promise<Nullable<User>>,
+) {
     const [step, setStep] = useState<1 | 2>(1);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -27,6 +32,8 @@ export function useRegistration(setIsAuthenticated: (isAuthenticated: boolean) =
 
             setAccessToken(response.accessToken);
             setIsAuthenticated(true);
+            await fetchCurrentUser();
+
             setStep(2);
         } catch (error: unknown) {
             handleError(error);
