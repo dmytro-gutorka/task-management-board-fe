@@ -8,7 +8,7 @@ import { useUploadUserAvatar } from './ui/avatar-uploader/model/hooks/useUploadU
 import { AvatarCropDialog } from './ui/avatar-uploader/ui/avatar-crop-dialog.tsx';
 import { AvatarUploaderCard } from './ui/avatar-uploader/ui/avatar-uploader-card.tsx';
 import { ProfileForm } from './ui/profile-form.tsx';
-import type { User } from '../../../../../shared/modules/users/user-api.types-domain.ts';
+import type { User } from '../../../../../shared/modules/users/api/user-api.types-domain.ts';
 import { ProfileReadOnlyInfo } from './ui/profile-readonly-info.tsx';
 
 export function ProfileDetailsPage() {

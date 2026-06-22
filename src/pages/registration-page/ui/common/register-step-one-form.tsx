@@ -29,7 +29,9 @@ export function RegisterStepOneForm({ isSubmitting, onSubmit }: RegisterStepOneF
     return (
         <AuthFormCard
             title={t('register.form-labels.first-step.form-header', { ns: 'auth' })}
-            description={t('register.form-labels.first-step.form-description', { ns: 'auth' })}
+            description={t('register.form-labels.first-step.form-description', {
+                ns: 'auth',
+            })}
         >
             <form
                 id="register-step-one-form"

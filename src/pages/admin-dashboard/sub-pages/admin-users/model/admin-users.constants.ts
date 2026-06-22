@@ -1,0 +1,2 @@
+export const DEFAULT_ADMIN_USERS_PAGE = 1;
+export const DEFAULT__ADMIN_USERS_LIMIT = 10;

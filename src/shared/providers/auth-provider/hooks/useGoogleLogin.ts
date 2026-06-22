@@ -3,7 +3,7 @@ import { AuthApiService } from '../../../infrastructure/auth/auth.api-service.ts
 import { setAccessToken } from '../../../infrastructure/auth/auth.token-helpers.ts';
 import { handleError } from '../../../infrastructure/errors/handle-error.ts';
 import type { Nullable } from '../../../types/common.ts';
-import type { User } from '../../../modules/users/user-api.types-domain.ts';
+import type { User } from '../../../modules/users/api/user-api.types-domain.ts';
 
 export function useGoogleLogin(
     setIsAuthenticated: (isAuthenticated: boolean) => void,

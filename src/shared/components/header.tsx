@@ -8,7 +8,7 @@ import { AppLogo } from './app-logo.tsx';
 import { LogoutButton } from './logout-button.tsx';
 import { LanguageSwitcher } from './language-switcher.tsx';
 import { UserProfileButton } from './user-profile-button.tsx';
-import AdminDashboardLink from './shadcn/admin-dashboard-link.tsx';
+import AdminDashboardLink from './admin-dashboard-link.tsx';
 
 export function Header() {
     const { isLogoutLoading, logout, isAuthenticated } = useAuth();
@@ -26,12 +26,16 @@ export function Header() {
             <TooltipProvider delayDuration={150}>
                 <div className="flex justify-between p-4">
                     <AppLogo />
+
                     <div className="flex items-center space-x-2 gap-8">
+                        {isAuthenticated && <AdminDashboardLink />}
+
                         <div className="flex items-center space-x-2">
                             <ThemeToggle />
                             <LanguageSwitcher />
                             {isAuthenticated && <UserProfileButton />}
                         </div>
+
                         {isAuthenticated && (
                             <LogoutButton
                                 isLogoutLoading={isLogoutLoading}
@@ -40,7 +44,7 @@ export function Header() {
                         )}
                     </div>
                 </div>
-                <AdminDashboardLink />
+
                 <Separator />
             </TooltipProvider>
         </>

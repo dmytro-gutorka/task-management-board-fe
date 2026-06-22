@@ -1,6 +1,7 @@
 export const PermissionResources = {
     TASKS: 'TASKS',
     USERS: 'USERS',
+    RBAC: 'RBAC',
 } as const;
 
 export const PermissionActions = {
@@ -13,4 +14,10 @@ export const PermissionActions = {
 export const PermissionModes = {
     ANY: 'any',
     ALL: 'all',
+} as const;
+
+export const PermissionRoles = {
+    ADMIN: 'ADMIN',
+    USER: 'USER',
+    GUEST: 'GUEST',
 } as const;
