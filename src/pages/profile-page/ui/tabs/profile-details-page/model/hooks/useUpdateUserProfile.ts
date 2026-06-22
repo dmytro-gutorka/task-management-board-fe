@@ -1,7 +1,7 @@
 import { type Dispatch, type SetStateAction, useState } from 'react';
 import { handleError } from '../../../../../../../shared/infrastructure/errors/handle-error.ts';
-import { UserApiService } from '../../../../../../../shared/modules/users/user-api.service.ts';
-import type { User } from '../../../../../../../shared/modules/users/user-api.types-domain.ts';
+import { UserApiService } from '../../../../../../../shared/modules/users/api/user-api.service.ts';
+import type { User } from '../../../../../../../shared/modules/users/api/user-api.types-domain.ts';
 import type { ProfileFormValues } from '../../../../../model/profile.schema.ts';
 
 export function useUpdateUserProfile(setUser: Dispatch<SetStateAction<User>>) {

@@ -4,7 +4,7 @@ import { setAccessToken } from '../../../infrastructure/auth/auth.token-helpers.
 import type { LoginFormValues } from '../../../infrastructure/auth/auth.schema.ts';
 import { handleError } from '../../../infrastructure/errors/handle-error.ts';
 import type { Nullable } from '../../../types/common.ts';
-import type { User } from '../../../modules/users/user-api.types-domain.ts';
+import type { User } from '../../../modules/users/api/user-api.types-domain.ts';
 
 export function useLogin(
     setIsAuthenticated: (isAuthenticated: boolean) => void,

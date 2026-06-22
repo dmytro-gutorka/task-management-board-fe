@@ -10,9 +10,9 @@ import {
     LOCAL_STORAGE_BOOLEANS,
     LOCAL_STORAGE_PROFILE_KEYS,
 } from '../../../infrastructure/local-storage/model/local-storage.constants.ts';
-import { UserApiService } from '../../../modules/users/user-api.service.ts';
+import { UserApiService } from '../../../modules/users/api/user-api.service.ts';
 import type { Nullable } from '../../../types/common.ts';
-import type { User } from '../../../modules/users/user-api.types-domain.ts';
+import type { User } from '../../../modules/users/api/user-api.types-domain.ts';
 
 export function useRegistration(
     setIsAuthenticated: (isAuthenticated: boolean) => void,

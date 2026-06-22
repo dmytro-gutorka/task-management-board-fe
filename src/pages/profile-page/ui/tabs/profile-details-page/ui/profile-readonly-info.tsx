@@ -8,7 +8,7 @@ import {
     CardTitle,
 } from '@/shared/components/shadcn/ui/card';
 import { formatDate } from '../../../../../../shared/helpers/formatDate.ts';
-import type { User } from '../../../../../../shared/modules/users/user-api.types-domain.ts';
+import type { User } from '../../../../../../shared/modules/users/api/user-api.types-domain.ts';
 import { ReadOnlyField } from './readonly-field.tsx';
 
 interface ProfileReadOnlyInfoProps {

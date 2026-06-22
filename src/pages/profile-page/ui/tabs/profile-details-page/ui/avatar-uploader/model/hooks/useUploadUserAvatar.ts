@@ -1,7 +1,7 @@
 import { type Dispatch, type SetStateAction, useCallback } from 'react';
 import { useAsyncAction } from '../../../../../../../../../shared/hooks/useAsyncAction.ts';
-import { UserApiService } from '../../../../../../../../../shared/modules/users/user-api.service.ts';
-import type { User } from '../../../../../../../../../shared/modules/users/user-api.types-domain.ts';
+import { UserApiService } from '../../../../../../../../../shared/modules/users/api/user-api.service.ts';
+import type { User } from '../../../../../../../../../shared/modules/users/api/user-api.types-domain.ts';
 
 export function useUploadUserAvatar(setUser: Dispatch<SetStateAction<User | null>>) {
     const uploadAvatarRequest = useCallback(

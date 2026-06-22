@@ -1,4 +1,4 @@
-import type { User } from '../../../../../../../../../shared/modules/users/user-api.types-domain.ts';
+import type { User } from '../../../../../../../../../shared/modules/users/api/user-api.types-domain.ts';
 
 export function getInitials(user: User) {
     if (!user.name || !user.surname) return ';...;';

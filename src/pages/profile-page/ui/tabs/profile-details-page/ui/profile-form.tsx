@@ -13,7 +13,7 @@ import {
     CardTitle,
 } from '../../../../../../shared/components/shadcn/ui/card.tsx';
 import { FieldGroup } from '../../../../../../shared/components/shadcn/ui/field.tsx';
-import type { User } from '../../../../../../shared/modules/users/user-api.types-domain.ts';
+import type { User } from '../../../../../../shared/modules/users/api/user-api.types-domain.ts';
 import { profileFormSchema, type ProfileFormValues } from '../../../../model/profile.schema.ts';
 import { calculateProfileCompleteness } from '../model/helpers/calculateProfileCompleteness.ts';
 import { mapUserToFormValues } from '../model/helpers/mapUserToFormValues.ts';

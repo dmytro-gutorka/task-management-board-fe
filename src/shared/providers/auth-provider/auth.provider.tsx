@@ -11,7 +11,7 @@ import type {
     RegisterStepTwoValues,
 } from '../../infrastructure/auth/auth.schema.ts';
 import { useRegistration } from './hooks/useRegistration.ts';
-import type { User } from '../../modules/users/user-api.types-domain.ts';
+import type { User } from '../../modules/users/api/user-api.types-domain.ts';
 import { useCurrentUser } from './hooks/useCurrentUser.ts';
 
 interface AuthContextType {

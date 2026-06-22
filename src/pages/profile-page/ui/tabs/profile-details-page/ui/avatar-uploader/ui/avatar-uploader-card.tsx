@@ -18,7 +18,7 @@ import {
     CardTitle,
 } from '../../../../../../../../shared/components/shadcn/ui/card.tsx';
 import { Input } from '../../../../../../../../shared/components/shadcn/ui/input.tsx';
-import type { User } from '../../../../../../../../shared/modules/users/user-api.types-domain.ts';
+import type { User } from '../../../../../../../../shared/modules/users/api/user-api.types-domain.ts';
 import type { Nullable } from '../../../../../../../../shared/types/common.ts';
 import { AVATAR_UPLOAD_ALLOWED_EXTENSIONS_LABEL } from '../model/avatar-uploader.constants.ts';
 import { getInitials } from '../model/helpers/getInitials.ts';
