@@ -1,48 +1,19 @@
-import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheckIcon, UserCogIcon, UsersIcon } from 'lucide-react';
-
-import { Badge } from '@/shared/components/shadcn/ui/badge';
-import { Button } from '@/shared/components/shadcn/ui/button';
+import { Badge } from '../../shared/components/shadcn/ui/badge.tsx';
+import { Button } from '../../shared/components/shadcn/ui/button.tsx';
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from '@/shared/components/shadcn/ui/card';
-import { ADMIN_ROUTES } from '@/shared/constants/routes/admin.routes.ts';
-import { PERMISSIONS } from '@/shared/modules/permissions/model/permissions.map.ts';
-import { HasPermissions } from '@/shared/modules/permissions/ui/has-permissions.tsx';
-import { useAuth } from '@/shared/providers/auth-provider/auth.provider.tsx';
+} from '../../shared/components/shadcn/ui/card.tsx';
+import { PERMISSIONS } from '../../shared/modules/permissions/model/permissions.map.ts';
+import { HasPermissions } from '../../shared/modules/permissions/ui/has-permissions.tsx';
+import { useAuth } from '../../shared/providers/auth-provider/auth.provider.tsx';
 import { AdminPageShell } from './common/admin-page-shell.tsx';
-
-const dashboardCards = [
-    {
-        title: 'Users',
-        description: 'Search users and manage assigned roles.',
-        href: ADMIN_ROUTES.ADMIN_USERS_PAGE,
-        buttonLabel: 'Open users',
-        permission: PERMISSIONS.USERS.READ,
-        icon: UsersIcon,
-    },
-    {
-        title: 'Roles',
-        description: 'Review role to permission mapping.',
-        href: ADMIN_ROUTES.ADMIN_ROLES_PAGE,
-        buttonLabel: 'Open roles',
-        permission: PERMISSIONS.RBAC.READ,
-        icon: UserCogIcon,
-    },
-    {
-        title: 'Permissions',
-        description: 'Inspect raw permissions exposed by the API.',
-        href: ADMIN_ROUTES.ADMIN_PERMISSIONS_PAGE,
-        buttonLabel: 'Open permissions',
-        permission: PERMISSIONS.RBAC.READ,
-        icon: ShieldCheckIcon,
-    },
-] as const;
+import { dashboardCards } from './model/admin-dashboard.tabs-config.tsx';
+import { AccessSection } from './ui/AccessSection.tsx';
 
 function AdminDashboardPage() {
     const { user } = useAuth();
@@ -121,15 +92,6 @@ function AdminDashboardPage() {
                 </CardContent>
             </Card>
         </AdminPageShell>
-    );
-}
-
-function AccessSection({ title, children }: { title: string; children: ReactNode }) {
-    return (
-        <section className="space-y-2">
-            <h2 className="text-sm font-medium">{title}</h2>
-            <div className="flex flex-wrap gap-2">{children}</div>
-        </section>
     );
 }
 

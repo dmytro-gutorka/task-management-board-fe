@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
-
-import { Alert, AlertDescription, AlertTitle } from '@/shared/components/shadcn/ui/alert';
-import { Badge } from '@/shared/components/shadcn/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/shadcn/ui/card';
-
-import { RbacApiService } from '@/shared/modules/rbac/rbac-api.service.ts';
-import { AdminPageShell } from '../../admin-dashboard/ui/common/admin-page-shell.tsx';
+import { Badge } from '../../../../shared/components/shadcn/ui/badge.tsx';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '../../../../shared/components/shadcn/ui/card.tsx';
+import { AdminPageShell } from '../../common/admin-page-shell.tsx';
 import {
     TableHead,
     TableRow,
@@ -13,42 +13,12 @@ import {
     TableHeader,
     Table,
     TableCell,
-} from '@/shared/components/shadcn/ui/table.tsx';
-import { Skeleton } from '../../../shared/components/shadcn/ui/skeleton.tsx';
-import type { PermissionResponse } from '../../../shared/modules/rbac/rbac-api.types.ts';
+} from '../../../../shared/components/shadcn/ui/table.tsx';
+import { PermissionsTableSkeleton } from './ui/PermissionsTableSkeleton.tsx';
+import { useGetPermissions } from './hooks/useGetPermissions.ts';
 
 function AdminPermissionsPage() {
-    const [permissions, setPermissions] = useState<PermissionResponse[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-    const fetchPermissions = useCallback(async (signal?: AbortSignal) => {
-        setIsLoading(true);
-        setErrorMessage(null);
-
-        try {
-            const result = await RbacApiService.getPermissions(signal);
-
-            setPermissions(result);
-        } catch {
-            if (!signal?.aborted) {
-                setErrorMessage('Failed to load permissions.');
-                setPermissions([]);
-            }
-        } finally {
-            if (!signal?.aborted) {
-                setIsLoading(false);
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        const controller = new AbortController();
-
-        void fetchPermissions(controller.signal);
-
-        return () => controller.abort();
-    }, [fetchPermissions]);
+    const { permissions, isLoading } = useGetPermissions();
 
     return (
         <AdminPageShell title="Permissions" description="Inspect all raw permissions.">
@@ -57,13 +27,6 @@ function AdminPermissionsPage() {
                     <CardTitle>Permission reference</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {errorMessage ? (
-                        <Alert variant="destructive">
-                            <AlertTitle>Unable to load permissions</AlertTitle>
-                            <AlertDescription>{errorMessage}</AlertDescription>
-                        </Alert>
-                    ) : null}
-
                     {isLoading ? (
                         <PermissionsTableSkeleton />
                     ) : permissions.length ? (
@@ -101,21 +64,6 @@ function AdminPermissionsPage() {
                 </CardContent>
             </Card>
         </AdminPageShell>
-    );
-}
-
-function PermissionsTableSkeleton() {
-    return (
-        <div className="space-y-2 rounded-lg border p-3">
-            {Array.from({ length: 8 }).map((_, index) => (
-                <div key={index} className="grid grid-cols-[160px_1fr_1fr_2fr] gap-3">
-                    <Skeleton className="h-5 w-32" />
-                    <Skeleton className="h-5 w-24" />
-                    <Skeleton className="h-5 w-20" />
-                    <Skeleton className="h-5 w-full" />
-                </div>
-            ))}
-        </div>
     );
 }
 

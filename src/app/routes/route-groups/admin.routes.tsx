@@ -2,11 +2,11 @@ import { PermissionModes } from '../../../shared/modules/permissions/model/permi
 import { PermissionRoute } from '../custom-routes/permission-route.tsx';
 import { PERMISSIONS } from '../../../shared/modules/permissions/model/permissions.map.ts';
 import { ADMIN_ROUTES } from '../../../shared/constants/routes/admin.routes.ts';
-import AdminDashboardPage from '../../../pages/admin-dashboard/ui/admin-dashboard-page.tsx';
-import AdminUserDetailsPage from '../../../pages/admin-user-details/ui/admin-user-details-page.tsx';
-import AdminRolesPage from '../../../pages/admin-roles/ui/admin-roles-page.tsx';
-import AdminPermissionsPage from '../../../pages/admin-permissions/ui/admin-permissions-page.tsx';
-import AdminUsersPage from '../../../pages/admin-users/ui/admin-users-page.tsx';
+import AdminDashboardPage from '../../../pages/admin-dashboard/admin-dashboard-page.tsx';
+import AdminUserDetailsPage from '../../../pages/admin-user-details/admin-user-details-page.tsx';
+import AdminRolesPage from '../../../pages/admin-dashboard/sub-pages/admin-roles/admin-roles-page.tsx';
+import AdminPermissionsPage from '../../../pages/admin-dashboard/sub-pages/admin-permissions/admin-permissions-page.tsx';
+import AdminUsersPage from '../../../pages/admin-dashboard/sub-pages/admin-users/admin-users-page.tsx';
 
 export const adminRoutes = [
     {

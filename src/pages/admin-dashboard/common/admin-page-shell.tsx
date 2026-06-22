@@ -2,15 +2,15 @@ import type { ReactNode } from 'react';
 import type {
     PermissionCheckInput,
     PermissionMode,
-} from '@/shared/modules/permissions/model/permissions.types.ts';
+} from '../../../shared/modules/permissions/model/permissions.types.ts';
 import { NavLink } from 'react-router-dom';
 
-import { Button } from '@/shared/components/shadcn/ui/button';
-import { ADMIN_ROUTES } from '@/shared/constants/routes/admin.routes.ts';
-import { cn } from '@/shared/helpers/shadcn.utils.ts';
-import { PermissionModes } from '@/shared/modules/permissions/model/permissions.constants.ts';
-import { PERMISSIONS } from '@/shared/modules/permissions/model/permissions.map.ts';
-import { HasPermissions } from '@/shared/modules/permissions/ui/has-permissions.tsx';
+import { Button } from '../../../shared/components/shadcn/ui/button.tsx';
+import { ADMIN_ROUTES } from '../../../shared/constants/routes/admin.routes.ts';
+import { cn } from '../../../shared/helpers/shadcn.utils.ts';
+import { PermissionModes } from '../../../shared/modules/permissions/model/permissions.constants.ts';
+import { PERMISSIONS } from '../../../shared/modules/permissions/model/permissions.map.ts';
+import { HasPermissions } from '../../../shared/modules/permissions/ui/has-permissions.tsx';
 
 interface AdminPageShellProps {
     title: string;
@@ -18,12 +18,12 @@ interface AdminPageShellProps {
     children: ReactNode;
 }
 
-type AdminNavItem = {
+interface AdminNavItem {
     label: string;
     to: string;
     permission: PermissionCheckInput;
     mode: PermissionMode;
-};
+}
 
 const adminNavItems: AdminNavItem[] = [
     {
