@@ -8,6 +8,9 @@ import { Button } from '../../../shared/components/shadcn/ui/button.tsx';
 import { Link } from 'react-router-dom';
 import { TASKS_ROUTES } from '../../../shared/constants/routes/tasks.routes.ts';
 import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from '../model/tasks-map.constants.ts';
+import { getTaskMarkerIcon } from '../model/helpers/get-task-marker-icon.ts';
+import MarkerClusterGroup from 'react-leaflet-cluster';
+import { createTaskClusterIcon } from '../model/helpers/create-task-cluster-icon.ts';
 
 export function TasksMap() {
     const { tasks, isLoading, error, loadMapTasks } = useMapTasks();
@@ -46,33 +49,45 @@ export function TasksMap() {
 
                 <MapBoundsListener onBoundsChange={(params) => void loadMapTasks(params)} />
 
-                {tasks.map((task) => (
-                    <Marker key={task.id} position={[task.latitude, task.longitude]}>
-                        <Popup>
-                            <div className="space-y-3">
-                                <div className="space-y-1">
-                                    <p className="font-medium">{task.title}</p>
+                <MarkerClusterGroup
+                    chunkedLoading
+                    showCoverageOnHover={false}
+                    spiderfyOnMaxZoom
+                    maxClusterRadius={60}
+                    iconCreateFunction={createTaskClusterIcon}
+                >
+                    {tasks.map((task) => (
+                        <Marker
+                            key={task.id}
+                            position={[task.latitude, task.longitude]}
+                            icon={getTaskMarkerIcon(task.priority)}
+                        >
+                            <Popup>
+                                <div className="space-y-3">
+                                    <div className="space-y-1">
+                                        <p className="font-medium">{task.title}</p>
 
-                                    <div className="flex gap-2">
-                                        <Badge variant="secondary">{task.status}</Badge>
-                                        <Badge>{task.priority}</Badge>
+                                        <div className="flex gap-2">
+                                            <Badge variant="secondary">{task.status}</Badge>
+                                            <Badge>{task.priority}</Badge>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <Button asChild size="sm" className="w-full">
-                                    <Link
-                                        to={TASKS_ROUTES.TASKS_DETAILS_PAGE.replace(
-                                            ':taskId',
-                                            String(task.id),
-                                        )}
-                                    >
-                                        Open task
-                                    </Link>
-                                </Button>
-                            </div>
-                        </Popup>
-                    </Marker>
-                ))}
+                                    <Button asChild size="sm" className="w-full">
+                                        <Link
+                                            to={TASKS_ROUTES.TASKS_DETAILS_PAGE.replace(
+                                                ':taskId',
+                                                String(task.id),
+                                            )}
+                                        >
+                                            Open task
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </Popup>
+                        </Marker>
+                    ))}
+                </MarkerClusterGroup>
             </MapContainer>
         </div>
     );

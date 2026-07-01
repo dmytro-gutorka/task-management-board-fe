@@ -5,7 +5,10 @@ import {
     TASK_STATUS_FILTER,
     type TASK_VIEW_MODE,
 } from './tasks-filter.constants.ts';
-import type { TaskStatus } from '../../../../shared/modules/tasks/task-card/model/task-card.types.ts';
+import type {
+    TaskStatus,
+    TaskPriority,
+} from '../../../../shared/modules/tasks/task-card/model/task-card.types.ts';
 
 export type TaskViewMode = ValueOf<typeof TASK_VIEW_MODE>;
 export type TaskSortBy = ValueOf<typeof TASK_SORT_BY_FILTER>;
