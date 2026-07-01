@@ -8,8 +8,21 @@ import type {
     TasksPagePaginatedResponse,
 } from './tasks.api-types.ts';
 import { normalizeTasksQueryParams } from '../helpers/normalizeTasksQueryParams.ts';
+import type {
+    TaskMapItem,
+    TaskMapQueryParams,
+} from '../../../../../../pages/tasks-page/model/task-filters/tasks-filter.types.ts';
 
 export const TasksApiService = {
+    async findMapTasks(params: TaskMapQueryParams, signal?: AbortSignal): Promise<TaskMapItem[]> {
+        const { data } = await httpClient.get<TaskMapItem[]>(TASKS_API_ROUTES.FIND_MAP, {
+            params,
+            signal,
+        });
+
+        return data;
+    },
+
     async findPage(
         params: Partial<TasksQueryState>,
         signal: AbortSignal,

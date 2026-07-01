@@ -5,6 +5,8 @@ export const TASKS_API_ROUTES = {
     UPDATE: (taskId: string) => `${TASKS_BASE_SUBPATH}/${taskId}`,
     DELETE: (taskId: string) => `${TASKS_BASE_SUBPATH}/${taskId}`,
     FIND_BY_ID: (taskId: string) => `${TASKS_BASE_SUBPATH}/${taskId}`,
+
     FIND_FEED: `${TASKS_BASE_SUBPATH}/feed`,
     FIND_ALL: TASKS_BASE_SUBPATH,
+    FIND_MAP: `${TASKS_BASE_SUBPATH}/map`,
 };

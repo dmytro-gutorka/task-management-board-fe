@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Plus } from 'lucide-react';
+import { Plus, MapIcon } from 'lucide-react';
 import { IconTooltip } from '../../../../shared/components/icon-tooltip.tsx';
 import { SearchInput } from '../../../../shared/components/search-input.tsx';
 import { Button } from '../../../../shared/components/shadcn/ui/button.tsx';
@@ -11,6 +11,8 @@ import type {
     TasksFiltersValue,
     TaskViewMode,
 } from '../../model/task-filters/tasks-filter.types.ts';
+import { TASKS_ROUTES } from '../../../../shared/constants/routes/tasks.routes.ts';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
     onTaskQueryParamChange: (queryParam: Partial<TasksQueryState>) => void;
@@ -58,6 +60,19 @@ export function TaskPageHeader({
                             filters={filters}
                             onTaskQueryParamChange={onTaskQueryParamChange}
                         />
+                        <IconTooltip content="Open map">
+                            <Button
+                                asChild
+                                variant="outline"
+                                className="mr-2"
+                                aria-label="Open tasks map"
+                                size="icon"
+                            >
+                                <Link to={TASKS_ROUTES.TASKS_MAP_PAGE}>
+                                    <MapIcon className="h-4 w-4" />
+                                </Link>
+                            </Button>
+                        </IconTooltip>
                         <IconTooltip content={t('createTask', { ns: 'tasks' })}>
                             <Button
                                 onClick={openCreateModal}
