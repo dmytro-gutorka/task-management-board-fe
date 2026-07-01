@@ -11,8 +11,16 @@ import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from '../model/tasks-map.constan
 import { getTaskMarkerIcon } from '../model/helpers/get-task-marker-icon.ts';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { createTaskClusterIcon } from '../model/helpers/create-task-cluster-icon.ts';
+import type { Nullable } from '../../../shared/types/common.ts';
+import type { UserLocation } from '../model/tasks-map.types.ts';
+import { MapFlyToLocation } from './map-fly-to-location.tsx';
+import { getUserLocationMarkerIcon } from '../model/helpers/get-user-location-marker-icon.ts';
 
-export function TasksMap() {
+interface TasksMapProps {
+    userLocation: Nullable<UserLocation>;
+}
+
+export function TasksMap({ userLocation }: TasksMapProps) {
     const { tasks, isLoading, error, loadMapTasks } = useMapTasks();
 
     return (
@@ -48,7 +56,15 @@ export function TasksMap() {
                 />
 
                 <MapBoundsListener onBoundsChange={(params) => void loadMapTasks(params)} />
+                <MapFlyToLocation location={userLocation} />
 
+                {userLocation && (
+                    <Marker
+                        position={[userLocation.latitude, userLocation.longitude]}
+                        icon={getUserLocationMarkerIcon()}
+                        zIndexOffset={1000}
+                    />
+                )}
                 <MarkerClusterGroup
                     chunkedLoading
                     showCoverageOnHover={false}
@@ -60,7 +76,10 @@ export function TasksMap() {
                         <Marker
                             key={task.id}
                             position={[task.latitude, task.longitude]}
-                            icon={getTaskMarkerIcon(task.priority)}
+                            icon={getTaskMarkerIcon({
+                                title: task.title,
+                                priority: task.priority,
+                            })}
                         >
                             <Popup>
                                 <div className="space-y-3">
