@@ -1,3 +1,4 @@
+import 'leaflet/dist/leaflet.css';
 import '../shared/infrastructure/i18n/i18n.ts';
 import '../styles.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';

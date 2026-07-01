@@ -5,6 +5,7 @@ import {
     TASK_STATUS_FILTER,
     type TASK_VIEW_MODE,
 } from './tasks-filter.constants.ts';
+import type { TaskStatus } from '../../../../shared/modules/tasks/task-card/model/task-card.types.ts';
 
 export type TaskViewMode = ValueOf<typeof TASK_VIEW_MODE>;
 export type TaskSortBy = ValueOf<typeof TASK_SORT_BY_FILTER>;
@@ -16,3 +17,21 @@ export type TasksFiltersValue = {
     priority: TaskPriorityFilter;
     sortBy: TaskSortBy;
 };
+
+export interface TaskMapItem {
+    id: number;
+    title: string;
+    status: TaskStatus;
+    priority: TaskPriority;
+    latitude: number;
+    longitude: number;
+}
+
+export interface TaskMapQueryParams {
+    north: number;
+    south: number;
+    east: number;
+    west: number;
+    status?: TaskStatus;
+    priority?: TaskPriority;
+}
