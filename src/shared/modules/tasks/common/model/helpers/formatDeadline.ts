@@ -3,9 +3,7 @@ export function formatDeadline(deadline?: string | null) {
 
     const date = new Date(deadline);
 
-    if (Number.isNaN(date.getTime())) {
-        return deadline;
-    }
+    if (Number.isNaN(date.getTime())) return deadline;
 
     return new Intl.DateTimeFormat('en-US', {
         month: 'short',

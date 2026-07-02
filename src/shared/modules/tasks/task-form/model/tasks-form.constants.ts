@@ -15,3 +15,6 @@ export const getTaskPriorityOptions = (t: TFunction) => [
     { value: TASK_PRIORITY.MEDIUM, label: t('filters.medium', { ns: 'tasks' }) },
     { value: TASK_PRIORITY.HIGH, label: t('filters.high', { ns: 'tasks' }) },
 ];
+
+export const DEFAULT_TASK_MODAL_MAP_CENTER: [number, number] = [50.4501, 30.5234];
+export const DEFAULT_TASK_MODAL_MAP_ZOOM = 12;

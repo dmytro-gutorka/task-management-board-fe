@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
-import type { UserLocation, GeolocationStatus } from '../tasks-map.types.ts';
+import type { MapLocation, GeolocationStatus } from '../tasks-map.types.ts';
 import type { Nullable } from '../../../../shared/types/common.ts';
 
 export function useUserGeolocation() {
-    const [location, setLocation] = useState<Nullable<UserLocation>>(null);
+    const [location, setLocation] = useState<Nullable<MapLocation>>(null);
     const [status, setStatus] = useState<GeolocationStatus>('idle');
     const [error, setError] = useState<Nullable<string>>(null);
 
