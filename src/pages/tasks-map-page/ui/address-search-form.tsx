@@ -1,6 +1,6 @@
 import { Button } from '@/shared/components/shadcn/ui/button';
 import { Alert, AlertDescription } from '../../../shared/components/shadcn/ui/alert.tsx';
-import { useState, type FormEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 import { Input } from '../../../shared/components/shadcn/ui/input.tsx';
 import { Search } from 'lucide-react';
 import type { Nullable } from '../../../shared/types/common.ts';
@@ -14,7 +14,7 @@ interface AddressSearchFormProps {
 export function AddressSearchForm({ isLoading, error, onSearch }: AddressSearchFormProps) {
     const [address, setAddress] = useState('');
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         onSearch(address);
     }

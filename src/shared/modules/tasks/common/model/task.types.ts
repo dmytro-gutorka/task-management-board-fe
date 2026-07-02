@@ -9,6 +9,8 @@ export type Task = {
     priority: TaskPriority;
     deadline?: string | null | undefined;
     isPrivate: boolean;
+    latitude?: number | null;
+    longitude?: number | null;
     createdAt: string;
     updatedAt: string;
 };

@@ -10,6 +10,11 @@ export interface FromPathLocationState {
     };
 }
 
+export interface NullableMapCoordinates {
+    latitude: Nullable<number>;
+    longitude: Nullable<number>;
+}
+
 export type CursorParam = Nullable<string>;
 
 export interface CursorParams {

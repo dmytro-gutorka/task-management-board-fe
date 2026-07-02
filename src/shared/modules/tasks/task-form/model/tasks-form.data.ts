@@ -8,4 +8,6 @@ export const taskFormDefaultValues: TaskFormValues = {
     priority: TASK_PRIORITY.MEDIUM,
     deadline: '',
     isPrivate: false,
+    latitude: null,
+    longitude: null,
 };

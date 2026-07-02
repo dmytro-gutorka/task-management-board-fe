@@ -1,9 +1,6 @@
 import { z } from 'zod';
 import { TASK_PRIORITY, TASK_STATUS } from '../../common/model/task.constants.ts';
 
-// TODO 2: Maybe split some rules to separate files for better readability later ?
-// TODO 3: Build reusable factory for error-message ZOD rules ?
-
 const dateStringSchema = z
     .string()
     .trim()
@@ -32,4 +29,7 @@ export const taskFormSchema = z.object({
     priority: z.enum([TASK_PRIORITY.LOW, TASK_PRIORITY.MEDIUM, TASK_PRIORITY.HIGH]),
     deadline: dateStringSchema.optional(),
     isPrivate: z.boolean(),
+
+    latitude: z.number().min(-90).max(90).nullable(),
+    longitude: z.number().min(-180).max(180).nullable(),
 });
