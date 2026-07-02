@@ -12,15 +12,15 @@ import { getTaskMarkerIcon } from '../model/helpers/get-task-marker-icon.ts';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { createTaskClusterIcon } from '../model/helpers/create-task-cluster-icon.ts';
 import type { Nullable } from '../../../shared/types/common.ts';
-import type { UserLocation } from '../model/tasks-map.types.ts';
+import type { MapLocation } from '../model/tasks-map.types.ts';
 import { MapFlyToLocation } from './map-fly-to-location.tsx';
 import { getUserLocationMarkerIcon } from '../model/helpers/get-user-location-marker-icon.ts';
 
 interface TasksMapProps {
-    userLocation: Nullable<UserLocation>;
+    focusLocation: Nullable<MapLocation>;
 }
 
-export function TasksMap({ userLocation }: TasksMapProps) {
+export function TasksMap({ focusLocation }: TasksMapProps) {
     const { tasks, isLoading, error, loadMapTasks } = useMapTasks();
 
     return (
@@ -56,11 +56,11 @@ export function TasksMap({ userLocation }: TasksMapProps) {
                 />
 
                 <MapBoundsListener onBoundsChange={(params) => void loadMapTasks(params)} />
-                <MapFlyToLocation location={userLocation} />
+                <MapFlyToLocation location={focusLocation} />
 
-                {userLocation && (
+                {focusLocation && (
                     <Marker
-                        position={[userLocation.latitude, userLocation.longitude]}
+                        position={[focusLocation.latitude, focusLocation.longitude]}
                         icon={getUserLocationMarkerIcon()}
                         zIndexOffset={1000}
                     />

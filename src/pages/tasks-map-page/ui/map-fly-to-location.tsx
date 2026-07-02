@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import type { UserLocation } from '../model/tasks-map.types.ts';
+import type { MapLocation } from '../model/tasks-map.types.ts';
 import { useMap } from 'react-leaflet';
 import type { Nullable } from '../../../shared/types/common.ts';
 
 interface MapFlyToLocationProps {
-    location: Nullable<UserLocation>;
+    location: Nullable<MapLocation>;
 }
 
 export function MapFlyToLocation({ location }: MapFlyToLocationProps) {

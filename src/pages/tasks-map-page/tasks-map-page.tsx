@@ -13,14 +13,43 @@ import { TasksMap } from './ui/tasks-map.tsx';
 import { useUserGeolocation } from './model/hooks/useUserGeolocation.ts';
 import { LocateFixed } from 'lucide-react';
 import { AlertDescription, Alert } from '../../shared/components/shadcn/ui/alert.tsx';
+import { useAddressSearch } from './model/hooks/useAdressSearch.ts';
+import { useEffect, useState } from 'react';
+import type { MapLocation } from './model/tasks-map.types.ts';
+import { AddressSearchForm } from './ui/address-search-form.tsx';
 
 export function TasksMapPage() {
+    const [focusLocation, setFocusLocation] = useState<MapLocation | null>(null);
+
     const {
-        location,
-        error: geolocationError,
         isLoading: isGeolocationLoading,
+        error: geolocationError,
+        location: userLocation,
         requestLocation,
     } = useUserGeolocation();
+
+    const {
+        isLoading: isAddressSearchLoading,
+        error: addressSearchError,
+        search: searchAddress,
+    } = useAddressSearch();
+
+    useEffect(() => {
+        if (!userLocation) return;
+
+        setFocusLocation(userLocation);
+    }, [userLocation]);
+
+    async function handleAddressSearch(address: string) {
+        const result = await searchAddress(address);
+
+        if (!result) return;
+
+        setFocusLocation({
+            latitude: result.latitude,
+            longitude: result.longitude,
+        });
+    }
 
     return (
         <main className="container mx-auto space-y-4 p-4">
@@ -52,6 +81,18 @@ export function TasksMapPage() {
                 </div>
             </div>
 
+            {geolocationError && (
+                <Alert variant="destructive">
+                    <AlertDescription>{geolocationError}</AlertDescription>
+                </Alert>
+            )}
+
+            <AddressSearchForm
+                isLoading={isAddressSearchLoading}
+                error={addressSearchError}
+                onSearch={(params) => void handleAddressSearch(params)}
+            />
+
             <Card>
                 <CardHeader>
                     <CardTitle>Map</CardTitle>
@@ -60,15 +101,9 @@ export function TasksMapPage() {
                     </CardDescription>
                 </CardHeader>
 
-                {geolocationError && (
-                    <Alert variant="destructive">
-                        <AlertDescription>{geolocationError}</AlertDescription>
-                    </Alert>
-                )}
-
                 <CardContent>
-                    <div className="h-[calc(100vh-260px)] min-h-[520px] overflow-hidden rounded-xl border">
-                        <TasksMap userLocation={location} />
+                    <div className="h-[calc(100vh-300px)] min-h-[520px] overflow-hidden rounded-xl border">
+                        <TasksMap focusLocation={focusLocation} />
                     </div>
                 </CardContent>
             </Card>
